@@ -1,3 +1,12 @@
+if (global.paused) {
+    xspd = 0;
+    yspd = 0;
+    image_speed = 0;
+    exit;
+}
+
+// volta animação
+image_speed = 1;
 right_key = keyboard_check(vk_right);
 left_key = keyboard_check(vk_left);
 up_key = keyboard_check(vk_up);

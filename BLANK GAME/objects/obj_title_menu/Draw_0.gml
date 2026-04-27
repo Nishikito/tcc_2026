@@ -1,8 +1,44 @@
-// Desenha o sprite do menu
-/*draw_sprite_ext(menu_sprite, 0, x, y, menu_width / sprite_get_width(menu_sprite), menu_height / sprite_get_height(menu_sprite), 0, c_white, 1);
+//draw_set_font(fnt_menu);
+draw_set_halign(fa_left);
 
-// Desenho das Opções
-for (var i = 0; i < op_length; i++) {
-    var y_position = y + op_border + (i * (font_get_height(font) + op_space));
-    draw_text(x + op_border, y_position, option[i]);
+switch (state) {
+
+    case MENU_STATE.TITLE:
+        
+        for (var i = 0; i < array_length(options); i++) {
+            
+            if (i == index) draw_set_color(c_yellow);
+            else draw_set_color(c_white);
+            
+            draw_text(100, 100 + i * 30, options[i]);
+        }
+        
+    break;
+
+
+    case MENU_STATE.SAVE_SELECT:
+        
+        draw_set_color(c_white);
+        draw_text(100, 60, "SELECT SAVE");
+        
+        for (var i = 0; i < array_length(save_options); i++) {
+            
+            if (i == save_index) draw_set_color(c_yellow);
+            else draw_set_color(c_white);
+            
+            draw_text(100, 100 + i * 30, save_options[i]);
+        }
+        
+    break;
+
+
+    case MENU_STATE.NEW_SAVE:
+        
+        draw_set_color(c_white);
+        draw_text(100, 80, "ENTER YOUR NAME:");
+        
+        draw_set_color(c_yellow);
+        draw_text(100, 120, player_name + "_");
+        
+    break;
 }

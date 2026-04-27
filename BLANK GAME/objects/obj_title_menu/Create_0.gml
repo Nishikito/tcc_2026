@@ -1,12 +1,7 @@
-width = 64;
-height = 104;
-
-
-op_border = 8; //distância da borda
-op_space= 16; //distância entre os textos
-
-option[0] = "Começar";
-option[1] = "Configurações";
-option[2] = "Sair do Jogo";
-
-op_lenght = array_lenght(option);
+// Declaração de Variáveis
+var menu_width = 300;
+var menu_height = 200;
+var op_border = 10;
+var op_space = 5;
+var option = ["Start Game", "Settings", "Quick Game"];
+var op_length = array_length(option);

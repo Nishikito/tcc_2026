@@ -1,0 +1,1 @@
+global.daniel_sprite_state = "normal";

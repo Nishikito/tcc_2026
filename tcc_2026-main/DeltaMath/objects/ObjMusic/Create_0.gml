@@ -1,0 +1,1 @@
+audio_play_sound(SndCastleFunk, 10, true); // Substitua 'snd_background_music' pelo seu som. O '10' é a prioridade e 'true' para loop.

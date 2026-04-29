@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_math_battle_functions",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_math_battle_functions",
+  "parent":{
+    "name":"battleTest",
+    "path":"folders/Scripts/battleTest.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

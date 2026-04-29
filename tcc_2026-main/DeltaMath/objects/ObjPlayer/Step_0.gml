@@ -13,20 +13,20 @@ if (!global.dialog_active && !global.fade_active && !global.math_battle_active) 
         global.dialog_ended = false
     }
 
-    right_key = keyboard_check(ord("D"));
-    left_key  = keyboard_check(ord("A"));
-    up_key    = keyboard_check(ord("W"));
-    down_key  = keyboard_check(ord("S"));
+    right_key = keyboard_check(global.key_right);
+	left_key  = keyboard_check(global.key_left);
+	up_key    = keyboard_check(global.key_up);
+	down_key  = keyboard_check(global.key_down);
     xspd = (right_key - left_key) * move_spd;
     yspd = (down_key - up_key) * move_spd;
 
-    if keyboard_check_pressed(vk_shift){
-        move_spd = sprint_spd; 
-        image_speed = 1.3
-    }else if keyboard_check_released(vk_shift){
-        move_spd = default_spd
-        image_speed = 1
-    }
+    if keyboard_check_pressed(global.key_sprint) {
+		move_spd    = sprint_spd;
+		image_speed = 1.3;
+	} else if keyboard_check_released(global.key_sprint) {
+		move_spd    = default_spd;
+		image_speed = 1;
+	}
 
     mask_index = sprite[DOWN];
     if yspd == 0 {

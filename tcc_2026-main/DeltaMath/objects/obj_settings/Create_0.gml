@@ -29,3 +29,15 @@ if (!variable_global_exists("player_knocked_down")) {
 
 // Fullscreen ao iniciar
 window_set_fullscreen(true);
+
+// ── VOLUME ─────────────────────────────────────────────
+global.vol_bgm  = 1.0;  // 0.0 = mudo, 1.0 = máximo
+global.vol_sfx  = 1.0;
+
+// ── TECLAS (armazena o keycode de cada ação) ───────────
+global.key_up     = ord("W");
+global.key_down   = ord("S");
+global.key_left   = ord("A");
+global.key_right  = ord("D");
+global.key_sprint = vk_shift;
+global.key_interact = vk_enter; // útil para o futuro

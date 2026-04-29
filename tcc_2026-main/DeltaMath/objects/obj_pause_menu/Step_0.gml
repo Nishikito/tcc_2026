@@ -25,10 +25,11 @@ if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)) {
             instance_destroy();
             break;
 
-        case 1: // Settings
-            // Por agora, só um placeholder — você vai expandir isso depois
-            show_debug_message("Settings: ainda não implementado");
-            break;
+        case 1://Settings
+			audio_play_sound(sfxSelect, 0, false);
+			var s = instance_create_layer(0, 0, "Instances", obj_settings_menu);
+			s.called_from = "pause"; // sobrescreve o padrão definido no Create
+			break;
 
         case 2: // Back to Title
 			audio_play_sound(sfxSelect, 0, false);

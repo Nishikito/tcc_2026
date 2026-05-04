@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":71.394104,
+  "duration":132.67882,
   "exportDir":"",
   "name":"SndCastleFunk",
   "parent":{

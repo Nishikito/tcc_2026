@@ -2,9 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"spr_title_deltarune",
   "bboxMode":0,
-  "bbox_bottom":35,
+  "bbox_bottom":14,
   "bbox_left":0,
-  "bbox_right":211,
+  "bbox_right":210,
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -12,14 +12,14 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"f75a621e-aec2-4c75-8bb8-e376fa2d047d","name":"f75a621e-aec2-4c75-8bb8-e376fa2d047d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"26a2d34c-f3c0-4424-b8d1-6a7bf2ae13ec","name":"26a2d34c-f3c0-4424-b8d1-6a7bf2ae13ec","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
-  "height":36,
+  "height":18,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"25b7f078-98e9-4441-9904-ce3b6feeb70b","blendMode":0,"displayName":"default","isLocked":false,"name":"25b7f078-98e9-4441-9904-ce3b6feeb70b","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"e5134fc5-61a5-4922-a348-bbe4e33fefcb","blendMode":0,"displayName":"default","isLocked":false,"name":"e5134fc5-61a5-4922-a348-bbe4e33fefcb","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_title_deltarune",
   "nineSlice":null,
@@ -70,7 +70,9 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"f75a621e-aec2-4c75-8bb8-e376fa2d047d","path":"sprites/spr_title_deltarune/spr_title_deltarune.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"d4ca7223-db27-4f7d-9fbf-ea16f1b7b818","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"26a2d34c-f3c0-4424-b8d1-6a7bf2ae13ec","path":"sprites/spr_title_deltarune/spr_title_deltarune.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"c66bb2bc-ce61-4d58-b856-300e2b395c34","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

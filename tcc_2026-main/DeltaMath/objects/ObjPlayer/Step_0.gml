@@ -101,3 +101,35 @@ if (keyboard_check_pressed(vk_f1)) {
     );
 }
 // ──────────────────────────────────────────────────────
+
+
+// ── CÂMERA COM INTERPOLAÇÃO ────────────────────────────
+// Pegamos a câmera ativa da view 0
+var cam = camera_get_active();
+
+// Posição atual da câmera
+var cam_w = camera_get_view_width(cam);
+var cam_h = camera_get_view_height(cam);
+
+// Posição alvo: player centralizado na câmera
+var target_x = x - cam_w / 2;
+var target_y = y - cam_h / 2;
+
+// Limita a câmera às bordas da room para não mostrar fora dela
+target_x = clamp(target_x, 0, room_width  - cam_w);
+target_y = clamp(target_y, 0, room_height - cam_h);
+
+// Posição atual da câmera
+var cur_x = camera_get_view_x(cam);
+var cur_y = camera_get_view_y(cam);
+
+// lerp(a, b, fator) interpola entre a e b.
+// 0.15 = câmera suave, 0.3 = mais rápida, 1.0 = instantânea (sem suavização)
+var new_x = lerp(cur_x, target_x, 0.15);
+var new_y = lerp(cur_y, target_y, 0.15);
+
+// Arredonda para pixel inteiro — elimina o tearing causado por subpixels
+new_x = round(new_x);
+new_y = round(new_y);
+
+camera_set_view_pos(cam, new_x, new_y);

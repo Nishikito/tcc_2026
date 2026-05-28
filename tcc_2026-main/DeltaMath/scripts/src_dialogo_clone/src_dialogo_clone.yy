@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"src_dialogo_clone",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"src_dialogo_clone",
+  "parent":{
+    "name":"dialogue",
+    "path":"folders/Scripts/dialogue.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

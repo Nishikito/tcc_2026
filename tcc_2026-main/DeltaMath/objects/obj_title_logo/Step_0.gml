@@ -25,3 +25,29 @@ if (logo_ready && keyboard_check_pressed(vk_enter)) {
     audio_play_sound(sfxSelect, 0, false);
     room_goto(rm_title); 
 }
+
+
+
+//código de acesso: cima cima, baixo baixo, esqeurda direita, esquerda direita
+if (!variable_instance_exists(id, "cheat_sequence")){
+	cheat_sequence = [vk_up, vk_up, vk_down, vk_down, vk_left, vk_right, vk_left, vk_right];
+	cheat_index = 0;
+}
+var _keys = [vk_up, vk_down, vk_left, vk_right];
+for (var _i = 0; _i < array_length(_keys); _i++){
+	if(keyboard_check_pressed(_keys[_i])){
+		if(_keys[_i] == cheat_sequence[cheat_index]){
+			cheat_index++;
+			if(cheat_index >= array_length(cheat_sequence)){
+				audio_play_sound(sfxTitle, 0, false);
+				room_goto(rm_teste);
+				cheat_index = 0;
+			}
+		}else{
+			cheat_index =  0;
+			if(_keys[_i] == cheat_sequence[0]){
+				cheat_index = 1;
+			}
+		}
+	}
+}

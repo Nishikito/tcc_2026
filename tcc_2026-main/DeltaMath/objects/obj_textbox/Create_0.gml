@@ -11,6 +11,9 @@ txtb_img_spd = 6;
 
 //the text
 page = 0;
+
+text_x_offset[0] = 0;
+
 page_number = 0;
 text[0] = "";
 text_length[0] = string_length(text[0]);

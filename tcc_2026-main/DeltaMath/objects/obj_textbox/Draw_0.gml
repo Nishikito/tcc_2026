@@ -183,7 +183,7 @@ if speaker_sprite[page] != noone{
 draw_sprite_ext(txtb_spr[page], txtb_img, _txtb_x, _txtb_y, textbox_width/txtb_spr_w, textbox_height/txtb_spr_h, 0, c_white, 1)
 
 //----------------------------options----------------------------//
-if draw_char == text_lenght[page] && page == page_number - 1 && option_number > 0
+if draw_char == text_length[page] && page == page_number - 1 && option_number > 0
 {
 	//option select
 	var _old_option_pos = option_pos;

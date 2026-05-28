@@ -17,7 +17,7 @@ function scr_text(_text){
 	scr_set_defaults_for_text()
 	
 	text[page_number] =_text;
-	text_lenght[page_number] = string_length(_text);
+	text_length[page_number] = string_length(_text);
 	
 	//get character info
 	if argument_count >1 {
@@ -81,6 +81,6 @@ function scr_option(_option, link_id){
 /// @param text id
 function create_textbox(_text_id){
 	with(instance_create_depth(0,0,-99999, obj_textbox)){
-		scr_game_text(_text_id)
+		//scr_game_text(_text_id);
 	}  
 }

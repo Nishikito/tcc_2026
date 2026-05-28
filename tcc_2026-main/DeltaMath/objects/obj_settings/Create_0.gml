@@ -16,6 +16,10 @@ global.current_enemy_id = "";
 init_carol_cutscene();
 global.paused = false;
 
+if(room == rm_teste){
+	audio_stop_sound(sfxTitle);
+}
+
 if (!variable_global_exists("carol_defeated")) {
     global.carol_defeated = false;
 }

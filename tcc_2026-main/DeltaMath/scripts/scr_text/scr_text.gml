@@ -49,6 +49,7 @@ function scr_text(_text){
 				
 			case"sans":			
 				speaker_sprite[page_number] = SprNpcSansNormal;
+				speaker_large_sprite[page_number] = spr_char_none;
 				txtb_spr[page_number] = spr_textbox;
 				snd[page_number] = sfxSansVoice;
 				snd_delay_array[page_number] = 6;
@@ -56,6 +57,7 @@ function scr_text(_text){
 				
 			case"sans - eye":
 				speaker_sprite[page_number] = SprNpcSansCloseEye;
+				speaker_large_sprite[page_number] = spr_char_none; 
 				txtb_spr[page_number] = spr_textbox;
 				snd[page_number] = sfxSansVoice;
 				snd_delay_array[page_number] = 6;

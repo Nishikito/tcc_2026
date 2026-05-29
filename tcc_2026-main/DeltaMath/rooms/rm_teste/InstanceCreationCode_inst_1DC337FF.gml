@@ -1,1 +1,1 @@
-text_id = "clone";
+text_id = "sans";

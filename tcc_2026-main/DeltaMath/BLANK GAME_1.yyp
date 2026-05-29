@@ -137,7 +137,7 @@
     {"id":{"name":"scr_text","path":"scripts/scr_text/scr_text.yy",},},
     {"id":{"name":"scr_updatecontrols","path":"scripts/scr_updatecontrols/scr_updatecontrols.yy",},},
     {"id":{"name":"ScrMacro","path":"scripts/ScrMacro/ScrMacro.yy",},},
-    {"id":{"name":"src_dialogo_clone","path":"scripts/src_dialogo_clone/src_dialogo_clone.yy",},},
+    {"id":{"name":"src_dialogo_sans","path":"scripts/src_dialogo_sans/src_dialogo_sans.yy",},},
     {"id":{"name":"sfxDanielVc","path":"sounds/sfxDanielVc/sfxDanielVc.yy",},},
     {"id":{"name":"sfxIntro","path":"sounds/sfxIntro/sfxIntro.yy",},},
     {"id":{"name":"sfxNada","path":"sounds/sfxNada/sfxNada.yy",},},

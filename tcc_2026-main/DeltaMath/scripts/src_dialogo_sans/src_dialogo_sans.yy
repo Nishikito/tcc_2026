@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"src_dialogo_clone",
+  "%Name":"src_dialogo_sans",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"src_dialogo_clone",
+  "name":"src_dialogo_sans",
   "parent":{
     "name":"dialogue",
     "path":"folders/Scripts/dialogue.yy",

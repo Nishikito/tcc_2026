@@ -49,7 +49,7 @@ function scr_text(_text){
 				
 			case"sans":			
 				speaker_sprite[page_number] = SprNpcSansNormal;
-				speaker_large_sprite[page_number] = spr_char_none;
+				speaker_large_sprite[page_number] = noone;
 				txtb_spr[page_number] = spr_textbox;
 				snd[page_number] = sfxSansVoice;
 				snd_delay_array[page_number] = 6;
@@ -57,7 +57,7 @@ function scr_text(_text){
 				
 			case"sans - eye":
 				speaker_sprite[page_number] = SprNpcSansCloseEye;
-				speaker_large_sprite[page_number] = spr_char_none; 
+				speaker_large_sprite[page_number] = noone;//escolha de usar o noone para que eu não tenha que criar um sprite vazio 
 				txtb_spr[page_number] = spr_textbox;
 				snd[page_number] = sfxSansVoice;
 				snd_delay_array[page_number] = 6;
@@ -83,6 +83,6 @@ function scr_option(_option, link_id){
 /// @param text id
 function create_textbox(_text_id){
 	with(instance_create_depth(0,0,-99999, obj_textbox)){
-		//scr_game_text(_text_id);
+		scr_game_text(_text_id);
 	}  
 }

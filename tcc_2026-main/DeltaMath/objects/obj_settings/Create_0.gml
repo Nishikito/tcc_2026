@@ -1,4 +1,4 @@
-global.font_main = font_add_sprite(spr_main_font, 32, true, 1);
+global.font_main = fnt_dialogo;
 global.font_title = fnt_main
 global.dialog_active = false; 
 global.dialog_ended = false;

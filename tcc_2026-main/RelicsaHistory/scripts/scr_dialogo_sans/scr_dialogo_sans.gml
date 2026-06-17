@@ -27,9 +27,9 @@ function scr_dialogo_sans(_text_id){
 			
 		case "sans_sim"://jogador concorda com o clone
 			scr_text("Engraçado você dizer isso, já que você provavelmemte é o programador desse TCC que tá fazendo isso!", "sans");
-			scr_text("Larga a mão de ser vagabundo e vai ler sua bíblia!", "sans - eye");
+			scr_text("Larga a mão de ser vagabundo ", "sans - eye");
 			scr_text("Se não for, primeiro que cê foi longe pra descobrir isso.", "sans");
-			scr_text("E segundo, me perdoe(mas vai ler a bíblia, é bom!)", "sans");
+			scr_text("E segundo, me perdoekkkkkkkkk", "sans");
 			break;
 			
 		case "sans_não":

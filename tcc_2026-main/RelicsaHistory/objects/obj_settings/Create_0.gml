@@ -16,6 +16,27 @@ global.current_enemy_id = "";
 init_carol_cutscene();
 global.paused = false;
 
+
+//variaveis do inventário
+
+//status do personagem
+global.player_name = "Talai";
+global.hp = 10;
+global.max_hp = 10;
+global.history_knowledge = 0; // 0 a 100 — progresso histórico
+global.relics_count = 0; // atualizado automaticamente pelo scr_inventory_add
+
+//arrays de inventário
+global.inventory_relics = []; // relíquias colecionáveis
+global.inventory_mission = []; // itens de missão / chave
+global.inventory_docs = []; // documentos e lore desbloqueado
+global.inventory_consumables = []; // consumíveis (cura, buff)
+
+
+
+
+
+
 if(room == rm_teste){
 	audio_stop_sound(sfxTitle);
 }
@@ -45,3 +66,4 @@ global.key_left   = ord("A");
 global.key_right  = ord("D");
 global.key_sprint = vk_shift;
 global.key_interact = vk_enter; // útil para o futuro
+global.key_inventory = ord("E");

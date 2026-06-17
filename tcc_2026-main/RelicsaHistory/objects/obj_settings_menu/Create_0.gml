@@ -13,8 +13,8 @@ audio_items  = ["BGM Volume", "SFX Volume"];
 audio_sel    = 0;
 
 // ── SEÇÃO CONTROLS ────────────────────────────────────
-key_items    = ["Move Up", "Move Down", "Move Left", "Move Right", "Sprint"];
-key_globals  = ["key_up", "key_down", "key_left", "key_right", "key_sprint"];
+key_items    = ["Move Up", "Move Down", "Move Left", "Move Right", "Sprint", "Inventory"];
+key_globals  = ["key_up", "key_down", "key_left", "key_right", "key_sprint", "key_inventory"];
 key_sel      = 0;
 
 // Estado de remapeamento: quando true, aguarda o próximo keypress

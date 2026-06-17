@@ -1,4 +1,4 @@
-// ── NAVEGAR ────────────────────────────────────────────
+ // ── NAVEGAR ────────────────────────────────────────────
 if (keyboard_check_pressed(ord("W")) || keyboard_check_pressed(vk_up)) {
     selected--;
     if (selected < 0) selected = array_length(menu_options) - 1;

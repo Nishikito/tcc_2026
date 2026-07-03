@@ -135,6 +135,8 @@
     {"id":{"name":"key_to_string","path":"scripts/key_to_string/key_to_string.yy",},},
     {"id":{"name":"scr_battle_system","path":"scripts/scr_battle_system/scr_battle_system.yy",},},
     {"id":{"name":"scr_cutscene_system","path":"scripts/scr_cutscene_system/scr_cutscene_system.yy",},},
+    {"id":{"name":"scr_dialogo_carol_fim","path":"scripts/scr_dialogo_carol_fim/scr_dialogo_carol_fim.yy",},},
+    {"id":{"name":"scr_dialogo_carol","path":"scripts/scr_dialogo_carol/scr_dialogo_carol.yy",},},
     {"id":{"name":"scr_dialogo_sans","path":"scripts/scr_dialogo_sans/scr_dialogo_sans.yy",},},
     {"id":{"name":"scr_enemy_data","path":"scripts/scr_enemy_data/scr_enemy_data.yy",},},
     {"id":{"name":"scr_game_text","path":"scripts/scr_game_text/scr_game_text.yy",},},

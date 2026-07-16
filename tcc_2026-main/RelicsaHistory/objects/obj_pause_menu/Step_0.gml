@@ -1,10 +1,10 @@
  // ── NAVEGAR ────────────────────────────────────────────
-if (keyboard_check_pressed(ord("W")) || keyboard_check_pressed(vk_up)) {
+if (keyboard_check_pressed(global.key_up)   || keyboard_check_pressed(vk_up)) {
     selected--;
     if (selected < 0) selected = array_length(menu_options) - 1;
     audio_play_sound(sfxSwitch, 0, false);
 }
-if (keyboard_check_pressed(ord("S")) || keyboard_check_pressed(vk_down)) {
+if (keyboard_check_pressed(global.key_down) || keyboard_check_pressed(vk_down)) {
     selected++;
     if (selected >= array_length(menu_options)) selected = 0;
     audio_play_sound(sfxSwitch, 0, false);

@@ -1,5 +1,5 @@
 // No obj_speakblock, obj_item, ou qualquer trigger de coleta:
-scr_inventory_add(
+/*scr_inventory_add(
  "relic", // categoria
  "reliquia_moeda", // id único (sem acentos, sem espaços)
  "Moeda Romana", // nome exibido no menu

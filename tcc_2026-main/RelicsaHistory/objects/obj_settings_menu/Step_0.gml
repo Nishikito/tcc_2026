@@ -43,16 +43,16 @@ if (keyboard_check_pressed(ord("E"))) {
 
 // ── ABA AUDIO ──────────────────────────────────────────
 if (current_tab == 0) {
-    if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W"))) {
+    if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(global.key_up)) {
         audio_sel = max(0, audio_sel - 1);
         audio_play_sound(sfxSwitch, 0, false);
     }
-    if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))) {
+    if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(global.key_down)) {
         audio_sel = min(array_length(audio_items) - 1, audio_sel + 1);
         audio_play_sound(sfxSwitch, 0, false);
     }
 
-    if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))) {
+    if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(global.key_left)) {
         if (audio_sel == 0) {
             // BGM — aplica direto nos assets de música
             global.vol_bgm = max(0.0, global.vol_bgm - 0.1);
@@ -73,7 +73,7 @@ if (current_tab == 0) {
         audio_play_sound(sfxSwitch, 0, false);
     }
 
-    if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))) {
+    if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(global.key_right)) {
         if (audio_sel == 0) {
             global.vol_bgm = min(1.0, global.vol_bgm + 0.1);
             audio_sound_gain(SndCastleFunk, global.vol_bgm, 0);
@@ -95,11 +95,11 @@ if (current_tab == 0) {
 
 // ── ABA CONTROLS ───────────────────────────────────────
 if (current_tab == 1) {
-    if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W"))) {
+    if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(global.key_up)) {
         key_sel = max(0, key_sel - 1);
         audio_play_sound(sfxSwitch, 0, false);
     }
-    if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))) {
+    if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(global.key_down)) {
         key_sel = min(array_length(key_items) - 1, key_sel + 1);
         audio_play_sound(sfxSwitch, 0, false);
     }

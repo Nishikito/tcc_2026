@@ -1,8 +1,8 @@
 
 if (global.player_knocked_down) {
 
-    if (keyboard_check(ord("D")) || keyboard_check(ord("A")) || 
-        keyboard_check(ord("W")) || keyboard_check(ord("S"))) {
+    if (keyboard_check(global.key_right) || keyboard_check(global.key_left) ||
+    keyboard_check(global.key_up)    || keyboard_check(global.key_down)) {
 
         global.player_knocked_down = false;
     }
@@ -81,6 +81,16 @@ if (keyboard_check_pressed(vk_escape)) {
     // Só abre se não tiver nenhum outro sistema ativo
     if (!global.dialog_active && !global.fade_active && !global.math_battle_active) {
         instance_create_layer(0, 0, "Instances", obj_pause_menu);
+    }
+}
+
+
+// Abrir inventário
+if (keyboard_check_pressed(global.key_inventory)) {
+    if (!global.dialog_active && !global.fade_active && !global.math_battle_active && !global.paused) {
+        if (!instance_exists(obj_inventory)) {
+            instance_create_layer(0, 0, "Instances", obj_inventory);
+        }
     }
 }
 

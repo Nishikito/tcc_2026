@@ -1,6 +1,8 @@
+// TESTE REMOVIDO — use um obj_speakblock real para testar coleta de itens
+
 /// scr_inventory_add(categoria, id, nome, descricao, sprite, quantidade)
 /// categoria: "relic" | "mission" | "doc" | "consumable"
-function scr_inventory_add(_cat, _id, _name, _desc, _spr, _qty) {
+/*function scr_inventory_add(_cat, _id, _name, _desc, _spr, _qty) {
 	var _item = {
 		id: _id,
 		name: _name,

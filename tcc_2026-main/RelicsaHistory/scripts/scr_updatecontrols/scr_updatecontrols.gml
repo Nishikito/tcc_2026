@@ -1,4 +1,6 @@
-function scr_updatecontrols(){
+//obsoleto - não utilizar
+
+/*function scr_updatecontrols(){
 if file_exists("controls.ini"){
 	ini_open("controls.ini")
 	obj_title.selectkey = ini_read_string("Save", "Select", "Z")

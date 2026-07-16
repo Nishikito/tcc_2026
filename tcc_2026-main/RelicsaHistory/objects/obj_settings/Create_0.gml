@@ -66,4 +66,4 @@ global.key_left   = ord("A");
 global.key_right  = ord("D");
 global.key_sprint = vk_shift;
 global.key_interact = vk_enter; // útil para o futuro
-global.key_inventory = ord("E");
+global.key_inventory = ord("I");

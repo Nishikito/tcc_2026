@@ -1,5 +1,6 @@
 //para pausar o jogo ao abrir
 instance_deactivate_all(true);
+instance_activate_object(obj_settings); // reativa o objeto persistente
 global.paused = true;
 
 //abas do inventário

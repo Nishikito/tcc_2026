@@ -1,4 +1,4 @@
-text_id = "carol";
+text_id = "_carol";
 
 // Se a Carol já sumiu, o speakerblock também some
 if (global.carol_dialogo_fim == true) {

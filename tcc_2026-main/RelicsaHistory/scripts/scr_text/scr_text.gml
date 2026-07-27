@@ -67,6 +67,13 @@ function scr_text(_text){
 				speaker_sprite[page_number] = SprAmarioSpk;
 				txtb_spr[page_number] = spr_textbox;
 				break;
+				
+			case "carol":
+				speaker_sprite[page_number] = SprCarol; // use o sprite correto da Carol
+				txtb_spr[page_number] = spr_textbox;
+				snd[page_number] = sfxNada;             // troque pelo som de voz da Carol quando tiver
+				snd_delay_array[page_number] = 4;
+				break;
 		}
 	}
 	

@@ -1,7 +1,9 @@
-//para pausar o jogo ao abrir
+/*hardcode não usado para testes
 instance_deactivate_all(true);
 instance_activate_object(obj_settings); // reativa o objeto persistente
-global.paused = true;
+global.paused = true;*/
+
+scr_pause_game();
 
 //abas do inventário
 tabs = ["Status", "Reliquias", "Missao", "Documentos", "Consumiveis"];

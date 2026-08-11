@@ -231,7 +231,7 @@ draw_set_halign(fa_center);
 draw_text_transformed(
     mpx + pw / 2,
     mpy + ph - 14 * scale,
-    "Q/E troca aba   W/S navega   ESC fecha",
+    "Q/E aba   W/S navega   Enter usa   Del descarta   ESC fecha",
     scale * 0.7, scale * 0.7, 0
 );
 

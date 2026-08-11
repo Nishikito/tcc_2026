@@ -1,7 +1,4 @@
-// Pausa o jogo desativando todos os objetos (exceto este)
-// O "true" significa "not me" — não desativa a si mesmo
-instance_deactivate_all(true);
-instance_activate_object(obj_settings); // reativa o objeto persistente
+scr_pause_game();
 
 global.paused = true;
 

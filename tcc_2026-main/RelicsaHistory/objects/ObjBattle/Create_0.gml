@@ -1,1 +1,1 @@
-instance_deactivate_all(true);
+scr_pause_game();

@@ -55,7 +55,7 @@ if (_len > 0) {
 
 // ── FECHAR com ESC ou tecla do inventário ────────────────────────
 if (keyboard_check_pressed(vk_escape) || keyboard_check_pressed(global.key_inventory)) {
-    instance_activate_all();
+    scr_unpause_game();
     global.paused = false;
     instance_destroy();
 }

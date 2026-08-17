@@ -1,4 +1,4 @@
-function scr_dialogo_carol_fim(){
+function scr_dialogo_carol_fim(_text_id){
 	switch (_text_id) {
 
         case "carol_fim":

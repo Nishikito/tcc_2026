@@ -1,7 +1,5 @@
 scr_pause_game();
 
-global.paused = true;
-
 // Array com os textos de cada opção
 menu_options = ["Resume Game", "Settings", "Back to Title"];
 

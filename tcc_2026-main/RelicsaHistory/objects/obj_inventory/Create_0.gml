@@ -1,21 +1,14 @@
-/*hardcode não usado para testes
-instance_deactivate_all(true);
-instance_activate_object(obj_settings); // reativa o objeto persistente
-global.paused = true;*/
-
 scr_pause_game();
-
-//abas do inventário
-tabs = ["Status", "Reliquias", "Missao", "Documentos", "Consumiveis"];
+ 
+// Abas do inventário
+tabs        = ["Status", "Reliquias", "Missao", "Documentos", "Consumiveis"];
 current_tab = 0;
-
-//posição do inventário
-menu_x = display_get_gui_width() / 2;
+ 
+// Posição central na tela GUI
+menu_x = display_get_gui_width()  / 2;
 menu_y = display_get_gui_height() / 2;
-
-//seleção por aba
-// Cada aba pode ter um item selecionado independente
+ 
+// Cursor independente por aba
 tab_sel = [0, 0, 0, 0, 0];
-
-
+ 
 depth = -9999;

@@ -120,7 +120,7 @@ if (current_tab == 0) {
 // │  BLOCO D.1-3 — RELÍQUIAS, MISSÃO E DOCUMENTOS         │
 // └─────────────────────────────────────────────────────────┘
 if (current_tab == 1 || current_tab == 2 || current_tab == 3) {
-    var _arr = scr_inventory_get_array_by_tab(current_tab);
+    var _arr = scr_inventory_get_array(current_tab);
     var _sel = tab_sel[current_tab];
     var content_y = mpy + 30 * scale;
 

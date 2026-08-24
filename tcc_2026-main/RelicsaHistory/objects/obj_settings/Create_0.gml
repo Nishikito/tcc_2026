@@ -68,3 +68,11 @@ global.key_right  = ord("D");
 global.key_sprint = vk_shift;
 global.key_interact = vk_enter; // útil para o futuro
 global.key_inventory = ord("I");
+
+
+
+
+// ── MÉDIA DE NOTA/SCORE ─────────────────────────────────
+global.knowledge_scores  = [];   // histórico de scores de cada resposta
+global.knowledge_average = 0.0;  // média atual (0.0 a 10.0)
+global.knowledge_total   = 0;    // total de questões respondidas

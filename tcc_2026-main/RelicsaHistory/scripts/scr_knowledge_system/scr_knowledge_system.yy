@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_knowledge_system",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_knowledge_system",
+  "parent":{
+    "name":"history",
+    "path":"folders/Scripts/battleTest/history.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

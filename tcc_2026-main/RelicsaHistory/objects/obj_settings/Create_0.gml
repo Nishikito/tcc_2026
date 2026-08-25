@@ -72,7 +72,13 @@ global.key_inventory = ord("I");
 
 
 
-// ── MÉDIA DE NOTA/SCORE ─────────────────────────────────
-global.knowledge_scores  = [];   // histórico de scores de cada resposta
-global.knowledge_average = 0.0;  // média atual (0.0 a 10.0)
-global.knowledge_total   = 0;    // total de questões respondidas
+// ── SISTEMA DE CONHECIMENTO ───────────────────────────────────────
+global.knowledge_scores  = [];
+global.knowledge_average = 0.0;
+global.knowledge_total   = 0;
+
+// ── DADOS DA BATALHA ATUAL ────────────────────────────────────────
+global.current_enemy_id    = "";
+global.battle_enemy_hp     = 0;
+global.battle_enemy_max_hp = 0;
+global.battle_result       = ""; // "victory" | "defeat" | ""

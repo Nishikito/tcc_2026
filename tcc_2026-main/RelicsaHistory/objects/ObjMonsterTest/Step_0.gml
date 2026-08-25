@@ -38,7 +38,10 @@ switch(state) {
     case "caught":
         caught_timer--;
         if (caught_timer <= 0) {
-            room_goto(rm_math_battle);
+            // Passa os dados do inimigo para a batalha
+			global.battle_enemy_hp     = 50;
+			global.battle_enemy_max_hp = 50;
+			room_goto(rm_rh_battle);
         }
         break;
 }

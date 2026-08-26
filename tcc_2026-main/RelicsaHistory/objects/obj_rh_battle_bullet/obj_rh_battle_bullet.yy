@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_rh_battle_bullet",
+    "path":"sprites/spr_rh_battle_bullet/spr_rh_battle_bullet.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

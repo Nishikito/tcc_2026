@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_rh_battle_enemy",
+    "path":"sprites/spr_rh_battle_enemy/spr_rh_battle_enemy.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

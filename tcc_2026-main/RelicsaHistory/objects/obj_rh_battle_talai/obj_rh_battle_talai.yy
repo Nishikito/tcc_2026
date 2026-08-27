@@ -1,15 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"obj_rh_battle_box",
+  "%Name":"obj_rh_battle_talai",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_rh_battle_box",
+  "name":"obj_rh_battle_talai",
   "overriddenProperties":[],
   "parent":{
-    "name":"battles",
-    "path":"folders/Objects/battle/history/battles.yy",
+    "name":"characters",
+    "path":"folders/Objects/battle/history/characters.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -29,10 +31,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_rh_battle_box",
-    "path":"sprites/spr_rh_battle_box/spr_rh_battle_box.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

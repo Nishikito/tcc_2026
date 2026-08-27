@@ -5,96 +5,189 @@ draw_set_font(global.font_main);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-// ── HUD SUPERIOR — HP DO PLAYER E MÉDIA ───────────────────────────
+
+
+// ── TALAI — desenhado diretamente na GUI, lado esquerdo ──────────
+// Usa SprPlayerDown que já existe no projeto como placeholder
+// Quando o artista entregar o sprite de batalha, troque aqui
+//temporário
+var _talai_x = 45;
+var _talai_y = 95;
+var _talai_spr = SprPlayerDown;
+
+// Oscilação suave baseada no tempo
+var _osc = dsin(current_time * 0.1) * 2;
+
+// Estado visual baseado no estado da batalha
+var _talai_angle = 0;
+var _talai_dy    = _osc;
+
+if (state == BATTLE_STATE.ATTACK_MINIGAME) {
+    _talai_angle = -15;  // inclinado ao atacar
+    _talai_dy    = -4;
+} else if (state == BATTLE_STATE.ENEMY_TURN) {
+    _talai_dy = 2;       // recua ao defender
+}
+
+draw_sprite_ext(
+    _talai_spr, 0,
+    _talai_x, _talai_y + _talai_dy,
+    1.5, 1.5,
+    _talai_angle,
+    c_white, 1
+);
+
+
+
+
+
+// ══════════════════════════════════════════════════════════════════
+// SUPERIOR ESQUERDO — MÉDIA (equivalente ao TP do Deltarune)
+// ══════════════════════════════════════════════════════════════════
+var _avg_color = (global.knowledge_average > KNOWLEDGE_PASS_THRESHOLD)
+               ? make_color_rgb(255, 220, 60)   // amarelo = bônus
+               : make_color_rgb(255, 80, 80);    // vermelho = penalidade
+
+draw_set_color(_avg_color);
+draw_text(6, 4, "MED");
+draw_set_halign(fa_center);
+draw_text(18, 14, string_format(global.knowledge_average, 1, 1));
+draw_set_halign(fa_left);
 draw_set_color(c_white);
-draw_text(4, 4, "HP: " + string(global.hp) + "/" + string(global.max_hp));
+draw_text(6, 24, get_knowledge_label());
+
+// Barra vertical de média (igual à barra de TP do Deltarune)
+var _tp_x  = 4;
+var _tp_y1 = 34;
+var _tp_y2 = 160;
+var _tp_h  = _tp_y2 - _tp_y1;
+var _tp_fill = clamp(global.knowledge_average / 10.0, 0, 1);
+
+draw_set_color(make_color_rgb(40, 40, 40));
+draw_rectangle(_tp_x, _tp_y1, _tp_x + 8, _tp_y2, false);
+draw_set_color(_avg_color);
+draw_rectangle(_tp_x, _tp_y2 - round(_tp_h * _tp_fill), _tp_x + 8, _tp_y2, false);
+draw_set_color(c_white);
+draw_rectangle(_tp_x, _tp_y1, _tp_x + 8, _tp_y2, true);
+
+// ══════════════════════════════════════════════════════════════════
+// HUD INFERIOR — estilo Deltarune
+// Linha de info do personagem + caixa de diálogo + botões de ação
+// ══════════════════════════════════════════════════════════════════
+var _hud_y   = 170;    // onde começa o HUD inferior
+var _hud_h   = _gh - _hud_y; // altura disponível
+
+// Fundo do HUD
+draw_set_color(c_black);
+draw_rectangle(0, _hud_y, _gw, _gh, false);
+draw_set_color(c_white);
+draw_rectangle(0, _hud_y, _gw, _hud_y + 1, false); // linha separadora
+
+// ── FICHA DO TALAI ────────────────────────────────────────────────
+var _pc_x   = 6;
+var _pc_y   = _hud_y + 4;
+var _bar_w  = 80;
+var _bar_h  = 6;
+var _hp_pct = clamp(global.hp / global.max_hp, 0, 1);
+
+// Ícone do Talai (quadrado colorido como placeholder — troque por sprite)
+draw_set_color(make_color_rgb(100, 160, 255));
+draw_rectangle(_pc_x, _pc_y, _pc_x + 14, _pc_y + 14, false);
+
+// Nome
+draw_set_color(c_white);
+draw_text(_pc_x + 18, _pc_y, global.player_name);
+
+// Label HP
+draw_set_color(make_color_rgb(255, 220, 60));
+draw_text(_pc_x + 18, _pc_y + 12, "HP");
 
 // Barra de HP
-var _bar_x = 50;
-var _bar_y = 5;
-var _bar_w = 80;
-var _bar_h = 8;
-draw_set_color(c_red);
-draw_rectangle(_bar_x, _bar_y, _bar_x + _bar_w, _bar_y + _bar_h, false);
-draw_set_color(c_yellow);
-draw_rectangle(_bar_x, _bar_y,
-    _bar_x + _bar_w * clamp(global.hp / global.max_hp, 0, 1),
-    _bar_y + _bar_h, false);
+var _bx = _pc_x + 34;
+var _by = _pc_y + 13;
+draw_set_color(make_color_rgb(40, 40, 40));
+draw_rectangle(_bx, _by, _bx + _bar_w, _by + _bar_h, false);
 
-// Média em tempo real (sempre visível)
-var _avg_str = "Média: " + string_format(global.knowledge_average, 1, 1)
-             + " — " + get_knowledge_label();
-draw_set_color(global.knowledge_average > KNOWLEDGE_PASS_THRESHOLD ? c_aqua : c_red);
-draw_text(4, 18, _avg_str);
+// Cor da barra baseada no HP
+var _hp_color;
+if (_hp_pct > 0.5)      _hp_color = make_color_rgb(255, 220, 60);  // amarelo
+else if (_hp_pct > 0.25) _hp_color = make_color_rgb(255, 140, 0);   // laranja
+else                      _hp_color = make_color_rgb(255, 40,  40);  // vermelho
 
-// ── HUD INIMIGO ───────────────────────────────────────────────────
-var _enem_bar_x = _gw - 130;
+draw_set_color(_hp_color);
+draw_rectangle(_bx, _by, _bx + round(_bar_w * _hp_pct), _by + _bar_h, false);
+
+// Números de HP
 draw_set_color(c_white);
-draw_text(_enem_bar_x, 4, enemy_name);
-draw_set_color(c_red);
-draw_rectangle(_enem_bar_x, 16, _enem_bar_x + 110, 24, false);
-draw_set_color(make_color_rgb(255, 80, 80));
-draw_rectangle(_enem_bar_x, 16,
-    _enem_bar_x + 110 * clamp(enemy_hp / enemy_max_hp, 0, 1),
-    24, false);
-draw_set_color(c_white);
-draw_text(_enem_bar_x, 26, string(enemy_hp) + "/" + string(enemy_max_hp));
+draw_set_halign(fa_right);
+draw_text(_bx + _bar_w + 40, _by - 1,
+    string(global.hp) + "/" + string(global.max_hp));
+draw_set_halign(fa_left);
 
-// ── CAIXA INFERIOR ────────────────────────────────────────────────
-var _bx1 = 8;
-var _bx2 = _gw - 8;
-var _by1 = _gh - 90;
-var _by2 = _gh - 50;
+// ── CAIXA DE DIÁLOGO / AÇÃO ───────────────────────────────────────
+var _box_y1 = _hud_y + 26;
+var _box_y2 = _gh - 22;
+var _box_x1 = 4;
+var _box_x2 = _gw - 4;
 
 draw_set_color(c_black);
-draw_rectangle(_bx1, _by1, _bx2, _by2, false);
+draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
 draw_set_color(c_white);
-draw_rectangle(_bx1, _by1, _bx2, _by2, true);
+draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
 
 // ── BOTÕES DE AÇÃO ────────────────────────────────────────────────
-var _btn_y  = _gh - 38;
-var _btn_x  = 10;
+var _btn_y  = _gh - 18;
+var _btn_x  = 8;
 var _btn_sp = 90;
 
 for (var i = 0; i < array_length(menu_names); i++) {
     var _cx = _btn_x + i * _btn_sp;
     if (i == menu_option && state == BATTLE_STATE.MENU) {
-        draw_set_color(c_yellow);
-        draw_rectangle(_cx - 3, _btn_y - 2, _cx + 78, _btn_y + 16, true);
+        // Fundo amarelo na opção selecionada
+        draw_set_color(make_color_rgb(255, 220, 60));
+        draw_rectangle(_cx - 2, _btn_y - 1, _cx + 70, _btn_y + 14, false);
+        draw_set_color(c_black);
     } else {
         draw_set_color(c_white);
     }
     draw_text(_cx, _btn_y, menu_names[i]);
 }
 
-// ── CONTEÚDO DA CAIXA POR ESTADO ─────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// CONTEÚDO DA CAIXA POR ESTADO
+// ══════════════════════════════════════════════════════════════════
+var _cx1 = _box_x1 + 8;
+var _cy1 = _box_y1 + 6;
+var _cw  = (_box_x2 - _box_x1) - 16;
+
 switch (state) {
 
     case BATTLE_STATE.MENU:
         draw_set_color(c_white);
-        draw_text(_bx1 + 10, _by1 + 10, "* " + enemy_name + " bloqueia seu caminho!");
+        draw_text_ext(_cx1, _cy1, "* " + enemy_name + " bloqueia seu caminho!", 12, _cw);
         break;
 
     case BATTLE_STATE.QUESTION:
         if (current_question == undefined) break;
-        // Enunciado
-        draw_set_color(c_white);
-        draw_text_ext(_bx1 + 8, _by1 + 6, current_question.question, 14, (_bx2 - _bx1) - 16);
 
-        // Caixa de alternativas (cobre os botões durante a questão)
-        var _ay1 = _by2 + 2;
-        var _ay2 = _gh - 2;
-        draw_set_color(c_black);
-        draw_rectangle(_bx1, _ay1, _bx2, _ay2, false);
+        // Enunciado na caixa principal
         draw_set_color(c_white);
-        draw_rectangle(_bx1, _ay1, _bx2, _ay2, true);
+        draw_text_ext(_cx1, _cy1, current_question.question, 11, _cw);
+
+        // Caixa de alternativas abaixo dos botões
+        var _alt_y1 = _box_y2 + 2;
+        var _alt_y2 = _gh - 2;
+        draw_set_color(c_black);
+        draw_rectangle(_box_x1, _alt_y1, _box_x2, _alt_y2, false);
+        draw_set_color(c_white);
+        draw_rectangle(_box_x1, _alt_y1, _box_x2, _alt_y2, true);
 
         var _labels = ["A", "B", "C", "D"];
         for (var i = 0; i < 4; i++) {
-            var _ax = _bx1 + 8 + (i >= 2 ? 156 : 0);
-            var _ay = _ay1 + 4 + (i % 2) * 18;
+            var _ax = _cx1 + (i >= 2 ? 150 : 0);
+            var _ay = _alt_y1 + 3 + (i % 2) * 16;
             if (i == selected_option) {
-                draw_set_color(c_yellow);
+                draw_set_color(make_color_rgb(255, 220, 60));
                 draw_text(_ax - 10, _ay, "▶");
             } else {
                 draw_set_color(c_white);
@@ -104,66 +197,69 @@ switch (state) {
         break;
 
     case BATTLE_STATE.QUESTION_RESULT:
-        // Caixa de feedback de média — estilo caixa de diálogo do jogo
+        // Caixa com borda colorida baseada no score
+        var _score_color = (last_answer_score >= 7) ? make_color_rgb(60, 220, 60)
+                         : (last_answer_score >= 4) ? make_color_rgb(255, 220, 60)
+                         :                            make_color_rgb(255, 80, 80);
+
         draw_set_color(c_black);
-        draw_rectangle(_bx1, _by1, _bx2, _by2, false);
-        draw_set_color(c_aqua);
-        draw_rectangle(_bx1, _by1, _bx2, _by2, true);
+        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
+        draw_set_color(_score_color);
+        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
 
         draw_set_color(c_white);
-        draw_text_ext(_bx1 + 10, _by1 + 8, result_text, 14, (_bx2 - _bx1) - 16);
+        draw_text_ext(_cx1, _cy1, result_text, 11, _cw);
 
-        // Barra de progresso do timer (quanto tempo resta antes do minigame)
+        // Barra de timer
         var _prog = result_timer / result_timer_max;
-        draw_set_color(make_color_rgb(0, 120, 180));
-        draw_rectangle(_bx1 + 2, _by2 - 6, _bx2 - 2, _by2 - 2, false);
-        draw_set_color(c_aqua);
-        draw_rectangle(_bx1 + 2, _by2 - 6,
-            _bx1 + 2 + ((_bx2 - _bx1 - 4) * _prog),
-            _by2 - 2, false);
+        draw_set_color(make_color_rgb(40, 40, 40));
+        draw_rectangle(_box_x1 + 2, _box_y2 - 5, _box_x2 - 2, _box_y2 - 2, false);
+        draw_set_color(_score_color);
+        draw_rectangle(_box_x1 + 2, _box_y2 - 5,
+            _box_x1 + 2 + ((_box_x2 - _box_x1 - 4) * _prog),
+            _box_y2 - 2, false);
         break;
 
     case BATTLE_STATE.ATTACK_MINIGAME:
-        // Trilha da barra
-        var _lane_y  = (_by1 + _by2) / 2 + 6;
-        var _lane_h  = 14;
-        var _tx1     = _bx1 + 10;
-        var _tx2     = _bx2 - 10;
-
-        // Fundo da trilha
         draw_set_color(c_black);
-        draw_rectangle(_bx1, _by1, _bx2, _by2, false);
+        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
         draw_set_color(c_white);
-        draw_rectangle(_bx1, _by1, _bx2, _by2, true);
+        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
 
-        // Guias
-        draw_set_color(c_blue);
-        draw_line(_tx1, _lane_y - _lane_h, _tx2, _lane_y - _lane_h);
-        draw_line(_tx1, _lane_y + _lane_h, _tx2, _lane_y + _lane_h);
+        var _lane_y = (_box_y1 + _box_y2) / 2 + 4;
+        var _lane_h = 10;
+        var _tx1    = _cx1;
+        var _tx2    = _box_x2 - 8;
+
+        // Trilha
+        draw_set_color(make_color_rgb(60, 60, 60));
+        draw_rectangle(_tx1, _lane_y - _lane_h, _tx2, _lane_y + _lane_h, false);
 
         // Zona alvo
-        var _tz1 = _tx1 + 2;
-        var _tz2 = _tx1 + 120;
-        draw_set_color(c_black);
+        var _tz1 = _tx1 + 4;
+        var _tz2 = _tx1 + 80;
+        draw_set_color(make_color_rgb(30, 100, 30));
         draw_rectangle(_tz1, _lane_y - _lane_h, _tz2, _lane_y + _lane_h, false);
-        draw_set_color(c_blue);
+        draw_set_color(c_green);
         draw_rectangle(_tz1, _lane_y - _lane_h, _tz2, _lane_y + _lane_h, true);
 
-        // Marca de perfect (ciano)
+        // Marca perfect (ciano)
         draw_set_color(c_aqua);
-        draw_rectangle(_tz1 + 2, _lane_y - _lane_h + 2, _tz1 + 7, _lane_y + _lane_h - 2, false);
+        draw_rectangle(_tz1 + 2, _lane_y - _lane_h + 2, _tz1 + 6, _lane_y + _lane_h - 2, false);
 
-        // Rastro
+        // Rastro da barra
         if (attack_state == 0) {
-            var _offsets = [10, 20, 30, 40];
-            var _cols    = [c_ltgray, c_gray, c_dkgray, make_color_rgb(30,30,30)];
-            for (var t = 0; t < 4; t++) {
+            var _offsets = [8, 16, 24];
+            var _alphas  = [0.5, 0.3, 0.1];
+            for (var t = 0; t < 3; t++) {
                 var _tx = attack_bar_x + _offsets[t];
-                if (_tx < _tx2 && _tx > _tx1) {
-                    draw_set_color(_cols[t]);
+                if (_tx > _tx1 && _tx < _tx2) {
+                    draw_set_alpha(_alphas[t]);
+                    draw_set_color(c_white);
                     draw_rectangle(_tx - 2, _lane_y - _lane_h, _tx + 2, _lane_y + _lane_h, false);
                 }
             }
+            draw_set_alpha(1);
         }
 
         // Barra principal
@@ -171,18 +267,20 @@ switch (state) {
         draw_rectangle(attack_bar_x - 3, _lane_y - _lane_h - 2,
                        attack_bar_x + 3, _lane_y + _lane_h + 2, false);
 
-        // Dano máximo configurado pela média (exibido acima da trilha)
-        draw_set_color(c_yellow);
-        draw_text(_bx1 + 8, _by1 + 4, "Dano máx: " + string(attack_damage_max));
+        // Dano máximo
+        draw_set_color(make_color_rgb(255, 220, 60));
+        draw_text(_cx1, _box_y1 + 4, "Dano máx: " + string(attack_damage_max));
 
         // Resultado
         if (attack_state == 1) {
             draw_set_halign(fa_center);
-            draw_set_color(attack_damage > 0 ? c_yellow : c_gray);
-            draw_text((_bx1 + _bx2) / 2, _by1 + 20, attack_result_text);
+            var _rc = (attack_damage > 0) ? make_color_rgb(255, 220, 60) : c_gray;
+            draw_set_color(_rc);
+            draw_text((_box_x1 + _box_x2) / 2, _box_y1 + 18, attack_result_text);
             if (attack_damage > 0) {
                 draw_set_color(c_white);
-                draw_text((_bx1 + _bx2) / 2, _by1 + 34, "-" + string(attack_damage) + " HP");
+                draw_text((_box_x1 + _box_x2) / 2, _box_y1 + 30,
+                    "-" + string(attack_damage) + " HP");
             }
             draw_set_halign(fa_left);
         }
@@ -190,16 +288,21 @@ switch (state) {
 
     case BATTLE_STATE.ENEMY_TURN:
         draw_set_color(c_white);
-        draw_text(_bx1 + 10, _by1 + 10, "* " + enemy_name + " ataca!");
+        draw_text_ext(_cx1, _cy1, "* " + enemy_name + " ataca!", 12, _cw);
         break;
 
     case BATTLE_STATE.VICTORY:
-        draw_set_color(c_yellow);
-        draw_text(_bx1 + 10, _by1 + 10, "* Você venceu! Pressione Enter para continuar.");
+        draw_set_color(make_color_rgb(255, 220, 60));
+        draw_text_ext(_cx1, _cy1, "* Você venceu! [Z] para continuar.", 12, _cw);
         break;
 
     case BATTLE_STATE.DEFEAT:
-        draw_set_color(c_red);
-        draw_text(_bx1 + 10, _by1 + 10, "* Você foi derrotado... Pressione Enter para continuar.");
+        draw_set_color(make_color_rgb(255, 80, 80));
+        draw_text_ext(_cx1, _cy1, "* Você foi derrotado... [Z] para continuar.", 12, _cw);
         break;
 }
+
+// Reset
+draw_set_halign(fa_left);
+draw_set_color(c_white);
+draw_set_alpha(1);

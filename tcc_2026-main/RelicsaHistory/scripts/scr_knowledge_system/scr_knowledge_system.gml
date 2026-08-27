@@ -7,6 +7,7 @@
 function register_answer_score(score) {
     array_push(global.knowledge_scores, score);
     global.knowledge_total = array_length(global.knowledge_scores);
+
     var total = 0;
     for (var i = 0; i < global.knowledge_total; i++) {
         total += global.knowledge_scores[i];

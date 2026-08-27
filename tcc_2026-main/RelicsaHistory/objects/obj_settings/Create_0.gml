@@ -78,7 +78,6 @@ global.knowledge_average = 0.0;
 global.knowledge_total   = 0;
 
 // ── DADOS DA BATALHA ATUAL ────────────────────────────────────────
-global.current_enemy_id    = "";
 global.battle_enemy_hp     = 0;
 global.battle_enemy_max_hp = 0;
-global.battle_result       = ""; // "victory" | "defeat" | ""
+global.battle_result       = "";

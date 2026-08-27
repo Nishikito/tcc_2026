@@ -28,3 +28,6 @@ while (place_meeting(x, y, ObjWall) && raio < 128) {
     if (!place_meeting(x, y - raio, ObjWall)) { y -= raio; break; }
     raio += 4;
 }
+
+
+pre_battle_room = rm_teste; // sala padrão de retorno

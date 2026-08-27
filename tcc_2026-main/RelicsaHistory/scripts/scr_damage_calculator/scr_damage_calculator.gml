@@ -5,16 +5,19 @@
 #macro DMG_SCORE_SCALE       0.5
 
 function calculate_player_damage_max(answer_score) {
-    // Retorna o dano máximo possível para configurar a barra
-    var base_max  = DMG_PLAYER_BASE_MAX;
-    var score_bonus = (answer_score / 10.0) * (DMG_PLAYER_BASE_MAX - DMG_PLAYER_BASE_MIN) * DMG_SCORE_SCALE;
+    var base_max    = DMG_PLAYER_BASE_MAX;
+    var score_bonus = (answer_score / 10.0)
+                    * (DMG_PLAYER_BASE_MAX - DMG_PLAYER_BASE_MIN)
+                    * DMG_SCORE_SCALE;
     var knowledge_mod = get_attack_modifier();
     return round((base_max + score_bonus) * knowledge_mod);
 }
 
 function calculate_player_damage(answer_score) {
-    var base = irandom_range(DMG_PLAYER_BASE_MIN, DMG_PLAYER_BASE_MAX);
-    var score_bonus = (answer_score / 10.0) * (DMG_PLAYER_BASE_MAX - DMG_PLAYER_BASE_MIN) * DMG_SCORE_SCALE;
+    var base        = irandom_range(DMG_PLAYER_BASE_MIN, DMG_PLAYER_BASE_MAX);
+    var score_bonus = (answer_score / 10.0)
+                    * (DMG_PLAYER_BASE_MAX - DMG_PLAYER_BASE_MIN)
+                    * DMG_SCORE_SCALE;
     var knowledge_mod = get_attack_modifier();
     return max(1, round((base + score_bonus) * knowledge_mod));
 }
@@ -30,4 +33,8 @@ function apply_damage_to_player(damage) {
 
 function apply_damage_to_enemy(current_hp, damage) {
     return max(0, current_hp - damage);
+}
+
+function apply_heal_to_player(amount) {
+    global.hp = min(global.max_hp, global.hp + amount);
 }

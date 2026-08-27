@@ -143,3 +143,7 @@ new_x = round(new_x);
 new_y = round(new_y);
 
 camera_set_view_pos(cam, new_x, new_y);
+
+
+
+

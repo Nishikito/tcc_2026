@@ -1,4 +1,5 @@
 
+
 if (global.player_knocked_down) {
 
     if (keyboard_check(global.key_right) || keyboard_check(global.key_left) ||

@@ -1,3 +1,9 @@
+// Não executar fora das salas de exploração
+if (room == rm_rh_battle) exit;
+
+// Segurança: só acessa ObjPlayer se ele existir
+if (!instance_exists(ObjPlayer)) exit;
+
 
 if (state == "chasing") {
   
@@ -16,7 +22,7 @@ if (state == "chasing") {
     with (ObjPlayer) {
         pre_battle_x = x;
         pre_battle_y = y;
-        pre_battle_room = room;
+        global.pre_battle_room = room;//talvez precise trocar
     }
     global.current_enemy_id = enemy_id;
     global.dialog_active = true;

@@ -44,9 +44,12 @@ draw_sprite_ext(
 // ══════════════════════════════════════════════════════════════════
 // SUPERIOR ESQUERDO — MÉDIA (equivalente ao TP do Deltarune)
 // ══════════════════════════════════════════════════════════════════
-var _avg_color = (global.knowledge_average > KNOWLEDGE_PASS_THRESHOLD)
-               ? make_color_rgb(255, 220, 60)   // amarelo = bônus
-               : make_color_rgb(255, 80, 80);    // vermelho = penalidade
+var _avg_color;
+if (global.knowledge_average > KNOWLEDGE_PASS_THRESHOLD) {
+    _avg_color = make_color_rgb(255, 220, 60);
+} else {
+    _avg_color = make_color_rgb(255, 80, 80);
+}
 
 draw_set_color(_avg_color);
 draw_text(6, 4, "MED");
@@ -168,40 +171,62 @@ switch (state) {
         break;
 
     case BATTLE_STATE.QUESTION:
-        if (current_question == undefined) break;
+    if (current_question == undefined) break;
 
-        // Enunciado na caixa principal
-        draw_set_color(c_white);
-        draw_text_ext(_cx1, _cy1, current_question.question, 11, _cw);
+    // Expande a caixa para cobrir todo o HUD durante a questão
+    var _qx1 = _box_x1;
+    var _qx2 = _box_x2;
+    var _qy1 = _hud_y + 2;
+    var _qy2 = _gh - 2;
 
-        // Caixa de alternativas abaixo dos botões
-        var _alt_y1 = _box_y2 + 2;
-        var _alt_y2 = _gh - 2;
-        draw_set_color(c_black);
-        draw_rectangle(_box_x1, _alt_y1, _box_x2, _alt_y2, false);
-        draw_set_color(c_white);
-        draw_rectangle(_box_x1, _alt_y1, _box_x2, _alt_y2, true);
+    draw_set_color(c_black);
+    draw_rectangle(_qx1, _qy1, _qx2, _qy2, false);
+    draw_set_color(c_white);
+    draw_rectangle(_qx1, _qy1, _qx2, _qy2, true);
 
-        var _labels = ["A", "B", "C", "D"];
-        for (var i = 0; i < 4; i++) {
-            var _ax = _cx1 + (i >= 2 ? 150 : 0);
-            var _ay = _alt_y1 + 3 + (i % 2) * 16;
-            if (i == selected_option) {
-                draw_set_color(make_color_rgb(255, 220, 60));
-                draw_text(_ax - 10, _ay, "▶");
-            } else {
-                draw_set_color(c_white);
-            }
-            draw_text(_ax, _ay, _labels[i] + ") " + current_question.answers[i].text);
+    var _qcx = _qx1 + 8;
+    var _qcw = (_qx2 - _qx1) - 16;
+
+    // Enunciado — linha separada das alternativas
+    draw_set_color(c_white);
+    draw_text_ext(_qcx, _qy1 + 5, current_question.question, 11, _qcw);
+
+    // Linha separadora
+    var _sep_y = _qy1 + 34;
+    draw_set_color(make_color_rgb(60, 60, 60));
+    draw_rectangle(_qx1 + 4, _sep_y, _qx2 - 4, _sep_y + 1, false);
+
+    // Alternativas — 2 colunas, 2 linhas
+    var _labels = ["A", "B", "C", "D"];
+    var _half_w = (_qcw / 2) - 4;
+
+    for (var i = 0; i < 4; i++) {
+        var _col = (i mod 2);
+        var _row = (i div 2);
+        var _ax  = _qcx + (_col * (_half_w + 8));
+        var _ay  = _sep_y + 6 + (_row * 18);
+
+        if (i == selected_option) {
+            draw_set_color(make_color_rgb(255, 220, 60));
+            draw_text(_ax - 8, _ay, "▶");
+        } else {
+            draw_set_color(c_white);
         }
-        break;
-
+        draw_text_ext(_ax, _ay, _labels[i] + ") " + current_question.answers[i].text, -1, _half_w);
+    }
+    break;
+	
+	
     case BATTLE_STATE.QUESTION_RESULT:
         // Caixa com borda colorida baseada no score
-        var _score_color = (last_answer_score >= 7) ? make_color_rgb(60, 220, 60)
-                         : (last_answer_score >= 4) ? make_color_rgb(255, 220, 60)
-                         :                            make_color_rgb(255, 80, 80);
-
+        var _score_color;
+		if (last_answer_score >= 7) {
+			_score_color = make_color_rgb(60, 220, 60);
+		} else if (last_answer_score >= 4) {
+			_score_color = make_color_rgb(255, 220, 60);
+		} else {
+			_score_color = make_color_rgb(255, 80, 80);
+		}
         draw_set_color(c_black);
         draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
         draw_set_color(_score_color);
@@ -274,7 +299,12 @@ switch (state) {
         // Resultado
         if (attack_state == 1) {
             draw_set_halign(fa_center);
-            var _rc = (attack_damage > 0) ? make_color_rgb(255, 220, 60) : c_gray;
+            var _rc;
+			if (attack_damage > 0) {
+				_rc = make_color_rgb(255, 220, 60);
+			} else {
+				_rc = c_gray;
+			}
             draw_set_color(_rc);
             draw_text((_box_x1 + _box_x2) / 2, _box_y1 + 18, attack_result_text);
             if (attack_damage > 0) {

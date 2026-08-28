@@ -150,29 +150,34 @@ switch (state) {
 
     // ── VITÓRIA ───────────────────────────────────────────────────
     case BATTLE_STATE.VICTORY:
-        if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
-            global.battle_result = "victory";
-            // Marca inimigo como derrotado
-            if (!variable_global_exists("defeated_enemies")) {
-                global.defeated_enemies = [];
-            }
-            var _already = false;
-            for (var i = 0; i < array_length(global.defeated_enemies); i++) {
-                if (global.defeated_enemies[i] == global.current_enemy_id) { _already = true; break; }
-            }
-            if (!_already) array_push(global.defeated_enemies, global.current_enemy_id);
+    if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
+        global.battle_result = "victory";
 
-            // Volta para a sala anterior
-            room_goto(ObjPlayer.pre_battle_room);
+        // Marca inimigo como derrotado
+        if (!variable_global_exists("defeated_enemies")) {
+            global.defeated_enemies = [];
         }
-        break;
+        var _already = false;
+        for (var i = 0; i < array_length(global.defeated_enemies); i++) {
+            if (global.defeated_enemies[i] == global.current_enemy_id) {
+                _already = true;
+                break;
+            }
+        }
+        if (!_already) array_push(global.defeated_enemies, global.current_enemy_id);
 
-    // ── DERROTA ───────────────────────────────────────────────────
-    case BATTLE_STATE.DEFEAT:
-        if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
-            global.battle_result = "defeat";
-            global.hp = global.max_hp; // restaura HP para poder continuar jogando
-            room_goto(ObjPlayer.pre_battle_room);
-        }
-        break;
+        // Volta para a sala — ObjPlayer será recriado por ela
+        room_goto(global.pre_battle_room);
+    }
+    break;
+
+case BATTLE_STATE.DEFEAT:
+    if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
+        global.battle_result  = "defeat";
+        global.pre_battle_hp  = global.max_hp; // restaura HP cheio na derrota
+        // posição é mantida — player reaparece onde estava
+
+        room_goto(global.pre_battle_room);
+    }
+    break;
 }

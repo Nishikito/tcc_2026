@@ -35,13 +35,18 @@ switch(state) {
         }
         break;
         
-    case "caught":
-        caught_timer--;
-        if (caught_timer <= 0) {
-            // Passa os dados do inimigo para a batalha
-			global.battle_enemy_hp     = 50;
-			global.battle_enemy_max_hp = 50;
-			room_goto(rm_rh_battle);
-        }
-        break;
+   case "caught":
+    caught_timer--;
+    if (caught_timer <= 0) {
+        global.pre_battle_room     = room;
+        global.pre_battle_hp       = global.hp;
+        global.pre_battle_x        = ObjPlayer.x;
+        global.pre_battle_y        = ObjPlayer.y;
+        global.current_enemy_id    = "monster_test";
+        global.battle_enemy_hp     = 50;
+        global.battle_enemy_max_hp = 50;
+        with (ObjPlayer) instance_destroy();
+        room_goto(rm_rh_battle);
+    }
+    break;
 }

@@ -81,3 +81,10 @@ global.knowledge_total   = 0;
 global.battle_enemy_hp     = 0;
 global.battle_enemy_max_hp = 0;
 global.battle_result       = "";
+
+
+// provavelmente terei de criar uma variável que salva a sala em que estamos, na coordenada em que estivermos
+global.pre_battle_room = rm_teste; // sala padrão de retorno
+global.pre_battle_hp   = 0;        // ← novo: salva HP antes de destruir o player
+global.pre_battle_x    = 0;        // ← novo: salva posição X para restaurar
+global.pre_battle_y    = 0;        // ← novo: salva posição Y para restaurar

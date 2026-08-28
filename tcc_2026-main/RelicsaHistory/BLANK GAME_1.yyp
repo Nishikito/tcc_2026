@@ -187,6 +187,7 @@
     {"id":{"name":"dlg_darkworld","path":"sprites/dlg_darkworld/dlg_darkworld.yy",},},
     {"id":{"name":"dlg_normal","path":"sprites/dlg_normal/dlg_normal.yy",},},
     {"id":{"name":"spr_buttons","path":"sprites/spr_buttons/spr_buttons.yy",},},
+    {"id":{"name":"spr_char_talai","path":"sprites/spr_char_talai/spr_char_talai.yy",},},
     {"id":{"name":"spr_colonia1","path":"sprites/spr_colonia1/spr_colonia1.yy",},},
     {"id":{"name":"spr_credits","path":"sprites/spr_credits/spr_credits.yy",},},
     {"id":{"name":"spr_fade_intro","path":"sprites/spr_fade_intro/spr_fade_intro.yy",},},

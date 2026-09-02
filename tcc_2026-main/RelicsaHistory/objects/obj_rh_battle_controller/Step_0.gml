@@ -152,6 +152,7 @@ switch (state) {
     case BATTLE_STATE.VICTORY:
     if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
         global.battle_result = "victory";
+		global.dialog_active = false; // ← garante input normal ao voltar
 
         // Marca inimigo como derrotado
         if (!variable_global_exists("defeated_enemies")) {

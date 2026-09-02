@@ -25,5 +25,5 @@ if (state == "chasing") {
         global.pre_battle_room = room;//talvez precise trocar
     }
     global.current_enemy_id = enemy_id;
-    global.dialog_active = true;
+    //global.dialog_active = true;
 }

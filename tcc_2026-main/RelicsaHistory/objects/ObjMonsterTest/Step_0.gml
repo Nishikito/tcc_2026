@@ -1,3 +1,6 @@
+// Não executar se ObjPlayer não existir
+if (!instance_exists(ObjPlayer)) exit;
+
 var dist = point_distance(x, y, ObjPlayer.x, ObjPlayer.y);
 
 switch(state) {

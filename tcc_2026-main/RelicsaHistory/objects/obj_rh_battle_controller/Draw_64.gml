@@ -170,50 +170,66 @@ switch (state) {
         draw_text_ext(_cx1, _cy1, "* " + enemy_name + " bloqueia seu caminho!", 12, _cw);
         break;
 
-    case BATTLE_STATE.QUESTION:
+        case BATTLE_STATE.QUESTION:
     if (current_question == undefined) break;
 
-    // Expande a caixa para cobrir todo o HUD durante a questão
-    var _qx1 = _box_x1;
-    var _qx2 = _box_x2;
-    var _qy1 = _hud_y + 2;
-    var _qy2 = _gh - 2;
+    // Ocupa quase a tela inteira — pergunta precisa de espaço pra respirar
+    var _qx1 = 4;
+    var _qx2 = _gw - 4;
+    var _qy1 = 4;
+    var _qy2 = _gh - 4;
 
     draw_set_color(c_black);
     draw_rectangle(_qx1, _qy1, _qx2, _qy2, false);
     draw_set_color(c_white);
     draw_rectangle(_qx1, _qy1, _qx2, _qy2, true);
 
-    var _qcx = _qx1 + 8;
-    var _qcw = (_qx2 - _qx1) - 16;
+    var _qcx = _qx1 + 10;
+    var _qcw = (_qx2 - _qx1) - 20;
 
-    // Enunciado — linha separada das alternativas
+    // Enunciado — fonte normal, altura calculada dinamicamente
+    draw_set_font(global.font_main);
     draw_set_color(c_white);
-    draw_text_ext(_qcx, _qy1 + 5, current_question.question, 11, _qcw);
+    draw_text_ext(_qcx, _qy1 + 8, current_question.question, 14, _qcw);
+    var _question_h = string_height_ext(current_question.question, 14, _qcw);
 
-    // Linha separadora
-    var _sep_y = _qy1 + 34;
+    // Linha separadora logo abaixo do enunciado
+    var _sep_y = _qy1 + 8 + _question_h + 8;
     draw_set_color(make_color_rgb(60, 60, 60));
-    draw_rectangle(_qx1 + 4, _sep_y, _qx2 - 4, _sep_y + 1, false);
+    draw_rectangle(_qx1 + 6, _sep_y, _qx2 - 6, _sep_y + 1, false);
 
-    // Alternativas — 2 colunas, 2 linhas
-    var _labels = ["A", "B", "C", "D"];
-    var _half_w = (_qcw / 2) - 4;
+    // Alternativas — lista vertical de largura total, altura de cada uma
+    // calculada a partir do próprio texto, sem sobreposição
+    draw_set_font(fnt_question);
+    var _labels    = ["A", "B", "C", "D"];
+    var _ans_x     = _qcx + 14;          // espaço reservado pra seta/destaque
+    var _ans_w     = _qcw - 14;
+    var _ans_sep   = 13;                  // espaço entre linhas quebradas
+    var _ans_gap   = 6;                   // espaço entre uma alternativa e a próxima
+    var _ay        = _sep_y + 10;
 
     for (var i = 0; i < 4; i++) {
-        var _col = (i mod 2);
-        var _row = (i div 2);
-        var _ax  = _qcx + (_col * (_half_w + 8));
-        var _ay  = _sep_y + 6 + (_row * 18);
+        var _text = _labels[i] + ") " + current_question.answers[i].text;
+        var _ah   = string_height_ext(_text, _ans_sep, _ans_w);
 
+        // Destaque de fundo na opção selecionada — mais fácil de enxergar
+        // que só a seta
         if (i == selected_option) {
+            draw_set_alpha(0.25);
             draw_set_color(make_color_rgb(255, 220, 60));
-            draw_text(_ax - 8, _ay, "▶");
+            draw_rectangle(_qcx, _ay - 3, _qx2 - 6, _ay + _ah + 1, false);
+            draw_set_alpha(1);
+            draw_set_color(make_color_rgb(255, 220, 60));
+            draw_text(_qcx, _ay, ">");
         } else {
             draw_set_color(c_white);
         }
-        draw_text_ext(_ax, _ay, _labels[i] + ") " + current_question.answers[i].text, -1, _half_w);
+
+        draw_text_ext(_ans_x, _ay, _text, _ans_sep, _ans_w);
+        _ay += _ah + _ans_gap;
     }
+
+    draw_set_font(global.font_main);
     break;
 	
 	

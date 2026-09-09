@@ -123,8 +123,7 @@ draw_rectangle(_bx, _by, _bx + round(_bar_w * _hp_pct), _by + _bar_h, false);
 // Números de HP
 draw_set_color(c_white);
 draw_set_halign(fa_right);
-draw_text(_bx + _bar_w + 40, _by - 1,
-    string(global.hp) + "/" + string(global.max_hp));
+draw_text(_bx + _bar_w + 40, _by - 1, string(global.hp) + "/" + string(global.max_hp));
 draw_set_halign(fa_left);
 
 // ── CAIXA DE DIÁLOGO / AÇÃO ───────────────────────────────────────

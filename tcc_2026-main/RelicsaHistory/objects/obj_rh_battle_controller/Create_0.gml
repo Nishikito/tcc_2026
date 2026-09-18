@@ -10,7 +10,8 @@ enum BATTLE_STATE {
     ATTACK_MINIGAME,
     ENEMY_TURN,
     VICTORY,
-    DEFEAT
+    DEFEAT,
+    ITEM_MENU
 }
 state = BATTLE_STATE.MENU;
 
@@ -51,4 +52,12 @@ if (enemy_hp <= 0) {
     enemy_max_hp = 50;
 }
 
-
+// ── MENU DE ITENS ─────────────────────────────────────────────────
+// Usa global.inventory_consumables direto: o mesmo array do inventário
+// normal, então gastar aqui já reflete lá (via de mão dupla).
+item_sel          = 0;   // índice do item selecionado na lista
+item_view_top     = 0;   // primeiro item visível (rolagem da lista)
+item_rows_visible = 4;   // quantas linhas cabem no painel
+item_msg          = "";  // mensagem de feedback ("HP já está cheio!" etc)
+item_msg_timer    = 0;   // frames restantes da mensagem
+item_used_name    = "";  // nome do item usado, mostrado no ENEMY_TURN

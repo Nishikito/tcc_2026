@@ -9,8 +9,8 @@
   "name":"obj_rh_battle_bullet",
   "overriddenProperties":[],
   "parent":{
-    "name":"npcs",
-    "path":"folders/Objects/npcs.yy",
+    "name":"projects",
+    "path":"folders/Objects/battle/history/characters/enemies/projects.yy",
   },
   "parentObjectId":null,
   "persistent":false,

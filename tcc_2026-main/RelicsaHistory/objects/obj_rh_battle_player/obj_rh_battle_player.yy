@@ -9,8 +9,8 @@
   "name":"obj_rh_battle_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"npcs",
-    "path":"folders/Objects/npcs.yy",
+    "name":"player",
+    "path":"folders/Objects/battle/history/characters/player.yy",
   },
   "parentObjectId":null,
   "persistent":false,

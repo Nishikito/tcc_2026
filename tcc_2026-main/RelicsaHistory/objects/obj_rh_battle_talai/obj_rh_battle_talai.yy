@@ -10,8 +10,8 @@
   "name":"obj_rh_battle_talai",
   "overriddenProperties":[],
   "parent":{
-    "name":"characters",
-    "path":"folders/Objects/battle/history/characters.yy",
+    "name":"player",
+    "path":"folders/Objects/battle/history/characters/player.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -41,6 +41,7 @@ if (_ctrl.state == BATTLE_STATE.ENEMY_TURN) {
     }
 
 } else if (_ctrl.state == BATTLE_STATE.MENU
+       ||  _ctrl.state == BATTLE_STATE.ITEM_MENU
        ||  _ctrl.state == BATTLE_STATE.VICTORY
        ||  _ctrl.state == BATTLE_STATE.DEFEAT) {
     visible = true;

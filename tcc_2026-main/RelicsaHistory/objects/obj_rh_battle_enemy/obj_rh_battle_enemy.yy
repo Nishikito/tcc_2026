@@ -10,8 +10,8 @@
   "name":"obj_rh_battle_enemy",
   "overriddenProperties":[],
   "parent":{
-    "name":"npcs",
-    "path":"folders/Objects/npcs.yy",
+    "name":"enemies",
+    "path":"folders/Objects/battle/history/characters/enemies.yy",
   },
   "parentObjectId":null,
   "persistent":false,

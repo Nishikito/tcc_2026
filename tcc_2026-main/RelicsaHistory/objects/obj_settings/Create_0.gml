@@ -16,6 +16,7 @@ global.current_enemy_id = "";
 init_carol_cutscene();
 global.paused = false;
 global.carol_dialogo_fim = false;
+global.itens_coletados = []; // itens do cenário já pegos
 
 
 //variaveis do inventário

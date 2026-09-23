@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_item_coleta",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_item_coleta",
+  "parent":{
+    "name":"itens",
+    "path":"folders/Scripts/itens.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

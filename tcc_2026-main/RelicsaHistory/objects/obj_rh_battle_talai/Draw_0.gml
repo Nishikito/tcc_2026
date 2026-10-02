@@ -1,5 +1,5 @@
 // Usa o sprite do ObjPlayer se existir, senão usa placeholder
-var _spr = SprPlayerDown; // sprite padrão do Talai
+var _spr = spr_talaiB_battle; // sprite padrão do Talai
 
 draw_sprite_ext(
     _spr, 0,

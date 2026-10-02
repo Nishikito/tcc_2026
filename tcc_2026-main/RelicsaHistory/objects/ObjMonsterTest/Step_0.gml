@@ -1,6 +1,13 @@
 // Não executar se ObjPlayer não existir
 if (!instance_exists(ObjPlayer)) exit;
 
+// Enquanto há diálogo ativo (caixa de texto, coleta de item, cutscene) ou
+// fade de transição de sala, o monstro fica parado no lugar: não avança
+// estado, não persegue, não conta alert_timer/caught_timer. Ele só volta
+// a fazer qualquer coisa quando o diálogo termina — sem teleporte, porque
+// simplesmente não mexemos em x/y enquanto isso.
+if (global.dialog_active || global.fade_active) exit;
+
 var dist = point_distance(x, y, ObjPlayer.x, ObjPlayer.y);
 
 switch(state) {
@@ -45,7 +52,7 @@ switch(state) {
         global.pre_battle_hp       = global.hp;
         global.pre_battle_x        = ObjPlayer.x;
         global.pre_battle_y        = ObjPlayer.y;
-        global.current_enemy_id    = "monster_test";
+        global.current_enemy_id    = enemy_id; // mesmo ID checado no Create/Collision — ver explicação da Alteração 2
         global.battle_enemy_hp     = 50;
         global.battle_enemy_max_hp = 50;
         with (ObjPlayer) instance_destroy();

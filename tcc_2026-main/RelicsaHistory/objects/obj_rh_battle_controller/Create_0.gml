@@ -11,7 +11,8 @@ enum BATTLE_STATE {
     ENEMY_TURN,
     VICTORY,
     DEFEAT,
-    ITEM_MENU
+    ITEM_MENU,
+    ATTACK_ANIM   // novo: animação visual do ataque (fica no FIM do enum de propósito)
 }
 state = BATTLE_STATE.MENU;
 
@@ -38,6 +39,15 @@ attack_result_text = "";
 attack_timer     = 0;
 attack_damage    = 0;
 attack_damage_max = 0;    // configurado após a questão
+
+// ── ANIMAÇÃO DE ATAQUE (estado ATTACK_ANIM) ───────────────────────
+// Só controla o VISUAL. O dano já foi calculado/aplicado no clique do minigame.
+// Tempos e sprites: ver os #macro ANIM_* em scr_damage_calculator.
+anim_timer        = 0;      // frames desde o início da animação
+anim_swing        = false;  // true = Talai balança o golpe | false = errou por tempo, sem golpe
+anim_hit          = false;  // true = o golpe causou dano (haverá impacto + reação)
+anim_impact_done  = false;  // true depois que o impacto disparou (garante que dispara UMA vez)
+anim_end_frame    = 0;      // frame em que a animação acaba (0 = ainda não definido)
 
 // ── TURNO DO INIMIGO ──────────────────────────────────────────────
 enemy_turn_timer    = 0;

@@ -1,9 +1,22 @@
 yspd = 0;
 xspd = 0;
 
-move_spd    = 1.5;
-sprint_spd  = 2.25;
+// Velocidades ALVO: andando e correndo
 default_spd = 1.5;
+sprint_spd  = 2.25;
+
+// move_spd agora é a velocidade ATUAL (suavizada). Começa em 0 (parado) e
+// sobe/desce até a velocidade alvo. Quem move o player é ela.
+move_spd    = 0;
+
+// Ajustes do "feeling" — mexa aqui:
+spd_accel      = 0.10; // ganho por frame (0 -> andar em ~15 frames, andar -> correr em ~8)
+spd_decel      = 0.45; // perda por frame ao soltar (2.25 -> 0 em ~5 frames). Valor alto = para seco
+run_anim_boost = 0.30; // quanto a animação acelera correndo (1.0 = andando, 1.3 = correndo)
+
+// Última direção pedida: usada para deslizar um pouco ao soltar as teclas
+last_dir_x = 0;
+last_dir_y = 0;
 
 sprite[RIGHT] = SprPlayerRight;
 sprite[UP]    = SprPlayerUp;

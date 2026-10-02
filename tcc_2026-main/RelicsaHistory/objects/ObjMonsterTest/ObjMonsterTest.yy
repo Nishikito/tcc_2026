@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"SprMonsterTest",
-    "path":"sprites/SprMonsterTest/SprMonsterTest.yy",
+    "name":"spr_caravela",
+    "path":"sprites/spr_caravela/spr_caravela.yy",
   },
   "spriteMaskId":null,
   "visible":true,

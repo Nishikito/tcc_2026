@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"SprPlayerDown",
-    "path":"sprites/SprPlayerDown/SprPlayerDown.yy",
+    "name":"spr_talaiB_battle",
+    "path":"sprites/spr_talaiB_battle/spr_talaiB_battle.yy",
   },
   "spriteMaskId":null,
   "visible":true,

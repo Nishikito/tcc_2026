@@ -1,5 +1,6 @@
 
 
+
 if (global.player_knocked_down) {
 
     if (keyboard_check(global.key_right) || keyboard_check(global.key_left) ||
@@ -15,19 +16,35 @@ if (!global.dialog_active && !global.fade_active && !global.math_battle_active) 
     }
 
     right_key = keyboard_check(global.key_right);
-	left_key  = keyboard_check(global.key_left);
-	up_key    = keyboard_check(global.key_up);
-	down_key  = keyboard_check(global.key_down);
-    xspd = (right_key - left_key) * move_spd;
-    yspd = (down_key - up_key) * move_spd;
+    left_key  = keyboard_check(global.key_left);
+    up_key    = keyboard_check(global.key_up);
+    down_key  = keyboard_check(global.key_down);
 
-    if keyboard_check_pressed(global.key_sprint) {
-		move_spd    = sprint_spd;
-		image_speed = 1.3;
-	} else if keyboard_check_released(global.key_sprint) {
-		move_spd    = default_spd;
-		image_speed = 1;
-	}
+    var _in_x = right_key - left_key;
+    var _in_y = down_key - up_key;
+
+    // 1) Velocidade ALVO: parado (0), andando ou correndo.
+    //    Shift é lido a cada frame (antes dependia dos eventos apertou/soltou,
+    //    que se perdiam se o diálogo começasse com Shift pressionado).
+    var _target_spd = 0;
+    if (_in_x != 0 || _in_y != 0) {
+        last_dir_x = _in_x;
+        last_dir_y = _in_y;
+        _target_spd = default_spd;
+        if (keyboard_check(global.key_sprint)) _target_spd = sprint_spd;
+    }
+
+    // 2) Aproxima a velocidade ATUAL da alvo, um degrau por frame.
+    if (move_spd < _target_spd) {
+        move_spd = min(move_spd + spd_accel, _target_spd);
+    } else if (move_spd > _target_spd) {
+        move_spd = max(move_spd - spd_decel, _target_spd);
+    }
+
+    // 3) Direção vem da última tecla pedida, então ao soltar ele desliza
+    //    alguns pixels enquanto move_spd cai a zero (em vez de parar cravado).
+    xspd = last_dir_x * move_spd;
+    yspd = last_dir_y * move_spd;
 
     mask_index = sprite[DOWN];
     if yspd == 0 {
@@ -61,21 +78,30 @@ if (!global.dialog_active && !global.fade_active && !global.math_battle_active) 
     x += xspd;
     y += yspd;
 
+    // Animação acompanha a velocidade REAL: parado = 0, andando = 1,
+    // correndo = 1 + run_anim_boost. Nada de salto brusco de 1 para 1.3.
+    if (move_spd <= default_spd) {
+        image_speed = move_spd / default_spd;
+    } else {
+        image_speed = 1 + run_anim_boost * (move_spd - default_spd) / (sprint_spd - default_spd);
+    }
+
     if xspd == 0 && yspd == 0 {
         image_index = 0;
     }
 }
 else {
-    image_speed = 0;   
+    image_speed = 0;
     image_index = 0;
+    move_spd    = 0; // ao voltar do diálogo, recomeça do zero (sem deslizar)
+    last_dir_x  = 0;
+    last_dir_y  = 0;
 }
 if (global.player_knocked_down) {
     sprite_index = sprite_carol_defeat;
     image_index = 0;
 }
-if (!global.dialog_active && !global.fade_active) {
-    image_speed = 1; 
-}
+// (removido: um 'image_speed = 1' aqui sobrescrevia a velocidade da animação todo frame)
 
 //menu de pausa
 if (keyboard_check_pressed(vk_escape)) {
@@ -144,7 +170,6 @@ new_x = round(new_x);
 new_y = round(new_y);
 
 camera_set_view_pos(cam, new_x, new_y);
-
 
 
 

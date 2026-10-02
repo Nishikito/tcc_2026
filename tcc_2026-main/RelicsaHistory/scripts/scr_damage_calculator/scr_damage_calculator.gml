@@ -1,7 +1,7 @@
 #macro DMG_PLAYER_BASE_MIN  10
 #macro DMG_PLAYER_BASE_MAX  30
-#macro DMG_ENEMY_BASE_MIN    5
-#macro DMG_ENEMY_BASE_MAX   12
+#macro DMG_ENEMY_BASE_MIN    2//alterado para possibildade de um combate mais longevo para o pitch
+#macro DMG_ENEMY_BASE_MAX    6//mesma coisa do acima
 #macro DMG_SCORE_SCALE       0.5
 
 // ── MINIGAME DE ATAQUE ────────────────────────────────────────────

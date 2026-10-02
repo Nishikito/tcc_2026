@@ -18,15 +18,74 @@ switch (state) {
                     state = BATTLE_STATE.QUESTION;
                     break;
 
-                case 1: // ITEM — por ora vai direto para turno do inimigo
-                    state = BATTLE_STATE.ENEMY_TURN;
-                    enemy_turn_timer = enemy_turn_max_time;
+                case 1: // ITEM → abre a lista de consumíveis (não gasta o turno ainda)
+                    item_sel       = 0;
+                    item_view_top  = 0;
+                    item_msg       = "";
+                    item_msg_timer = 0;
+                    state = BATTLE_STATE.ITEM_MENU;
                     break;
 
                 case 2: // DEFENDER — reduz dano recebido neste turno
                     state = BATTLE_STATE.ENEMY_TURN;
                     enemy_turn_timer = enemy_turn_max_time;
                     break;
+            }
+        }
+        break;
+
+    // ── MENU DE ITENS ─────────────────────────────────────────────
+    // Lê global.inventory_consumables (o MESMO array do inventário normal),
+    // então gastar aqui já reflete lá. Usar um item CONSOME o turno.
+    //   Z / Enter → usar   |   X → voltar ao menu (sem gastar turno)
+    case BATTLE_STATE.ITEM_MENU:
+        if (item_msg_timer > 0) item_msg_timer--;
+
+        var _item_count = array_length(global.inventory_consumables);
+
+        // Voltar
+        if (keyboard_check_pressed(ord("X"))) {
+            state = BATTLE_STATE.MENU;
+            break;
+        }
+
+        if (_item_count > 0) {
+            // Navegar
+            if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(global.key_down)) {
+                item_sel = min(item_sel + 1, _item_count - 1);
+            }
+            if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(global.key_up)) {
+                item_sel = max(item_sel - 1, 0);
+            }
+
+            // Rolagem: mantém o item selecionado dentro das linhas visíveis
+            if (item_sel < item_view_top) {
+                item_view_top = item_sel;
+            }
+            if (item_sel >= item_view_top + item_rows_visible) {
+                item_view_top = item_sel - item_rows_visible + 1;
+            }
+
+            // Usar
+            if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
+                var _item_chosen = global.inventory_consumables[item_sel];
+
+                // Não gasta cura com HP cheio (mesma regra do inventário normal,
+                // estendida ao bolo da cantina, que também cura)
+                var _is_heal = (_item_chosen.effect == "effect_erva_cura"
+                             || _item_chosen.effect == "effect_bolo_cantina");
+
+                if (_is_heal && global.hp >= global.max_hp) {
+                    item_msg       = "HP já está cheio!";
+                    item_msg_timer = 90;
+                } else {
+                    item_used_name = _item_chosen.name;
+                    scr_inventory_use(global.inventory_consumables, item_sel);
+
+                    // Usar item gasta o turno → vai para o turno do inimigo
+                    state = BATTLE_STATE.ENEMY_TURN;
+                    enemy_turn_timer = enemy_turn_max_time;
+                }
             }
         }
         break;
@@ -201,6 +260,7 @@ switch (state) {
         enemy_turn_timer--;
         if (enemy_turn_timer <= 0) {
             with (obj_rh_battle_bullet) instance_destroy();
+            item_used_name = ""; // limpa a mensagem do item usado neste turno
             if (global.hp <= 0) {
                 state = BATTLE_STATE.DEFEAT;
             } else {
@@ -244,3 +304,4 @@ case BATTLE_STATE.DEFEAT:
     }
     break;
 }
+

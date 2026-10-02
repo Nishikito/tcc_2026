@@ -369,9 +369,93 @@ switch (state) {
         }
         break;
 
+    // ── MENU DE ITENS (painel grande, igual ao da QUESTION) ───────
+    case BATTLE_STATE.ITEM_MENU:
+        var _ix1 = 4;
+        var _ix2 = _gw - 4;
+        var _iy1 = 4;
+        var _iy2 = _gh - 4;
+
+        draw_set_color(c_black);
+        draw_rectangle(_ix1, _iy1, _ix2, _iy2, false);
+        draw_set_color(c_white);
+        draw_rectangle(_ix1, _iy1, _ix2, _iy2, true);
+
+        draw_set_font(global.font_main);
+
+        // Cabeçalho: título + HP atual (útil pra decidir se vale curar)
+        draw_set_color(c_white);
+        draw_text(_ix1 + 10, _iy1 + 8, "ITENS");
+        draw_set_halign(fa_right);
+        draw_text(_ix2 - 10, _iy1 + 8, "HP " + string(global.hp) + "/" + string(global.max_hp));
+        draw_set_halign(fa_left);
+
+        var _list_y  = _iy1 + 30;
+        var _row_h   = 18;
+        var _n_items = array_length(global.inventory_consumables);
+
+        if (_n_items == 0) {
+            draw_set_color(make_color_rgb(160, 160, 160));
+            draw_text(_ix1 + 10, _list_y, "(sem consumíveis)");
+        } else {
+            var _last_row = min(_n_items, item_view_top + item_rows_visible);
+            for (var _item_r = item_view_top; _item_r < _last_row; _item_r++) {
+                var _it  = global.inventory_consumables[_item_r];
+                var _ry  = _list_y + (_item_r - item_view_top) * _row_h;
+
+                if (_item_r == item_sel) {
+                    draw_set_alpha(0.25);
+                    draw_set_color(make_color_rgb(255, 220, 60));
+                    draw_rectangle(_ix1 + 6, _ry - 3, _ix2 - 6, _ry + _row_h - 5, false);
+                    draw_set_alpha(1);
+                    draw_set_color(make_color_rgb(255, 220, 60));
+                    draw_text(_ix1 + 10, _ry, ">");
+                } else {
+                    draw_set_color(c_white);
+                }
+                draw_text(_ix1 + 24, _ry, _it.name);
+                draw_set_halign(fa_right);
+                draw_text(_ix2 - 14, _ry, "x" + string(_it.qty));
+                draw_set_halign(fa_left);
+            }
+
+            // Setas de rolagem (só aparecem se tem mais itens fora da janela)
+            draw_set_color(c_white);
+            if (item_view_top > 0) {
+                draw_text(_ix2 - 8, _list_y, "^");
+            }
+            if (item_view_top + item_rows_visible < _n_items) {
+                draw_text(_ix2 - 8, _list_y + (item_rows_visible - 1) * _row_h, "v");
+            }
+
+            // Descrição do item selecionado
+            var _desc_y = _list_y + item_rows_visible * _row_h + 8;
+            draw_set_color(make_color_rgb(60, 60, 60));
+            draw_rectangle(_ix1 + 6, _desc_y - 4, _ix2 - 6, _desc_y - 3, false);
+            draw_set_color(make_color_rgb(200, 200, 200));
+            draw_text_ext(_ix1 + 10, _desc_y,
+                global.inventory_consumables[item_sel].description,
+                12, (_ix2 - _ix1) - 20);
+        }
+
+        // Mensagem de feedback ("HP já está cheio!")
+        if (item_msg_timer > 0) {
+            draw_set_color(make_color_rgb(255, 220, 60));
+            draw_text(_ix1 + 10, _iy2 - 34, item_msg);
+        }
+
+        // Rodapé com os controles
+        draw_set_color(make_color_rgb(160, 160, 160));
+        draw_text(_ix1 + 10, _iy2 - 18, "[Z] Usar   [X] Voltar");
+        break;
+
     case BATTLE_STATE.ENEMY_TURN:
         draw_set_color(c_white);
-        draw_text_ext(_cx1, _cy1, "* " + enemy_name + " ataca!", 12, _cw);
+        if (item_used_name != "") {
+            draw_text_ext(_cx1, _cy1, "* Você usou " + item_used_name + "!", 12, _cw);
+        } else {
+            draw_text_ext(_cx1, _cy1, "* " + enemy_name + " ataca!", 12, _cw);
+        }
         break;
 
     case BATTLE_STATE.VICTORY:

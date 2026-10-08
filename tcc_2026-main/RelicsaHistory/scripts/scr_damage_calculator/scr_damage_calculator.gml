@@ -4,6 +4,13 @@
 #macro DMG_ENEMY_BASE_MAX    6//mesma coisa do acima
 #macro DMG_SCORE_SCALE       0.5
 
+// ── DEFENDER ──────────────────────────────────────────────────────
+// Redução BASE de dano ao escolher DEFENDER (0.40 = 40%). Na prática ela é
+// multiplicada por get_attack_modifier() (1.3 ou 0.7), igual ao dano do jogador:
+//   média > 5  → 0.40 * 1.3 = 52% de redução  (fator 0.48)
+//   média <= 5 → 0.40 * 0.7 = 28% de redução  (fator 0.72)
+#macro DEFEND_REDUCTION      0.40
+
 // ── MINIGAME DE ATAQUE ────────────────────────────────────────────
 // Velocidade da barra em pixels por frame. FIXA: não muda durante a partida.
 // (antes: 7 no Create e 9 no QUESTION_RESULT, o do Create nunca era usado)
@@ -35,9 +42,52 @@ function calculate_player_damage(answer_score) {
     return max(1, round((base + score_bonus) * knowledge_mod));
 }
 
+// Fator de dano recebido ao DEFENDER (0.48 com média alta, 0.72 com média baixa).
+// Reaproveita get_attack_modifier(): UMA fonte para "o quanto a média pesa".
+function get_defend_factor() {
+    return 1 - DEFEND_REDUCTION * get_attack_modifier();
+}
+
+// Dano de UMA bala no jogador. Os fatores se EMPILHAM (multiplicam):
+//   dano = sorteio(dmg_min..dmg_max) × modificador passivo (0.85 / 1.15)
+//                                    × fator de DEFENDER (só se estiver defendendo)
 function calculate_enemy_damage() {
-    var base = irandom_range(DMG_ENEMY_BASE_MIN, DMG_ENEMY_BASE_MAX);
-    return max(1, round(base * get_defense_modifier()));
+    var _d    = get_rh_enemy_data(global.current_enemy_id);
+    var _base = irandom_range(_d.dmg_min, _d.dmg_max);
+    var _mult = get_defense_modifier();
+
+    if (instance_exists(obj_rh_battle_controller) && obj_rh_battle_controller.is_defending) {
+        _mult *= get_defend_factor();
+    }
+    return max(1, round(_base * _mult));
+}
+
+// ── DADOS POR INIMIGO (batalha RH) ────────────────────────────────
+// Um lugar só para o balanceamento de cada inimigo. Para criar um novo:
+// copie um bloco "case", troque o ID (o mesmo do enemy_id do objeto do mapa)
+// e ajuste os números. IDs não listados caem no "default".
+// (O get_enemy_data do scr_enemy_data é do sistema ANTIGO de matemática.)
+function get_rh_enemy_data(enemy_id) {
+    switch (enemy_id) {
+        case "MathMonster":
+            return {
+                name:         "Inimigo",
+                max_hp:       50,
+                dmg_min:      DMG_ENEMY_BASE_MIN,   // dano por bala (antes da defesa)
+                dmg_max:      DMG_ENEMY_BASE_MAX,
+                cadence:      40,                   // frames entre tiros (mais baixo = mais tiros)
+                bullet_speed: 2.5                   // pixels por frame
+            };
+        default:
+            return {
+                name:         "Inimigo",
+                max_hp:       50,
+                dmg_min:      DMG_ENEMY_BASE_MIN,
+                dmg_max:      DMG_ENEMY_BASE_MAX,
+                cadence:      40,
+                bullet_speed: 2.5
+            };
+    }
 }
 
 function apply_damage_to_player(damage) {
@@ -100,4 +150,3 @@ function apply_heal_to_player(amount) {
 #macro ANIM_TALAI_ATTACK_SPRITE_SPEED  0.5
 #macro ANIM_ATTACK_FX_SPRITE_SPEED     0.5
 #macro ANIM_ENEMY_HIT_SPRITE_SPEED     0.5
-

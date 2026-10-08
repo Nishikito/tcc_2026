@@ -1,3 +1,4 @@
+
 // Não executar se ObjPlayer não existir
 if (!instance_exists(ObjPlayer)) exit;
 
@@ -53,10 +54,13 @@ switch(state) {
         global.pre_battle_x        = ObjPlayer.x;
         global.pre_battle_y        = ObjPlayer.y;
         global.current_enemy_id    = enemy_id; // mesmo ID checado no Create/Collision — ver explicação da Alteração 2
-        global.battle_enemy_hp     = 50;
-        global.battle_enemy_max_hp = 50;
+        var _edata = get_rh_enemy_data(enemy_id);
+        global.battle_enemy_hp     = _edata.max_hp;
+        global.battle_enemy_max_hp = _edata.max_hp;
         with (ObjPlayer) instance_destroy();
         room_goto(rm_rh_battle);
     }
     break;
 }
+
+

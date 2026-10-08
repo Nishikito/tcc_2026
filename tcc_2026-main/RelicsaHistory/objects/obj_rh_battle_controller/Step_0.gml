@@ -27,6 +27,7 @@ switch (state) {
                     break;
 
                 case 2: // DEFENDER — reduz dano recebido neste turno
+                    is_defending = true;
                     state = BATTLE_STATE.ENEMY_TURN;
                     enemy_turn_timer = enemy_turn_max_time;
                     break;
@@ -258,9 +259,21 @@ switch (state) {
     // ── TURNO DO INIMIGO ──────────────────────────────────────────
     case BATTLE_STATE.ENEMY_TURN:
         enemy_turn_timer--;
+
+        // Morte imediata: HP chegou a 0 durante o turno → não espera o timer.
+        // (o coração só se mexe no ENEMY_TURN, então sair do estado já o congela)
+        if (global.hp <= 0) {
+            with (obj_rh_battle_bullet) instance_destroy();
+            item_used_name = "";
+            is_defending   = false;
+            state = BATTLE_STATE.DEFEAT;
+            break;
+        }
+
         if (enemy_turn_timer <= 0) {
             with (obj_rh_battle_bullet) instance_destroy();
             item_used_name = ""; // limpa a mensagem do item usado neste turno
+            is_defending   = false; // a defesa vale só para ESTE turno
             if (global.hp <= 0) {
                 state = BATTLE_STATE.DEFEAT;
             } else {
@@ -304,4 +317,5 @@ case BATTLE_STATE.DEFEAT:
     }
     break;
 }
+
 

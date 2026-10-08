@@ -31,14 +31,13 @@ if (_ctrl.state == BATTLE_STATE.ENEMY_TURN) {
         y += _yspd;
     }
 
-    // Dano das balas
-    if (place_meeting(x, y, obj_rh_battle_bullet)) {
-        var _dmg = calculate_enemy_damage();
-        apply_damage_to_player(_dmg);
-        with (obj_rh_battle_bullet) {
-            if (place_meeting(other.x, other.y, id)) instance_destroy();
-        }
-    }
+    // Dano das balas — UMA colisão = UM dano.
+	var _b = instance_place(x, y, obj_rh_battle_bullet);
+	if (_b != noone) {
+		var _dmg = calculate_enemy_damage();   // sorteado UMA vez por bala
+		apply_damage_to_player(_dmg);
+		with (_b) instance_destroy();          // consome só a bala que acertou
+	}
 
 } else if (_ctrl.state == BATTLE_STATE.MENU
        ||  _ctrl.state == BATTLE_STATE.ITEM_MENU

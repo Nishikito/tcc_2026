@@ -453,6 +453,8 @@ switch (state) {
         draw_set_color(c_white);
         if (item_used_name != "") {
             draw_text_ext(_cx1, _cy1, "* Você usou " + item_used_name + "!", 12, _cw);
+        } else if (is_defending) {
+            draw_text_ext(_cx1, _cy1, "* Você se defende! " + enemy_name + " ataca!", 12, _cw);
         } else {
             draw_text_ext(_cx1, _cy1, "* " + enemy_name + " ataca!", 12, _cw);
         }

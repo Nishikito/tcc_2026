@@ -53,6 +53,11 @@ anim_end_frame    = 0;      // frame em que a animação acaba (0 = ainda não d
 enemy_turn_timer    = 0;
 enemy_turn_max_time = 300;
 
+// ── DEFENDER ──────────────────────────────────────────────────────
+// true só durante o turno do inimigo logo após escolher DEFENDER.
+// Quem LÊ: calculate_enemy_damage() (scr_damage_calculator). Quem DESLIGA: o Step, no fim do turno.
+is_defending = false;
+
 // ── INIMIGO ───────────────────────────────────────────────────────
 enemy_name = "Inimigo";
 enemy_hp   = global.battle_enemy_hp;

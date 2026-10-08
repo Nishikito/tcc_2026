@@ -9,7 +9,7 @@ function scr_dialogo_item(_text_id) {
                 "consumable",
                 "erva_medicinal",
                 "Erva Medicinal",
-                "Restaura 3 pontos de vida. Nao ultrapassa o maximo.",
+                "Restaura 6 pontos de vida. Nao ultrapassa o maximo.",
                 noone,
                 1,
                 "effect_erva_cura"
@@ -26,7 +26,7 @@ function scr_dialogo_item(_text_id) {
                 "consumable",
                 "bolo_cantina",
                 "Bolo da Cantina",
-                "Restaura 5 pontos de vida. Meio duro, mas resolve.",
+                "Restaura 10 pontos de vida. Meio duro, mas resolve.",
                 noone,
                 1,
                 "effect_bolo_cantina"

@@ -53,6 +53,11 @@ anim_end_frame    = 0;      // frame em que a animação acaba (0 = ainda não d
 enemy_turn_timer    = 0;
 enemy_turn_max_time = 300;
 
+// ── TALAI ATINGIDO ────────────────────────────────────────────────
+// Frames restantes mostrando o sprite de dano. Quem LIGA: obj_rh_battle_player (ao levar bala).
+// Quem DESCONTA: o Step deste objeto. Quem DESENHA: o Draw_64.
+talai_hit_timer = 0;
+
 // ── DEFENDER ──────────────────────────────────────────────────────
 // true só durante o turno do inimigo logo após escolher DEFENDER.
 // Quem LÊ: calculate_enemy_damage() (scr_damage_calculator). Quem DESLIGA: o Step, no fim do turno.
@@ -76,3 +81,4 @@ item_rows_visible = 4;   // quantas linhas cabem no painel
 item_msg          = "";  // mensagem de feedback ("HP já está cheio!" etc)
 item_msg_timer    = 0;   // frames restantes da mensagem
 item_used_name    = "";  // nome do item usado, mostrado no ENEMY_TURN
+

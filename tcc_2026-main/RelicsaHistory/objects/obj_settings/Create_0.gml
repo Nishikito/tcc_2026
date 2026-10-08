@@ -12,27 +12,38 @@ global.player_lives = 3;
 global.max_lives = 3;
 global.previous_room = -1; 
 global.carol_end = true
-global.current_enemy_id = "";
+// ── PONTE EXPLORAÇÃO ↔ BATALHA ────────────────────────────────────
+// obj_settings é persistente E está colocado em várias salas (title, teste, batalha),
+// então ele é recriado a cada troca de sala e este Create roda DE NOVO.
+// Estas variáveis precisam SOBREVIVER à troca de sala, por isso só são
+// inicializadas se ainda não existirem.
+if (!variable_global_exists("current_enemy_id")) global.current_enemy_id = "";
 init_carol_cutscene();
 global.paused = false;
 global.carol_dialogo_fim = false;
-global.itens_coletados = []; // itens do cenário já pegos
+// ── PROGRESSO DO JOGO ─────────────────────────────────────────────
+// Este Create roda de novo a cada troca de sala (obj_settings é persistente e está
+// colocado em várias salas). Tudo que é PROGRESSO só inicializa UMA vez; o reinício
+// de verdade acontece no botão NOVO JOGO (obj_buttons).
+if (!variable_global_exists("itens_coletados")) global.itens_coletados = []; // itens do cenário já pegos
 
 
 //variaveis do inventário
 
 //status do personagem
 global.player_name = "Talai";
-global.hp = 10;
-global.max_hp = 10;
-global.history_knowledge = 0; // 0 a 100 — progresso histórico
-global.relics_count = 0; // atualizado automaticamente pelo scr_inventory_add
+// HP só inicializa UMA vez: este Create roda de novo a cada troca de sala (veja a nota
+// da ponte exploração↔batalha) e o HP não pode voltar a 20 sozinho.
+if (!variable_global_exists("max_hp")) global.max_hp = 20;
+if (!variable_global_exists("hp"))     global.hp     = global.max_hp;
+if (!variable_global_exists("history_knowledge")) global.history_knowledge = 0; // 0 a 100 — progresso histórico
+if (!variable_global_exists("relics_count"))      global.relics_count = 0;      // atualizado automaticamente pelo scr_inventory_add
 
 //arrays de inventário
-global.inventory_relics = []; // relíquias colecionáveis
-global.inventory_mission = []; // itens de missão / chave
-global.inventory_docs = []; // documentos e lore desbloqueado
-global.inventory_consumables = []; // consumíveis (cura, buff)
+if (!variable_global_exists("inventory_relics"))      global.inventory_relics      = []; // relíquias colecionáveis
+if (!variable_global_exists("inventory_mission"))     global.inventory_mission     = []; // itens de missão / chave
+if (!variable_global_exists("inventory_docs"))        global.inventory_docs        = []; // documentos e lore desbloqueado
+if (!variable_global_exists("inventory_consumables")) global.inventory_consumables = []; // consumíveis (cura, buff)
 
 
 
@@ -74,18 +85,18 @@ global.key_inventory = ord("I");
 
 
 // ── SISTEMA DE CONHECIMENTO ───────────────────────────────────────
-global.knowledge_scores  = [];
-global.knowledge_average = 0.0;
-global.knowledge_total   = 0;
+if (!variable_global_exists("knowledge_scores"))  global.knowledge_scores  = [];
+if (!variable_global_exists("knowledge_average")) global.knowledge_average = 0.0;
+if (!variable_global_exists("knowledge_total"))   global.knowledge_total   = 0;
 
 // ── DADOS DA BATALHA ATUAL ────────────────────────────────────────
-global.battle_enemy_hp     = 0;
-global.battle_enemy_max_hp = 0;
-global.battle_result       = "";
+if (!variable_global_exists("battle_enemy_hp"))     global.battle_enemy_hp     = 0;
+if (!variable_global_exists("battle_enemy_max_hp")) global.battle_enemy_max_hp = 0;
+if (!variable_global_exists("battle_result"))       global.battle_result       = "";
 
 
 // provavelmente terei de criar uma variável que salva a sala em que estamos, na coordenada em que estivermos
-global.pre_battle_room = rm_teste; // sala padrão de retorno
-global.pre_battle_hp   = 0;        // ← novo: salva HP antes de destruir o player
-global.pre_battle_x    = 0;        // ← novo: salva posição X para restaurar
-global.pre_battle_y    = 0;        // ← novo: salva posição Y para restaurar
+if (!variable_global_exists("pre_battle_room")) global.pre_battle_room = rm_teste; // sala padrão de retorno
+if (!variable_global_exists("pre_battle_hp"))   global.pre_battle_hp   = 0;        // salva HP antes de destruir o player
+if (!variable_global_exists("pre_battle_x"))    global.pre_battle_x    = 0;        // salva posição X para restaurar
+if (!variable_global_exists("pre_battle_y"))    global.pre_battle_y    = 0;        // salva posição Y para restaurar

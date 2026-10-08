@@ -1,3 +1,10 @@
+/// item_is_heal(effect)
+/// true se o efeito é de CURA. Cura não deve ser gasta com HP cheio.
+/// Ao criar um novo item de cura, adicione o nome do efeito AQUI (único lugar).
+function item_is_heal(_effect) {
+    return (_effect == "effect_erva_cura" || _effect == "effect_bolo_cantina");
+}
+
 /// scr_inventory_use(array, index)
 /// Executa o efeito do item e decrementa a quantidade.
 /// Se qty chegar a 0, remove do array.
@@ -13,3 +20,5 @@ function scr_inventory_use(_array, _index) {
         array_delete(_array, _index, 1);
     }
 }
+
+

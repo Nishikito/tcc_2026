@@ -64,6 +64,18 @@ if (state == BATTLE_STATE.ATTACK_MINIGAME) {
     _talai_dy = 2;       // recua ao defender
 }
 
+// Talai atingido por uma bala: sprite de dano + tremidinha lateral
+// (tem prioridade sobre as outras poses; o hit só acontece no ENEMY_TURN)
+if (talai_hit_timer > 0) {
+    _talai_spr = ANIM_SLOT_TALAI_HIT_SPRITE;
+    _talai_img = 0;
+    if ((talai_hit_timer div 3) mod 2 == 0) {
+        _talai_dx = -ANIM_TALAI_HIT_SHAKE_PIXELS;
+    } else {
+        _talai_dx =  ANIM_TALAI_HIT_SHAKE_PIXELS;
+    }
+}
+
 draw_sprite_ext(
     _talai_spr, _talai_img,
     _talai_x + _talai_dx, _talai_y + _talai_dy,

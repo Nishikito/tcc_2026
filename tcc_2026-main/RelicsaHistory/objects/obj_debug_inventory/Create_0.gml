@@ -14,7 +14,7 @@ for (var i = 0; i < array_length(global.inventory_consumables); i++) {
 if (!_ja_tem_erva) {
     scr_inventory_add(
         "consumable", "erva_medicinal", "Erva Medicinal",
-        "Restaura 3 pontos de vida. Nao ultrapassa o maximo.",
+        "Restaura 6 pontos de vida. Nao ultrapassa o maximo.",
         noone, 3, "effect_erva_cura"
     );
 }

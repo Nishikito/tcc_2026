@@ -148,5 +148,24 @@ function apply_heal_to_player(amount) {
 #macro ANIM_SLOT_ENEMY_HIT_SPRITE      spr_caravela//provisorio   // inimigo tomando dano (substitui spr_rh_battle_enemy)
 
 #macro ANIM_TALAI_ATTACK_SPRITE_SPEED  0.5
+
+// ── TALAI ATINGIDO (por bala do inimigo) ──────────────────────────
+#macro ANIM_TALAI_HIT_DURATION        24   // frames mostrando o sprite de dano. MAIOR = fica mais tempo
+#macro ANIM_TALAI_HIT_SHAKE_PIXELS     2   // amplitude da tremidinha (px). 0 = sem tremer
+#macro ANIM_SLOT_TALAI_HIT_SPRITE     spr_talaiB_damage   // Talai tomando dano
 #macro ANIM_ATTACK_FX_SPRITE_SPEED     0.5
 #macro ANIM_ENEMY_HIT_SPRITE_SPEED     0.5
+
+
+// ══════════════════════════════════════════════════════════════════
+// BATTLE BOX — abertura/fechamento (obj_rh_battle_box)
+// ──────────────────────────────────────────────────────────────────
+// A caixa abre durante o ENEMY_TURN e fecha nos outros estados.
+// O coração e os tiros do inimigo só funcionam com ela 100% aberta.
+// ══════════════════════════════════════════════════════════════════
+#macro BOX_ANIM_FRAMES     26        // frames para abrir (e para fechar). MENOR = mais rápida
+#macro BOX_SPIN_DEGREES   360        // graus que ela gira enquanto abre (0 = não gira)
+#macro BOX_TRAIL_COUNT      4        // cópias do rastro (0 = sem rastro)
+#macro BOX_TRAIL_ALPHA    0.4        // transparência da cópia mais próxima da caixa
+#macro BOX_BORDER_PIXELS    1        // espessura da borda do sprite: o coração fica DENTRO dela
+#macro BOX_TINT       c_white        // cor multiplicada sobre o sprite (c_white = cor original)

@@ -1,3 +1,5 @@
+if (talai_hit_timer > 0) talai_hit_timer--;
+
 switch (state) {
 
     // ── MENU ──────────────────────────────────────────────────────
@@ -73,10 +75,7 @@ switch (state) {
 
                 // Não gasta cura com HP cheio (mesma regra do inventário normal,
                 // estendida ao bolo da cantina, que também cura)
-                var _is_heal = (_item_chosen.effect == "effect_erva_cura"
-                             || _item_chosen.effect == "effect_bolo_cantina");
-
-                if (_is_heal && global.hp >= global.max_hp) {
+                if (item_is_heal(_item_chosen.effect) && global.hp >= global.max_hp) {
                     item_msg       = "HP já está cheio!";
                     item_msg_timer = 90;
                 } else {
@@ -258,7 +257,11 @@ switch (state) {
 
     // ── TURNO DO INIMIGO ──────────────────────────────────────────
     case BATTLE_STATE.ENEMY_TURN:
-        enemy_turn_timer--;
+        // O tempo do turno só corre com a Battle Box 100% aberta: a animação de
+        // abertura não "come" o tempo de jogo do jogador.
+        if (!instance_exists(obj_rh_battle_box) || obj_rh_battle_box.is_open) {
+            enemy_turn_timer--;
+        }
 
         // Morte imediata: HP chegou a 0 durante o turno → não espera o timer.
         // (o coração só se mexe no ENEMY_TURN, então sair do estado já o congela)
@@ -289,6 +292,10 @@ switch (state) {
         global.battle_result = "victory";
 		global.dialog_active = false; // ← garante input normal ao voltar
 
+        // O HP com que o Talai terminou a batalha É o HP que ele mantém.
+        // pre_battle_hp = 0 desliga a restauração do HP "de antes da batalha" no ObjPlayer.
+        global.pre_battle_hp = 0;
+
         // Marca inimigo como derrotado
         if (!variable_global_exists("defeated_enemies")) {
             global.defeated_enemies = [];
@@ -317,5 +324,3 @@ case BATTLE_STATE.DEFEAT:
     }
     break;
 }
-
-

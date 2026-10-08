@@ -1,4 +1,3 @@
-
 // Não executar se ObjPlayer não existir
 if (!instance_exists(ObjPlayer)) exit;
 
@@ -62,5 +61,3 @@ switch(state) {
     }
     break;
 }
-
-

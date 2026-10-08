@@ -1,4 +1,12 @@
-if (!instance_exists(obj_rh_battle_controller)) exit;
+
+if (!instance_exists(obj_rh_battle_controller) || !instance_exists(obj_rh_battle_box)) exit;
+
+// Fora do turno do inimigo, ou com a caixa ainda abrindo: só espera e olha de novo.
+if (obj_rh_battle_controller.state != BATTLE_STATE.ENEMY_TURN || !obj_rh_battle_box.is_open) {
+    alarm[0] = 10;
+    exit;
+}
+
 if (obj_rh_battle_controller.state == BATTLE_STATE.ENEMY_TURN
 &&  instance_exists(obj_rh_battle_player)) {
 

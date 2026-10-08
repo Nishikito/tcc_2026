@@ -24,7 +24,7 @@ if (_len > 0) {
         var _item = global.inventory_consumables[_sel];
  
         // Bloqueia uso de cura com HP cheio
-        if (_item.effect == "effect_erva_cura" && global.hp >= global.max_hp) {
+        if (item_is_heal(_item.effect) && global.hp >= global.max_hp) {
             // Futuramente: mostrar mensagem "HP já está cheio!"
         } else {
             scr_inventory_use(global.inventory_consumables, _sel);

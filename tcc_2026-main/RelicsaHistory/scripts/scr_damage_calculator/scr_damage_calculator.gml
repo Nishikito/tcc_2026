@@ -113,9 +113,11 @@ function apply_heal_to_player(amount) {
 // ══════════════════════════════════════════════════════════════════
 
 // ── Fase 1: Talai ataca (do clique até o IMPACTO) ─────────────────
-#macro ANIM_ATTACK_DURATION          20   // frames até o impacto. MAIOR = ataque mais lento
-#macro ANIM_TALAI_WINDUP_PIXELS       8   // quanto o Talai recua antes de avançar
-#macro ANIM_TALAI_LUNGE_PIXELS      120   // quanto o Talai avança até o inimigo
+#macro ANIM_ATTACK_WINDUP_FRAMES     10   // frames "preparando" (Talai recua) antes de soltar o orbe
+#macro ANIM_PROJECTILE_TRAVEL_FRAMES 14   // frames do orbe viajando até o inimigo. MAIOR = orbe mais lento
+#macro ANIM_ATTACK_DURATION          (ANIM_ATTACK_WINDUP_FRAMES + ANIM_PROJECTILE_TRAVEL_FRAMES)   // até o IMPACTO (calculado, não edite)
+#macro ANIM_ATTACK_POSE_HOLD_FRAMES  18   // frames que o Talai segura a pose de ataque (livro) depois de soltar o orbe
+#macro ANIM_TALAI_WINDUP_PIXELS       8   // quanto o Talai recua ao preparar o ataque
 #macro ANIM_TALAI_RETURN_FRAMES      12   // frames que o Talai leva para voltar à posição
 
 // ── Fase 2: impacto e reação do inimigo ───────────────────────────
@@ -132,6 +134,12 @@ function apply_heal_to_player(amount) {
 // ── Errou ─────────────────────────────────────────────────────────
 #macro ANIM_MISS_HOLD_DURATION       40   // tempo parado mostrando "ERROU" antes de seguir
 
+// ── Projétil do Talai (orbe que sai do livro) ─────────────────────
+#macro ANIM_PROJECTILE_SCALE         1.5  // tamanho do orbe (o Talai é desenhado em 1.5)
+#macro ANIM_PROJECTILE_BOOK_OFFSET_X  54  // onde o orbe nasce, contado a partir do Talai (ponta do livro)
+#macro ANIM_PROJECTILE_BOOK_OFFSET_Y  25  //   (36 x 16.5 do sprite de ataque, vezes 1.5)
+#macro ANIM_PROJECTILE_FLIES_ON_MISS true // true = se ERRAR, o orbe passa direto pelo inimigo | false = não sai
+
 // ══════════════════════════════════════════════════════════════════
 // SLOTS DE SPRITE — PREENCHER QUANDO O ARTISTA ENTREGAR
 // ──────────────────────────────────────────────────────────────────
@@ -144,6 +152,7 @@ function apply_heal_to_player(amount) {
 // (0.5 = troca de imagem a cada 2 frames do jogo; 1 = a cada frame).
 // ══════════════════════════════════════════════════════════════════
 #macro ANIM_SLOT_TALAI_ATTACK_SPRITE   spr_talaiB_attack   // Talai atacando (substitui SprPlayerDown no golpe)
+#macro ANIM_SLOT_PROJECTILE_SPRITE     spr_talaiB_projectle   // orbe lançado pelo livro (aponta para a DIREITA)
 #macro ANIM_SLOT_ATTACK_FX_SPRITE      noone   // efeito de corte/impacto sobre o inimigo
 #macro ANIM_SLOT_ENEMY_HIT_SPRITE      spr_caravela//provisorio   // inimigo tomando dano (substitui spr_rh_battle_enemy)
 

@@ -202,6 +202,7 @@
     {"id":{"name":"spr_credits","path":"sprites/spr_credits/spr_credits.yy",},},
     {"id":{"name":"spr_fade_intro","path":"sprites/spr_fade_intro/spr_fade_intro.yy",},},
     {"id":{"name":"spr_fade","path":"sprites/spr_fade/spr_fade.yy",},},
+    {"id":{"name":"spr_font_rh","path":"sprites/spr_font_rh/spr_font_rh.yy",},},
     {"id":{"name":"spr_heart_cursor","path":"sprites/spr_heart_cursor/spr_heart_cursor.yy",},},
     {"id":{"name":"spr_interact","path":"sprites/spr_interact/spr_interact.yy",},},
     {"id":{"name":"spr_main_font","path":"sprites/spr_main_font/spr_main_font.yy",},},

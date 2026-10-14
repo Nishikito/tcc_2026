@@ -215,7 +215,9 @@ switch (state) {
     // ── ANIMAÇÃO DE ATAQUE ────────────────────────────────────────
     // Nenhuma entrada do jogador é lida aqui: é isso que bloqueia
     // novas ações. NENHUM dano é calculado aqui: só tempo e visual.
-    //   frame 0 .. ANIM_ATTACK_DURATION        → Talai ataca
+    //   frame 0 .. ANIM_ATTACK_WINDUP_FRAMES   → Talai prepara (recua)
+    //   frame ANIM_ATTACK_WINDUP_FRAMES        → orbe sai do livro e VIAJA
+    //   até ANIM_ATTACK_DURATION               → orbe chega ao inimigo
     //   frame ANIM_ATTACK_DURATION             → IMPACTO (dispara 1 vez)
     //   depois                                 → reação do inimigo + número de dano
     //   anim_end_frame                         → próximo estado

@@ -29,31 +29,27 @@ if (state == BATTLE_STATE.ATTACK_MINIGAME) {
     _talai_dy    = -4;
 } else if (state == BATTLE_STATE.ATTACK_ANIM) {
     if (anim_swing) {
-        // ── GOLPE: recua (windup) → avança rápido (lunge) → volta ──
+        // ── GOLPE: prepara (recua) → solta o orbe (pose do livro) → volta ──
+        // O Talai NÃO avança: quem viaja até o inimigo é o orbe (bloco PROJÉTIL, mais abaixo).
         _talai_dy = 0;
-        if (anim_timer < ANIM_ATTACK_DURATION) {
-            var _p = anim_timer / ANIM_ATTACK_DURATION;   // 0..1 até o impacto
-            if (_p < 0.4) {
-                var _w = _p / 0.4;
-                _talai_dx    = -ANIM_TALAI_WINDUP_PIXELS * _w;
-                _talai_angle = 10 * _w;
-            } else {
-                var _q = (_p - 0.4) / 0.6;
-                _q = _q * _q;                              // acelera até o impacto
-                _talai_dx    = lerp(-ANIM_TALAI_WINDUP_PIXELS, ANIM_TALAI_LUNGE_PIXELS, _q);
-                _talai_angle = lerp(10, -20, _q);
-            }
+        if (anim_timer < ANIM_ATTACK_WINDUP_FRAMES) {
+            // Preparando: inclina para trás
+            var _w = anim_timer / ANIM_ATTACK_WINDUP_FRAMES;   // 0..1
+            _talai_dx    = -ANIM_TALAI_WINDUP_PIXELS * _w;
+            _talai_angle = 10 * _w;
         } else {
-            var _r = clamp((anim_timer - ANIM_ATTACK_DURATION) / ANIM_TALAI_RETURN_FRAMES, 0, 1);
-            _talai_dx    = lerp(ANIM_TALAI_LUNGE_PIXELS, 0, _r);
-            _talai_angle = lerp(-20, 0, _r);
-        }
+            // Soltou o orbe: volta à posição
+            var _r = clamp((anim_timer - ANIM_ATTACK_WINDUP_FRAMES) / ANIM_TALAI_RETURN_FRAMES, 0, 1);
+            _talai_dx    = lerp(-ANIM_TALAI_WINDUP_PIXELS, 0, _r);
+            _talai_angle = lerp(10, 0, _r);
 
-        // SLOT: sprite de ataque do Talai (se preenchido)
-        if (ANIM_SLOT_TALAI_ATTACK_SPRITE != noone) {
-            _talai_spr = ANIM_SLOT_TALAI_ATTACK_SPRITE;
-            _talai_img = min(floor(anim_timer * ANIM_TALAI_ATTACK_SPRITE_SPEED),
-                             sprite_get_number(_talai_spr) - 1);
+            // SLOT: pose de ataque (livro estendido) só enquanto "segura" o lançamento
+            if (ANIM_SLOT_TALAI_ATTACK_SPRITE != noone
+                && anim_timer < ANIM_ATTACK_WINDUP_FRAMES + ANIM_ATTACK_POSE_HOLD_FRAMES) {
+                _talai_spr = ANIM_SLOT_TALAI_ATTACK_SPRITE;
+                _talai_img = min(floor((anim_timer - ANIM_ATTACK_WINDUP_FRAMES) * ANIM_TALAI_ATTACK_SPRITE_SPEED),
+                                 sprite_get_number(_talai_spr) - 1);
+            }
         }
     } else {
         // Errou por tempo: mantém a pose do minigame, sem golpe
@@ -481,6 +477,57 @@ switch (state) {
         draw_set_color(make_color_rgb(255, 80, 80));
         draw_text_ext(_cx1, _cy1, "* Você foi derrotado... [Z] para continuar.", 12, _cw);
         break;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PROJÉTIL DO TALAI (VISUAL) — orbe que sai do livro e viaja até o inimigo
+// Só DESENHA. O dano já foi decidido no clique; o IMPACTO (ANIM_ATTACK_DURATION)
+// é o instante em que o orbe chega, e é nele que o Step dispara a reação do inimigo.
+// ══════════════════════════════════════════════════════════════════
+if (state == BATTLE_STATE.ATTACK_ANIM && anim_swing
+    && ANIM_SLOT_PROJECTILE_SPRITE != noone
+    && instance_exists(obj_rh_battle_enemy)
+    && anim_timer >= ANIM_ATTACK_WINDUP_FRAMES) {
+
+    var _pen = obj_rh_battle_enemy;
+
+    // De onde sai (ponta do livro) e para onde vai (centro do inimigo)
+    var _sx = _talai_x + ANIM_PROJECTILE_BOOK_OFFSET_X;
+    var _sy = _talai_y + ANIM_PROJECTILE_BOOK_OFFSET_Y;
+    var _tx = _pen.x        + (sprite_get_width(_pen.sprite_index)  * _pen.image_xscale) / 2;
+    var _ty = _pen.centro_y + (sprite_get_height(_pen.sprite_index) * _pen.image_yscale) / 2;
+
+    // u: 0 = acabou de sair do livro | 1 = chegou no inimigo | >1 = passou direto (só no erro)
+    var _u = (anim_timer - ANIM_ATTACK_WINDUP_FRAMES) / ANIM_PROJECTILE_TRAVEL_FRAMES;
+
+    var _pvisible = true;
+    if (anim_hit) {
+        if (anim_timer >= ANIM_ATTACK_DURATION) _pvisible = false;   // chegou: o impacto assume
+    } else if (!ANIM_PROJECTILE_FLIES_ON_MISS) {
+        _pvisible = false;
+    }
+
+    // lerp NÃO limita em 1: no erro o orbe continua na mesma reta até sair da tela
+    var _bx = lerp(_sx, _tx, _u);
+    var _by = lerp(_sy, _ty, _u);
+    if (_bx > _gw + 30 || _by < -30 || _by > _gh + 30) _pvisible = false;
+
+    if (_pvisible) {
+        var _pang = point_direction(_sx, _sy, _tx, _ty);   // o sprite aponta para a direita (0°)
+        var _pw   = sprite_get_width(ANIM_SLOT_PROJECTILE_SPRITE)  * ANIM_PROJECTILE_SCALE;
+        var _ph   = sprite_get_height(ANIM_SLOT_PROJECTILE_SPRITE) * ANIM_PROJECTILE_SCALE;
+
+        // O sprite tem origem no canto (0,0). Para girar em torno do CENTRO (e o centro
+        // ficar em _bx,_by), recuamos do centro até o canto, já considerando o giro.
+        var _plen = point_distance(0, 0, _pw / 2, _ph / 2);
+        var _pdir = point_direction(0, 0, _pw / 2, _ph / 2) + _pang;
+
+        draw_sprite_ext(ANIM_SLOT_PROJECTILE_SPRITE, 0,
+                        _bx - lengthdir_x(_plen, _pdir),
+                        _by - lengthdir_y(_plen, _pdir),
+                        ANIM_PROJECTILE_SCALE, ANIM_PROJECTILE_SCALE,
+                        _pang, c_white, 1);
+    }
 }
 
 // ══════════════════════════════════════════════════════════════════

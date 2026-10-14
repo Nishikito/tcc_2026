@@ -1,4 +1,5 @@
 if (talai_hit_timer > 0) talai_hit_timer--;
+cursor_timer += UI_CURSOR_BOB_SPEED;   // balanço do cursor (só o tempo; o Draw desenha)
 
 switch (state) {
 
@@ -292,7 +293,7 @@ switch (state) {
     case BATTLE_STATE.VICTORY:
     if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
         global.battle_result = "victory";
-		global.dialog_active = false; // ← garante input normal ao voltar
+        global.dialog_active = false; // ← garante input normal ao voltar
 
         // O HP com que o Talai terminou a batalha É o HP que ele mantém.
         // pre_battle_hp = 0 desliga a restauração do HP "de antes da batalha" no ObjPlayer.

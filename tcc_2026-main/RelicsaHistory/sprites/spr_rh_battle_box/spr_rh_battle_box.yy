@@ -44,8 +44,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"battle",
-    "path":"folders/Sprites/battle.yy",
+    "name":"functions",
+    "path":"folders/Sprites/battle/functions.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

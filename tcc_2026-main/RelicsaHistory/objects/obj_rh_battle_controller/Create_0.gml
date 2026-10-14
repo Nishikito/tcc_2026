@@ -20,6 +20,57 @@ state = BATTLE_STATE.MENU;
 menu_option  = 0;
 menu_names   = ["LUTAR", "ITEM", "DEFENDER"];
 
+// Frame do ícone de cada comando em UI_SLOT_COMMAND_SPRITE (MESMA ORDEM de menu_names).
+// Frame normal = valor | frame selecionado = valor + 4.
+// spr_bt_cmd: 0 = figura (AGIR/LUTAR) · 1 = frasco · 2 = bolsa (ITEM) · 3 = escudo (DEFENDER)
+menu_icon_frames = [0, 2, 3];
+
+// Moldura de sprite esticada em LARGURA e ALTURA (9-slice manual):
+// 4 cantos fixos + 4 bordas e o miolo esticados. Funciona em qualquer tamanho.
+//   _frame: 0 = compacto | 1 = alto      _x,_y,_w,_h: onde e que tamanho (em pixels da GUI)
+//   _color: tinge a borda (c_white = cor original do sprite; outra cor = borda dessa cor)
+// A arte de cada frame ocupa só parte do sprite de 32 linhas: frame 0 = linhas 15..31 | frame 1 = 0..31
+ui_frame_art_top    = [15, 0];
+ui_frame_art_height = [17, 32];
+
+draw_ui_frame = function(_frame, _x, _y, _w, _h, _color) {
+    var _spr = UI_SLOT_PANEL_SPRITE;
+    var _sw  = sprite_get_width(_spr);
+    var _at  = ui_frame_art_top[_frame];
+    var _ah  = ui_frame_art_height[_frame];
+    var _cx  = UI_PANEL_CAP_PIXELS;
+    var _cy  = UI_PANEL_CAP_VERTICAL;
+
+    // Origem (no sprite) e destino (na tela) das 3 colunas e das 3 linhas
+    var _src_x = [0, _cx, _sw - _cx];
+    var _src_w = [_cx, _sw - _cx * 2, _cx];
+    var _dst_x = [_x, _x + _cx, _x + _w - _cx];
+    var _dst_w = [_cx, _w - _cx * 2, _cx];
+
+    var _src_y = [_at, _at + _cy, _at + _ah - _cy];
+    var _src_h = [_cy, _ah - _cy * 2, _cy];
+    var _dst_y = [_y, _y + _cy, _y + _h - _cy];
+    var _dst_h = [_cy, _h - _cy * 2, _cy];
+
+    for (var _row = 0; _row < 3; _row++) {
+        for (var _col = 0; _col < 3; _col++) {
+            draw_sprite_part_ext(_spr, _frame,
+                                 _src_x[_col], _src_y[_row], _src_w[_col], _src_h[_row],
+                                 _dst_x[_col], _dst_y[_row],
+                                 _dst_w[_col] / _src_w[_col], _dst_h[_row] / _src_h[_row],
+                                 _color, 1);
+        }
+    }
+}
+
+// ── CURSOR (coração em sprite nas listas) ─────────────────────────
+// cursor_timer avança no Step; o desenho só LÊ. O balanço usa o mesmo seno do menu de pause.
+cursor_timer = 0;
+draw_ui_cursor = function(_x, _y) {
+    var _bob = round(sin(cursor_timer) * UI_CURSOR_BOB_PIXELS);
+    draw_sprite(UI_SLOT_CURSOR_SPRITE, 0, _x, _y + _bob);
+}
+
 // ── QUESTÃO ───────────────────────────────────────────────────────
 current_question    = undefined;
 selected_option     = 0;
@@ -81,4 +132,3 @@ item_rows_visible = 4;   // quantas linhas cabem no painel
 item_msg          = "";  // mensagem de feedback ("HP já está cheio!" etc)
 item_msg_timer    = 0;   // frames restantes da mensagem
 item_used_name    = "";  // nome do item usado, mostrado no ENEMY_TURN
-

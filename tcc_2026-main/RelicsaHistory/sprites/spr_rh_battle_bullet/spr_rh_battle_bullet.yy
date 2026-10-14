@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"battle",
-    "path":"folders/Sprites/battle.yy",
+    "name":"BLANK GAME_1",
+    "path":"BLANK GAME_1.yyp",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

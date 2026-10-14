@@ -178,3 +178,24 @@ function apply_heal_to_player(amount) {
 #macro BOX_TRAIL_ALPHA    0.4        // transparência da cópia mais próxima da caixa
 #macro BOX_BORDER_PIXELS    1        // espessura da borda do sprite: o coração fica DENTRO dela
 #macro BOX_TINT       c_white        // cor multiplicada sobre o sprite (c_white = cor original)
+
+
+// ══════════════════════════════════════════════════════════════════
+// UI DA BATALHA (HUD) — sprites e cores
+// ──────────────────────────────────────────────────────────────────
+// O controller guarda a LÓGICA (menu_option, state...). Estes macros dizem
+// QUAL SPRITE representa cada peça. Trocar a arte = apontar o macro.
+// ══════════════════════════════════════════════════════════════════
+#macro UI_SLOT_PANEL_SPRITE    spr_bt_panel   // moldura dos painéis: frame 0 = compacto | frame 1 = alto. Origem: canto SUPERIOR ESQUERDO
+#macro UI_SLOT_COMMAND_SPRITE  spr_bt_cmd     // ícones de comando 17x13: frames 0-3 normais | 4-7 selecionados (mesma ordem)
+#macro UI_PANEL_CAP_PIXELS     10             // largura das pontas da moldura (não esticam)
+#macro UI_PANEL_CAP_VERTICAL     6             // altura das pontas da moldura (não esticam). Moldura mínima = 2 x isto
+#macro UI_SLOT_CURSOR_SPRITE   spr_heart_cursor   // cursor das listas (coração 9x9)
+#macro UI_CURSOR_BOB_PIXELS    2              // quanto o cursor balança para cima/baixo (0 = parado)
+#macro UI_CURSOR_BOB_SPEED     0.12           // velocidade do balanço (mesma do menu de pause)
+#macro UI_SLOT_AVG_BAR_BASE_SPRITE  spr_tp_base   // barra vertical de MÉDIA: fundo (10x90, origem canto superior esquerdo)
+#macro UI_SLOT_AVG_BAR_FILL_SPRITE  spr_tp_fill   // barra vertical de MÉDIA: preenchimento (mesmo tamanho do fundo)
+#macro UI_AVG_BAR_X                 4             // posição da barra de média na GUI
+#macro UI_AVG_BAR_Y                 36
+#macro UI_COLOR_SELECTED       make_color_rgb(0, 174, 240)   // azul do comando selecionado
+#macro UI_COLOR_HP_LABEL       make_color_rgb(255, 220, 60)  // amarelo do rótulo "HP"

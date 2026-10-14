@@ -102,19 +102,27 @@ draw_set_halign(fa_left);
 draw_set_color(c_white);
 draw_text(6, 24, get_knowledge_label());
 
-// Barra vertical de média (igual à barra de TP do Deltarune)
-var _tp_x  = 4;
-var _tp_y1 = 34;
-var _tp_y2 = 160;
-var _tp_h  = _tp_y2 - _tp_y1;
+// Barra vertical de média em SPRITE (fundo + preenchimento que cresce de baixo para cima).
+// O preenchimento usa a cor original do sprite com média acima do limite e fica
+// avermelhado abaixo dele. A linha branca marca o limite (KNOWLEDGE_PASS_THRESHOLD).
+var _tp_w    = sprite_get_width(UI_SLOT_AVG_BAR_BASE_SPRITE);
+var _tp_h    = sprite_get_height(UI_SLOT_AVG_BAR_BASE_SPRITE);
 var _tp_fill = clamp(global.knowledge_average / 10.0, 0, 1);
+var _fill_h  = round(_tp_h * _tp_fill);      // altura preenchida, em pixels do sprite
+var _fill_y0 = _tp_h - _fill_h;              // onde o preenchimento começa dentro do sprite
 
-draw_set_color(make_color_rgb(40, 40, 40));
-draw_rectangle(_tp_x, _tp_y1, _tp_x + 8, _tp_y2, false);
-draw_set_color(_avg_color);
-draw_rectangle(_tp_x, _tp_y2 - round(_tp_h * _tp_fill), _tp_x + 8, _tp_y2, false);
+draw_sprite(UI_SLOT_AVG_BAR_BASE_SPRITE, 0, UI_AVG_BAR_X, UI_AVG_BAR_Y);
+if (_fill_h > 0) {
+    var _fill_tint = c_white;
+    if (global.knowledge_average <= KNOWLEDGE_PASS_THRESHOLD) _fill_tint = make_color_rgb(255, 90, 90);
+    draw_sprite_part_ext(UI_SLOT_AVG_BAR_FILL_SPRITE, 0, 0, _fill_y0, _tp_w, _fill_h,
+                         UI_AVG_BAR_X, UI_AVG_BAR_Y + _fill_y0, 1, 1, _fill_tint, 1);
+}
+
+// Marca do limite de aprovação
+var _tick_y = UI_AVG_BAR_Y + _tp_h - round(_tp_h * KNOWLEDGE_PASS_THRESHOLD / 10.0);
 draw_set_color(c_white);
-draw_rectangle(_tp_x, _tp_y1, _tp_x + 8, _tp_y2, true);
+draw_rectangle(UI_AVG_BAR_X, _tick_y, UI_AVG_BAR_X + _tp_w - 1, _tick_y, false);
 
 // ══════════════════════════════════════════════════════════════════
 // HUD INFERIOR — estilo Deltarune
@@ -123,51 +131,49 @@ draw_rectangle(_tp_x, _tp_y1, _tp_x + 8, _tp_y2, true);
 var _hud_y   = 170;    // onde começa o HUD inferior
 var _hud_h   = _gh - _hud_y; // altura disponível
 
-// Fundo do HUD
+// Fundo do HUD (a linha separadora branca saiu: a moldura do painel já tem borda)
 draw_set_color(c_black);
 draw_rectangle(0, _hud_y, _gw, _gh, false);
-draw_set_color(c_white);
-draw_rectangle(0, _hud_y, _gw, _hud_y + 1, false); // linha separadora
 
-// ── FICHA DO TALAI ────────────────────────────────────────────────
-var _pc_x   = 6;
-var _pc_y   = _hud_y + 4;
-var _bar_w  = 80;
-var _bar_h  = 6;
+// ── PAINEL DO TALAI ───────────────────────────────────────────────
+// Moldura em sprite esticada na largura da tela. Layout: HP à esquerda,
+// NOME NO CENTRO, números à direita (a batalha tem um único personagem).
+var _pn_top = _hud_y + 1;     // topo da arte da moldura
+var _pn_h   = 17;             // altura da arte do frame 0 (compacto)
+var _pn_cy  = _pn_top + _pn_h / 2;   // centro vertical do painel
+draw_ui_frame(0, 0, _pn_top, _gw, _pn_h, c_white);
+
 var _hp_pct = clamp(global.hp / global.max_hp, 0, 1);
+var _ts     = 0.85;           // escala do texto do painel
+draw_set_valign(fa_middle);
 
-// Ícone do Talai (quadrado colorido como placeholder — troque por sprite)
-draw_set_color(make_color_rgb(100, 160, 255));
-draw_rectangle(_pc_x, _pc_y, _pc_x + 14, _pc_y + 14, false);
+// HP (esquerda): rótulo + barra
+draw_set_color(UI_COLOR_HP_LABEL);
+draw_text_transformed(10, _pn_cy, "HP", _ts, _ts, 0);
 
-// Nome
-draw_set_color(c_white);
-draw_text(_pc_x + 18, _pc_y, global.player_name);
-
-// Label HP
-draw_set_color(make_color_rgb(255, 220, 60));
-draw_text(_pc_x + 18, _pc_y + 12, "HP");
-
-// Barra de HP
-var _bx = _pc_x + 34;
-var _by = _pc_y + 13;
+var _hbx = 28, _hbw = 80, _hbh = 5;
+var _hby = _pn_cy - _hbh / 2;
 draw_set_color(make_color_rgb(40, 40, 40));
-draw_rectangle(_bx, _by, _bx + _bar_w, _by + _bar_h, false);
+draw_rectangle(_hbx, _hby, _hbx + _hbw, _hby + _hbh - 1, false);
 
-// Cor da barra baseada no HP
 var _hp_color;
-if (_hp_pct > 0.5)      _hp_color = make_color_rgb(255, 220, 60);  // amarelo
+if (_hp_pct > 0.5)       _hp_color = make_color_rgb(255, 220, 60);  // amarelo
 else if (_hp_pct > 0.25) _hp_color = make_color_rgb(255, 140, 0);   // laranja
-else                      _hp_color = make_color_rgb(255, 40,  40);  // vermelho
-
+else                     _hp_color = make_color_rgb(255, 40,  40);  // vermelho
 draw_set_color(_hp_color);
-draw_rectangle(_bx, _by, _bx + round(_bar_w * _hp_pct), _by + _bar_h, false);
+draw_rectangle(_hbx, _hby, _hbx + round(_hbw * _hp_pct), _hby + _hbh - 1, false);
 
-// Números de HP
+// Nome (CENTRO)
+draw_set_halign(fa_center);
 draw_set_color(c_white);
+draw_text_transformed(_gw / 2, _pn_cy, global.player_name, 1, 1, 0);
+
+// Números (direita)
 draw_set_halign(fa_right);
-draw_text(_bx + _bar_w + 40, _by - 1, string(global.hp) + "/" + string(global.max_hp));
+draw_text_transformed(_gw - 10, _pn_cy, string(global.hp) + "/" + string(global.max_hp), _ts, _ts, 0);
+
 draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 
 // ── CAIXA DE DIÁLOGO / AÇÃO ───────────────────────────────────────
 var _box_y1 = _hud_y + 26;
@@ -175,28 +181,28 @@ var _box_y2 = _gh - 22;
 var _box_x1 = 4;
 var _box_x2 = _gw - 4;
 
+// Caixa: fundo preto por código + borda em moldura de sprite
 draw_set_color(c_black);
 draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
-draw_set_color(c_white);
-draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
+draw_ui_frame(1, _box_x1, _box_y1, _box_x2 - _box_x1 + 1, _box_y2 - _box_y1 + 1, c_white);
 
-// ── BOTÕES DE AÇÃO ────────────────────────────────────────────────
-var _btn_y  = _gh - 18;
-var _btn_x  = 8;
-var _btn_sp = 90;
-
+// ── BOTÕES DE COMANDO (ícone em sprite + nome) ────────────────────
+// frame normal = menu_icon_frames[i] | selecionado = +4. Só o MENU destaca a opção.
+var _cmd_y = _gh - 20;
+draw_set_valign(fa_middle);
 for (var i = 0; i < array_length(menu_names); i++) {
-    var _cx = _btn_x + i * _btn_sp;
-    if (i == menu_option && state == BATTLE_STATE.MENU) {
-        // Fundo amarelo na opção selecionada
-        draw_set_color(make_color_rgb(255, 220, 60));
-        draw_rectangle(_cx - 2, _btn_y - 1, _cx + 70, _btn_y + 14, false);
-        draw_set_color(c_black);
-    } else {
-        draw_set_color(c_white);
-    }
-    draw_text(_cx, _btn_y, menu_names[i]);
+    var _cmd_x   = 28 + i * 100;
+    var _cmd_sel = (i == menu_option && state == BATTLE_STATE.MENU);
+    var _cmd_img = menu_icon_frames[i];
+    if (_cmd_sel) _cmd_img += 4;
+
+    draw_sprite(UI_SLOT_COMMAND_SPRITE, _cmd_img, _cmd_x, _cmd_y);
+
+    if (_cmd_sel) draw_set_color(UI_COLOR_SELECTED);
+    else          draw_set_color(c_white);
+    draw_text_transformed(_cmd_x + 21, _cmd_y + 6.5, menu_names[i], 0.9, 0.9, 0);
 }
+draw_set_valign(fa_top);
 
 // ══════════════════════════════════════════════════════════════════
 // CONTEÚDO DA CAIXA POR ESTADO
@@ -223,8 +229,7 @@ switch (state) {
 
     draw_set_color(c_black);
     draw_rectangle(_qx1, _qy1, _qx2, _qy2, false);
-    draw_set_color(c_white);
-    draw_rectangle(_qx1, _qy1, _qx2, _qy2, true);
+    draw_ui_frame(1, _qx1, _qy1, _qx2 - _qx1 + 1, _qy2 - _qy1 + 1, c_white);
 
     var _qcx = _qx1 + 10;
     var _qcw = (_qx2 - _qx1) - 20;
@@ -262,7 +267,7 @@ switch (state) {
             draw_rectangle(_qcx, _ay - 3, _qx2 - 6, _ay + _ah + 1, false);
             draw_set_alpha(1);
             draw_set_color(make_color_rgb(255, 220, 60));
-            draw_text(_qcx, _ay, ">");
+            draw_ui_cursor(_qcx, _ay + 1);   // coração em sprite (antes: ">")
         } else {
             draw_set_color(c_white);
         }
@@ -287,8 +292,7 @@ switch (state) {
 		}
         draw_set_color(c_black);
         draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
-        draw_set_color(_score_color);
-        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
+        draw_ui_frame(1, _box_x1, _box_y1, _box_x2 - _box_x1 + 1, _box_y2 - _box_y1 + 1, _score_color);   // borda tingida pela nota
 
         draw_set_color(c_white);
         draw_text_ext(_cx1, _cy1, result_text, 11, _cw);
@@ -307,8 +311,7 @@ switch (state) {
     case BATTLE_STATE.ATTACK_ANIM:   // mesma caixa; a barra fica congelada onde o jogador apertou
         draw_set_color(c_black);
         draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, false);
-        draw_set_color(c_white);
-        draw_rectangle(_box_x1, _box_y1, _box_x2, _box_y2, true);
+        draw_ui_frame(1, _box_x1, _box_y1, _box_x2 - _box_x1 + 1, _box_y2 - _box_y1 + 1, c_white);
 
         var _lane_y = (_box_y1 + _box_y2) / 2 + 4;
         var _lane_h = 10;
@@ -386,8 +389,7 @@ switch (state) {
 
         draw_set_color(c_black);
         draw_rectangle(_ix1, _iy1, _ix2, _iy2, false);
-        draw_set_color(c_white);
-        draw_rectangle(_ix1, _iy1, _ix2, _iy2, true);
+        draw_ui_frame(1, _ix1, _iy1, _ix2 - _ix1 + 1, _iy2 - _iy1 + 1, c_white);
 
         draw_set_font(global.font_main);
 
@@ -417,7 +419,7 @@ switch (state) {
                     draw_rectangle(_ix1 + 6, _ry - 3, _ix2 - 6, _ry + _row_h - 5, false);
                     draw_set_alpha(1);
                     draw_set_color(make_color_rgb(255, 220, 60));
-                    draw_text(_ix1 + 10, _ry, ">");
+                    draw_ui_cursor(_ix1 + 10, _ry + 1);   // coração em sprite (antes: ">")
                 } else {
                     draw_set_color(c_white);
                 }

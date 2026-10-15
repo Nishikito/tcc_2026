@@ -15,10 +15,10 @@ var px = menu_x - pw / 2;
 var py = menu_y - ph / 2;
 var b  = 3 * scale;
 
-draw_set_color(c_white);
-draw_rectangle(px - b, py - b, px + pw + b, py + ph + b, false);
+// Fundo preto + moldura em sprite (a mesma da batalha; ui_draw_frame, em scr_ui)
 draw_set_color(c_black);
-draw_rectangle(px, py, px + pw, py + ph, false);
+draw_rectangle(px - b, py - b, px + pw + b, py + ph + b, false);
+ui_draw_frame(1, px - b, py - b, pw + b * 2, ph + b * 2, c_white, scale);
 
 // ── ABAS ──────────────────────────────────────────────
 draw_set_font(fnt_main);
@@ -54,7 +54,7 @@ if (current_tab == 0) {
 
         if (i == audio_sel) {
             draw_set_color(c_white);
-            draw_sprite_ext(spr_heart_cursor, 0, px + 18*scale, iy + 4*scale, scale, scale, 0, c_white, 1);
+            ui_draw_cursor(px + 18*scale, iy + 4*scale, ui_cursor_time(), scale);
         } else {
             draw_set_color(make_color_rgb(100, 100, 100));
         }
@@ -99,7 +99,7 @@ if (current_tab == 1) {
 
         if (i == key_sel) {
             draw_set_color(c_white);
-            draw_sprite_ext(spr_heart_cursor, 0, px + 18*scale, iy + 4*scale, scale, scale, 0, c_white, 1);
+            ui_draw_cursor(px + 18*scale, iy + 4*scale, ui_cursor_time(), scale);
         } else {
             draw_set_color(make_color_rgb(100, 100, 100));
         }

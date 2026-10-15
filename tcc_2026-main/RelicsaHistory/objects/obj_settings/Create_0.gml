@@ -28,6 +28,7 @@ global.carol_dialogo_fim = false;
 // ── SAVE ──────────────────────────────────────────────────────────
 if (!variable_global_exists("play_time")) global.play_time = 0;    // tempo de jogo, em segundos
 if (!variable_global_exists("save_slot")) global.save_slot = -1;   // slot ativo (-1 = nenhum ainda)
+if (!variable_global_exists("save_point_unlock_time")) global.save_point_unlock_time = 0;   // evita reabrir o menu com o mesmo Enter
 
 if (!variable_global_exists("itens_coletados")) global.itens_coletados = []; // itens do cenário já pegos
 

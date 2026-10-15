@@ -1,6 +1,3 @@
-// ══════════════════════════════════════════════════════════════════
-// SISTEMA DE SAVE — LÓGICA (nada de interface aqui)
-// ──────────────────────────────────────────────────────────────────
 // Este script só LÊ e ESCREVE arquivos e aplica os dados nas variáveis globais.
 // A interface (slots, copiar, apagar, "Jogo salvo!") fica em obj_save_slots.
 //
@@ -118,17 +115,13 @@ function save_items_from_data(_data) {
 
 
 // ── Montar os dados do save a partir do jogo ──────────────────────
-function save_collect_data() {
+// _snap = { x, y, face } do Talai, tirado ANTES de pausar o jogo (veja a nota em save_game).
+function save_collect_data(_snap) {
     if (!variable_global_exists("defeated_enemies")) global.defeated_enemies = [];
 
-    var _px = 0;
-    var _py = 0;
-    var _face = UP;
-    if (instance_exists(ObjPlayer)) {
-        _px   = ObjPlayer.x;
-        _py   = ObjPlayer.y;
-        _face = ObjPlayer.face;
-    }
+    var _px   = _snap.x;
+    var _py   = _snap.y;
+    var _face = _snap.face;
 
     var _data = {
         version:   SAVE_VERSION,
@@ -253,12 +246,15 @@ function save_copy_slot(_src, _dst) {
     return save_slot_exists(_dst);
 }
 
-// SALVAR: cura o Talai (se SAVE_HEAL_ON_SAVE) ANTES de gravar, então o save já guarda a vida cheia
-function save_game(_slot) {
-    if (!instance_exists(ObjPlayer)) return false;
+// SALVAR: cura o Talai (se SAVE_HEAL_ON_SAVE) ANTES de gravar, então o save já guarda a vida cheia.
+// _snap = { x, y, face } do Talai. Ele precisa ser tirado ANTES de pausar o jogo: a pausa
+// (instance_deactivate_all) DESATIVA o ObjPlayer, e um objeto desativado "não existe" para
+// instance_exists e não pode ter suas variáveis lidas.
+function save_game(_slot, _snap) {
+    if (_snap == undefined) return false;
     if (SAVE_HEAL_ON_SAVE) global.hp = global.max_hp;
 
-    var _ok = save_write_data(_slot, save_collect_data());
+    var _ok = save_write_data(_slot, save_collect_data(_snap));
     if (_ok) global.save_slot = _slot;
     return _ok;
 }
@@ -266,7 +262,7 @@ function save_game(_slot) {
 
 // ── Fluxo de jogo: novo jogo e carregar ───────────────────────────
 // Zera TODO o progresso (usado pelo novo jogo)
-function game_reset_progress() {
+function save_reset_progress() {
     global.hp                    = global.max_hp;
     global.itens_coletados       = [];
     global.inventory_relics      = [];
@@ -288,9 +284,9 @@ function game_reset_progress() {
 }
 
 // NOVO JOGO no slot escolhido
-function game_start_new(_slot) {
+function save_new_game(_slot) {
     global.intro_played = false;
-    game_reset_progress();
+    save_reset_progress();
     global.save_slot = _slot;
 
     audio_stop_sound(sfxTitle);
@@ -303,12 +299,20 @@ function game_start_new(_slot) {
 
 // CONTINUAR: lê o slot, aplica nas globais e leva o Talai ao local salvo.
 // Devolve false (sem mudar nada) se o arquivo não existe, está corrompido ou a sala sumiu.
-function game_load(_slot) {
+function save_load_game(_slot) {
+    global.save_error = "";   // o motivo da falha, mostrado pelo menu
+
     var _d = save_read_data(_slot);
-    if (_d == undefined) return false;
+    if (_d == undefined) {
+        global.save_error = "arquivo ilegível";
+        return false;
+    }
 
     var _room = asset_get_index(_d.room_name);
-    if (_room < 0 || !room_exists(_room)) return false;
+    if (_room < 0 || !room_exists(_room)) {
+        global.save_error = "sala inexistente: " + string(_d.room_name);
+        return false;
+    }
 
     // HP: o máximo vem do jogo (macro/obj_settings); só o HP atual vem do save
     global.hp = clamp(_d.hp, 0, global.max_hp);

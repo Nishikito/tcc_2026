@@ -1,6 +1,3 @@
-// ══════════════════════════════════════════════════════════════════
-// MENU DE ARQUIVOS (3 slots) — usado no título e nos pontos de save
-// ──────────────────────────────────────────────────────────────────
 // Só INTERFACE: quem lê/grava arquivos é o scr_save_system.
 // Quem cria este objeto define o modo logo depois de criar:
 //     var m = instance_create_layer(0, 0, "Instances", obj_save_slots);
@@ -13,6 +10,13 @@ mode       = "title";
 init_done  = false;      // a inicialização (pausar, ler arquivos) roda no 1º Step, quando o modo já foi definido
 input_lock = 3;          // ignora teclas nos primeiros frames (o Enter que abriu o menu não pode escolher nada)
 cursor_timer = 0;
+
+// Foto do Talai (posição e direção) tirada AGORA, enquanto ele ainda está ativo:
+// no modo "save" o menu pausa o jogo e o ObjPlayer fica desativado (inacessível).
+player_snap = undefined;
+if (instance_exists(ObjPlayer)) {
+    player_snap = { x: ObjPlayer.x, y: ObjPlayer.y, face: ObjPlayer.face };
+}
 
 menu_state = SAVE_UI.SLOTS;
 sel        = 0;          // 0..2 = slots | 3 = linha de botões (Copiar / Apagar / Voltar)
@@ -100,12 +104,14 @@ ask = function(_text, _action, _slot, _return_state) {
 
 close_menu = function() {
     if (mode == "save") scr_unpause_game();
+    // O Enter que fechou o menu não pode reabri-lo no mesmo instante (o ponto de save vê o mesmo Enter)
+    global.save_point_unlock_time = current_time + 400;
     instance_destroy();
 }
 
 // ── As ações de verdade (chamam o scr_save_system) ────────────────
 do_save = function(_slot) {
-    if (save_game(_slot)) {
+    if (save_game(_slot, player_snap)) {
         refresh_slots();
         if (SAVE_HEAL_ON_SAVE) say("Jogo salvo! Seu HP foi restaurado.", true);
         else say("Jogo salvo!", true);
@@ -139,10 +145,10 @@ do_slot_action = function(_slot) {
 
     if (mode == "title") {
         if (_exists) {
-            if (game_load(_slot)) instance_destroy();
-            else say("Arquivo corrompido ou local inexistente.", false);
+            if (save_load_game(_slot)) instance_destroy();
+            else say("Falha ao carregar: " + global.save_error, false);
         } else {
-            game_start_new(_slot);
+            save_new_game(_slot);
             instance_destroy();
         }
     } else {
@@ -150,3 +156,7 @@ do_slot_action = function(_slot) {
         else do_save(_slot);
     }
 }
+
+
+// Lê os arquivos JÁ AGORA: o Draw GUI roda ANTES do primeiro Step e precisa de slot_info pronto.
+refresh_slots();

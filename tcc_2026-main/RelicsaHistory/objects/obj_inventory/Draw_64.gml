@@ -19,15 +19,12 @@ var b   = 3 * scale;
 
 // ┌─────────────────────────────────────────────────────────┐
 // │  BLOCO B — FUNDO DO PAINEL                             │
-// │  Troque por draw_sprite_stretched quando tiver o asset │
+// │  Moldura em sprite (a mesma da batalha), esticada      │
+// │  por ui_draw_frame (scr_ui). Fundo preto por código.   │
 // └─────────────────────────────────────────────────────────┘
-draw_set_color(c_white);
-draw_rectangle(mpx - b, mpy - b, mpx + pw + b, mpy + ph + b, false);
 draw_set_color(c_black);
-draw_rectangle(mpx, mpy, mpx + pw, mpy + ph, false);
-
-// OPÇÃO 2 — com sprite (comente as 4 linhas acima e descomente):
-// draw_sprite_stretched(spr_inventario_bg, 0, mpx - b, mpy - b, pw + b*2, ph + b*2);
+draw_rectangle(mpx - b, mpy - b, mpx + pw + b, mpy + ph + b, false);
+ui_draw_frame(1, mpx - b, mpy - b, pw + b * 2, ph + b * 2, c_white, scale);
 
 // ┌─────────────────────────────────────────────────────────┐
 // │  BLOCO C — ABAS                                        │
@@ -137,9 +134,7 @@ if (current_tab == 1 || current_tab == 2 || current_tab == 3) {
 
             if (i == _sel) {
                 draw_set_color(make_color_rgb(255, 220, 100));
-                draw_sprite_ext(spr_heart_cursor, 0,
-                    mpx + 10*scale, iy + 4*scale,
-                    scale, scale, 0, c_white, 1);
+                ui_draw_cursor(mpx + 10*scale, iy + 4*scale, ui_cursor_time(), scale);
             } else {
                 draw_set_color(make_color_rgb(160, 160, 160));
             }
@@ -203,9 +198,7 @@ if (current_tab == 4) {
 
             if (i == _sel) {
                 draw_set_color(c_white);
-                draw_sprite_ext(spr_heart_cursor, 0,
-                    mpx + 10*scale, iy + 4*scale,
-                    scale, scale, 0, c_white, 1);
+                ui_draw_cursor(mpx + 10*scale, iy + 4*scale, ui_cursor_time(), scale);
             } else {
                 draw_set_color(make_color_rgb(160, 160, 160));
             }

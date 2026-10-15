@@ -20,19 +20,10 @@ var panel_y  = menu_y - panel_h / 2;
 var border   = 3 * scale;
 var opt_gap  = option_height * scale;
 
-// Borda branca externa
-draw_set_color(c_white);
-draw_rectangle(
-    panel_x  - border,
-    panel_y  - border,
-    panel_x  + panel_w + border,
-    panel_y  + panel_h + border,
-    false
-);
-
-// Fundo preto interno
+// Fundo preto + moldura em sprite (a mesma da batalha; ui_draw_frame, em scr_ui)
 draw_set_color(c_black);
-draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, false);
+draw_rectangle(panel_x - border, panel_y - border, panel_x + panel_w + border, panel_y + panel_h + border, false);
+ui_draw_frame(1, panel_x - border, panel_y - border, panel_w + border * 2, panel_h + border * 2, c_white, scale);
 
 // ── TÍTULO ─────────────────────────────────────────────
 draw_set_font(fnt_main);
@@ -58,9 +49,6 @@ draw_rectangle(
 );
 
 // ── OPÇÕES ─────────────────────────────────────────────
-cursor_timer += 0.12;
-var cursor_offset = round(sin(cursor_timer) * 2 * scale);
-
 for (var i = 0; i < array_length(menu_options); i++) {
 
     var opt_y = panel_y + 50 * scale + (i * opt_gap);
@@ -68,15 +56,8 @@ for (var i = 0; i < array_length(menu_options); i++) {
     if (i == selected) {
         draw_set_color(c_white);
 
-        // Sprite do coração escalado com draw_sprite_ext
-        draw_sprite_ext(
-            spr_heart_cursor, 0,
-            panel_x + 18 * scale,
-            opt_y + cursor_offset,
-            scale, scale,   // xscale, yscale
-            0,              // ângulo
-            c_white, 1      // cor de mistura, alpha
-        );
+        // Coração do cursor (ui_draw_cursor, em scr_ui: mesmo sprite e balanço da batalha)
+        ui_draw_cursor(panel_x + 18 * scale, opt_y, ui_cursor_time(), scale);
 
     } else {
         draw_set_color(make_color_rgb(100, 100, 100));

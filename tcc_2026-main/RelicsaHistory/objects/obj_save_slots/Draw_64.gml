@@ -1,9 +1,8 @@
-// ══════════════════════════════════════════════════════════════════
-// DESENHO DO MENU DE ARQUIVOS
-// ──────────────────────────────────────────────────────────────────
 // Tudo é desenhado num espaço virtual de 320x240 e a matriz de mundo escala
 // para a tela (a GUI muda de tamanho de sala para sala). Só LÊ as variáveis do Create/Step.
 // ══════════════════════════════════════════════════════════════════
+if (array_length(slot_info) < SAVE_SLOT_COUNT) exit;   // segurança: nunca desenhar sem os slots lidos
+
 var _gw = display_get_gui_width();
 var _gh = display_get_gui_height();
 

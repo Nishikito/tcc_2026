@@ -18,3 +18,11 @@ if (global.carol_defeated && !global.fade_active && !instance_exists(obj_fade_in
     carol_transition_done = false;
 }
 
+// ── TEMPO DE JOGO ─────────────────────────────────────────────────
+// Só a PRIMEIRA instância conta: obj_settings pode ter cópias (persistente + colocado em salas)
+// e cada uma somaria o tempo, fazendo o relógio andar em dobro.
+if (id == instance_find(obj_settings, 0)) {
+    if (!global.paused && room != rm_title && room != rm_title_intro && room != RoomCredits) {
+        global.play_time += min(delta_time, 100000) / 1000000;   // o min evita saltos se a janela travar
+    }
+}

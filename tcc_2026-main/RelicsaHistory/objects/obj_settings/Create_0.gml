@@ -25,6 +25,10 @@ global.carol_dialogo_fim = false;
 // Este Create roda de novo a cada troca de sala (obj_settings é persistente e está
 // colocado em várias salas). Tudo que é PROGRESSO só inicializa UMA vez; o reinício
 // de verdade acontece no botão NOVO JOGO (obj_buttons).
+// ── SAVE ──────────────────────────────────────────────────────────
+if (!variable_global_exists("play_time")) global.play_time = 0;    // tempo de jogo, em segundos
+if (!variable_global_exists("save_slot")) global.save_slot = -1;   // slot ativo (-1 = nenhum ainda)
+
 if (!variable_global_exists("itens_coletados")) global.itens_coletados = []; // itens do cenário já pegos
 
 

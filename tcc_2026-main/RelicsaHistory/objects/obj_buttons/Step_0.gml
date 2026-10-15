@@ -1,30 +1,12 @@
-if (!instance_exists(obj_settings_menu)) {
+if (!instance_exists(obj_settings_menu) && !instance_exists(obj_save_slots)) {
 
     if (image_index = 0 and keyboard_check_pressed(vk_enter)) {
         audio_play_sound(sfxSelect, 0, false);
-        global.intro_played = false;
 
-        // NOVO JOGO: zera o progresso. O obj_settings só inicializa estas variáveis UMA vez
-        // (senão o progresso sumiria a cada troca de sala), então o reinício é feito AQUI.
-        global.hp                    = global.max_hp;
-        global.itens_coletados       = [];
-        global.inventory_relics      = [];
-        global.inventory_mission     = [];
-        global.inventory_docs        = [];
-        global.inventory_consumables = [];
-        global.relics_count          = 0;
-        global.knowledge_scores      = [];
-        global.knowledge_average     = 0.0;
-        global.knowledge_total       = 0;
-        global.history_knowledge     = 0;
-        global.defeated_enemies      = [];
-
-        audio_stop_sound(sfxTitle);
-        room_goto(global.start_room);
-        var instantiaed = instance_create_layer(global.start_x, global.start_y, "Player", ObjPlayer);
-        instantiaed.face = UP;
-        instantiaed.sprite_index = instantiaed.sprite[UP];
-        global.new_game = false;
+        // BEGIN GAME abre a tela de arquivos. Ela decide: slot vazio = NOVO JOGO,
+        // slot com save = CONTINUAR (a lógica está em game_start_new / game_load, scr_save_system).
+        var _slots = instance_create_layer(0, 0, "Instances", obj_save_slots);
+        _slots.mode = "title";
 
     } else if (image_index = 1 and keyboard_check_pressed(vk_enter)) {
         audio_play_sound(sfxSelect, 0, false);

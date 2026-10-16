@@ -21,36 +21,39 @@ draw_rectangle(px - b, py - b, px + pw + b, py + ph + b, false);
 ui_draw_frame(1, px - b, py - b, pw + b * 2, ph + b * 2, c_white, scale);
 
 // ── ABAS ──────────────────────────────────────────────
+// A fonte fnt_main tem 22 px de altura de linha (a escala 1). Layout vertical, em px a escala 1:
+//   texto das abas 6..28  |  sublinhado da aba ativa 30..32  |  separador 34  |  conteúdo a partir de 42
+// (antes o sublinhado ficava em 22..24 e cortava as letras no meio)
 draw_set_font(fnt_main);
 draw_set_halign(fa_center);
 var tab_w = (pw / array_length(tabs));
 
 for (var t = 0; t < array_length(tabs); t++) {
     var tx = px + tab_w * t + tab_w / 2;
-    var ty = py + 10 * scale;
+    var ty = py + 6 * scale;
 
     if (t == current_tab) {
-        // Aba ativa: texto branco + sublinhado
+        // Aba ativa: texto branco + sublinhado ABAIXO do texto
         draw_set_color(c_white);
         draw_text_transformed(tx, ty, tabs[t], scale, scale, 0);
-        draw_rectangle(px + tab_w * t + 4*scale, py + 22*scale,
-                       px + tab_w * (t+1) - 4*scale, py + 24*scale, false);
+        draw_rectangle(px + tab_w * t + 4*scale, py + 30*scale,
+                       px + tab_w * (t+1) - 4*scale, py + 32*scale, false);
     } else {
         draw_set_color(make_color_rgb(100, 100, 100));
         draw_text_transformed(tx, ty, tabs[t], scale, scale, 0);
     }
 }
 
-// Linha separadora de abas
+// Linha separadora de abas (abaixo do sublinhado)
 draw_set_color(make_color_rgb(80, 80, 80));
-draw_rectangle(px + 10*scale, py + 26*scale, px + pw - 10*scale, py + 27*scale, false);
+draw_rectangle(px + 10*scale, py + 34*scale, px + pw - 10*scale, py + 35*scale, false);
 
 // ── CONTEÚDO: ABA AUDIO ───────────────────────────────
 if (current_tab == 0) {
     var volumes = [global.vol_bgm, global.vol_sfx];
 
     for (var i = 0; i < array_length(audio_items); i++) {
-        var iy = py + 44*scale + i * 44*scale;
+        var iy = py + 48*scale + i * 40*scale;
 
         if (i == audio_sel) {
             draw_set_color(c_white);
@@ -94,8 +97,14 @@ if (current_tab == 0) {
 // ── CONTEÚDO: ABA CONTROLS ────────────────────────────
 if (current_tab == 1) {
 
-    for (var i = 0; i < array_length(key_items); i++) {
-        var iy = py + 36*scale + i * 30*scale;
+    // Só desenha a janela [key_scroll, key_scroll + key_visible): a lista ROLA em vez de vazar da moldura
+    var list_top = py + 42*scale;
+    var row_h    = 30*scale;
+
+    for (var n = 0; n < key_visible; n++) {
+        var i = key_scroll + n;
+        if (i >= array_length(key_items)) break;
+        var iy = list_top + n * row_h;
 
         if (i == key_sel) {
             draw_set_color(c_white);
@@ -123,6 +132,19 @@ if (current_tab == 1) {
 
         draw_set_halign(fa_right);
         draw_text_transformed(px + pw - 16*scale, iy, key_label, scale, scale, 0);
+    }
+
+    // Indicadores de scroll (triângulos na margem direita): há mais itens acima / abaixo
+    draw_set_color(make_color_rgb(170, 170, 170));
+    var arrow_x = px + pw - 8*scale;
+    if (key_scroll > 0) {
+        draw_triangle(arrow_x - 4*scale, list_top + 8*scale, arrow_x + 4*scale, list_top + 8*scale,
+                      arrow_x, list_top + 2*scale, false);
+    }
+    if (key_scroll + key_visible < array_length(key_items)) {
+        var arrow_y = list_top + key_visible * row_h - 8*scale;
+        draw_triangle(arrow_x - 4*scale, arrow_y, arrow_x + 4*scale, arrow_y,
+                      arrow_x, arrow_y + 6*scale, false);
     }
 
     // Instrução de remapeamento

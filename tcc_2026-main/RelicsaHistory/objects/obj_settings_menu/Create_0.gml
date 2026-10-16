@@ -16,6 +16,8 @@ audio_sel    = 0;
 key_items    = ["Move Up", "Move Down", "Move Left", "Move Right", "Sprint", "Inventory"];
 key_globals  = ["key_up", "key_down", "key_left", "key_right", "key_sprint", "key_inventory"];
 key_sel      = 0;
+key_visible  = 4;   // quantos controles cabem na moldura de uma vez
+key_scroll   = 0;   // índice do primeiro controle visível (a lista rola quando há mais que key_visible)
 
 // Estado de remapeamento: quando true, aguarda o próximo keypress
 waiting_for_key = false;

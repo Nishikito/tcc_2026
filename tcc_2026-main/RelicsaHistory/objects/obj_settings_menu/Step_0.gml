@@ -103,6 +103,11 @@ if (current_tab == 1) {
         key_sel = min(array_length(key_items) - 1, key_sel + 1);
         audio_play_sound(sfxSwitch, 0, false);
     }
+
+    // SCROLL: o item escolhido nunca sai da janela de key_visible linhas
+    if (key_sel < key_scroll) key_scroll = key_sel;
+    if (key_sel > key_scroll + key_visible - 1) key_scroll = key_sel - key_visible + 1;
+
     if (keyboard_check_pressed(vk_enter)) {
         waiting_for_key = true;
         key_wait_timer  = 2;

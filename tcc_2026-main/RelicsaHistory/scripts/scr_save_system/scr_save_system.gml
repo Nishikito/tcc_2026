@@ -290,6 +290,11 @@ function save_new_game(_slot) {
     global.save_slot = _slot;
 
     audio_stop_sound(sfxTitle);
+
+    // Nenhum jogador antigo pode sobrar (o ObjPlayer novo some sozinho se já existir outro)
+    if (instance_exists(ObjPlayer)) {
+        with (ObjPlayer) instance_destroy();
+    }
     room_goto(global.start_room);
     var _p = instance_create_layer(global.start_x, global.start_y, "Player", ObjPlayer);
     _p.face = UP;

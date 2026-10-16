@@ -1,22 +1,25 @@
+// ObjPlayer é persistente. Algumas salas (como rm_teste) têm um ObjPlayer COLOCADO no editor;
+// ele serve para "recriar" o Talai ao voltar de uma batalha (o monstro destrói o player antes de lutar).
+// Se já existe um jogador (por exemplo o que o CONTINUAR do save criou, ou o que veio de outra sala),
+// esta cópia é só reserva: some na hora, antes de rodar o resto do Create.
+if (instance_number(ObjPlayer) > 1) {
+    instance_destroy();
+    exit;
+}
+
 yspd = 0;
 xspd = 0;
 
-// Velocidades ALVO: andando e correndo
-default_spd = 1.5;
-sprint_spd  = 2.25;
+// Velocidade de movimento (como no projeto alternativo): CONSTANTE, sem aceleração nem deslize.
+// O Talai começa e para na hora. Shift troca de default_spd para sprint_spd (lido a cada frame no Step).
+default_spd = 1.5;   // andando
+sprint_spd  = 2.25;  // correndo
+move_spd    = default_spd;
 
-// move_spd agora é a velocidade ATUAL (suavizada). Começa em 0 (parado) e
-// sobe/desce até a velocidade alvo. Quem move o player é ela.
-move_spd    = 0;
-
-// Ajustes do "feeling" — mexa aqui:
-spd_accel      = 0.10; // ganho por frame (0 -> andar em ~15 frames, andar -> correr em ~8)
-spd_decel      = 0.45; // perda por frame ao soltar (2.25 -> 0 em ~5 frames). Valor alto = para seco
-run_anim_boost = 0.30; // quanto a animação acelera correndo (1.0 = andando, 1.3 = correndo)
-
-// Última direção pedida: usada para deslizar um pouco ao soltar as teclas
-last_dir_x = 0;
-last_dir_y = 0;
+// Movimento em pixels INTEIROS: a parte fracionária da velocidade fica guardada aqui e vai sendo
+// somada (mantém o pixel art limpo e a velocidade média correta).
+x_remainder = 0;
+y_remainder = 0;
 
 sprite[RIGHT] = SprPlayerRight;
 sprite[UP]    = SprPlayerUp;

@@ -1,6 +1,6 @@
 {
   "$GMSprite":"v2",
-  "%Name":"spr_andarilho",
+  "%Name":"spr_mercante",
   "bboxMode":0,
   "bbox_bottom":70,
   "bbox_left":0,
@@ -23,9 +23,9 @@
   "layers":[
     {"$GMImageLayer":"","%Name":"8eff00b0-ae80-4013-89c1-2e312eb00109","blendMode":0,"displayName":"default","isLocked":false,"name":"8eff00b0-ae80-4013-89c1-2e312eb00109","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"spr_andarilho",
+  "name":"spr_mercante",
   "nineSlice":null,
-  "origin":0,
+  "origin":4,
   "parent":{
     "name":"enemies",
     "path":"folders/Sprites/enemies.yy",
@@ -35,7 +35,7 @@
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"v1",
-    "%Name":"spr_andarilho",
+    "%Name":"spr_mercante",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -59,7 +59,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"spr_andarilho",
+    "name":"spr_mercante",
     "playback":1,
     "playbackSpeed":4.0,
     "playbackSpeedType":0,
@@ -71,20 +71,20 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d66ea6c0-1a06-4be2-b287-fb0ba68b72bf","path":"sprites/spr_andarilho/spr_andarilho.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d66ea6c0-1a06-4be2-b287-fb0ba68b72bf","path":"sprites/spr_mercante/spr_mercante.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"fcb772dc-8d1b-4f65-a814-c73fda4e3383","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"01bb43a4-398a-487e-97c9-5029680d0a2d","path":"sprites/spr_andarilho/spr_andarilho.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"01bb43a4-398a-487e-97c9-5029680d0a2d","path":"sprites/spr_mercante/spr_mercante.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"ad246d03-b1a0-48ca-ac5a-42c8061ccf7f","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ff7b6997-a99d-41e2-ad3b-b4746e7703bd","path":"sprites/spr_andarilho/spr_andarilho.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ff7b6997-a99d-41e2-ad3b-b4746e7703bd","path":"sprites/spr_mercante/spr_mercante.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"3561f630-5496-4d70-9ac5-139e86467b2d","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":0,
-    "yorigin":0,
+    "xorigin":31,
+    "yorigin":35,
   },
   "swatchColours":null,
   "swfPrecision":0.5,

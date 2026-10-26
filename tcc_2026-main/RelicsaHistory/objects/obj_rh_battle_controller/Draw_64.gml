@@ -496,8 +496,8 @@ if (state == BATTLE_STATE.ATTACK_ANIM && anim_swing
     // De onde sai (ponta do livro) e para onde vai (centro do inimigo)
     var _sx = _talai_x + ANIM_PROJECTILE_BOOK_OFFSET_X;
     var _sy = _talai_y + ANIM_PROJECTILE_BOOK_OFFSET_Y;
-    var _tx = _pen.x        + (sprite_get_width(_pen.sprite_index)  * _pen.image_xscale) / 2;
-    var _ty = _pen.centro_y + (sprite_get_height(_pen.sprite_index) * _pen.image_yscale) / 2;
+    var _tx = _pen.x        + (sprite_get_width(_pen.sprite_index)  / 2 - sprite_get_xoffset(_pen.sprite_index)) * _pen.image_xscale;
+	var _ty = _pen.centro_y + (sprite_get_height(_pen.sprite_index) / 2 - sprite_get_yoffset(_pen.sprite_index)) * _pen.image_yscale;
 
     // u: 0 = acabou de sair do livro | 1 = chegou no inimigo | >1 = passou direto (só no erro)
     var _u = (anim_timer - ANIM_ATTACK_WINDUP_FRAMES) / ANIM_PROJECTILE_TRAVEL_FRAMES;
@@ -541,8 +541,8 @@ if (state == BATTLE_STATE.ATTACK_ANIM && anim_hit && anim_impact_done
     && instance_exists(obj_rh_battle_enemy)) {
 
     var _en    = obj_rh_battle_enemy;
-    var _ecx   = _en.x + (sprite_get_width(_en.sprite_index)  * _en.image_xscale) / 2;
-    var _ecy   = _en.centro_y + (sprite_get_height(_en.sprite_index) * _en.image_yscale) / 2;
+    var _ecx = _en.x        + (sprite_get_width(_en.sprite_index)  / 2 - sprite_get_xoffset(_en.sprite_index)) * _en.image_xscale;
+	var _ecy = _en.centro_y + (sprite_get_height(_en.sprite_index) / 2 - sprite_get_yoffset(_en.sprite_index)) * _en.image_yscale;
     var _since = anim_timer - ANIM_ATTACK_DURATION;   // frames desde o impacto
 
     // ── Efeito de impacto (corte) ─────────────────────────────────

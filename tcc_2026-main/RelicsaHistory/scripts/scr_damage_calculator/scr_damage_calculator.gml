@@ -2,6 +2,8 @@
 #macro DMG_PLAYER_BASE_MAX  30
 #macro DMG_ENEMY_BASE_MIN    2//alterado para possibildade de um combate mais longevo para o pitch
 #macro DMG_ENEMY_BASE_MAX    6//mesma coisa do acima
+#macro ENEMY_MAX_W 100   // área livre à direita da caixa (x 205..320)
+#macro ENEMY_MAX_H 130   // acima do HUD (que começa em y=170)
 #macro DMG_SCORE_SCALE       0.5
 
 // ── DEFENDER ──────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 {
   "$GMSprite":"v2",
-  "%Name":"spr_andarilho_damage",
+  "%Name":"spr_mercante_damage",
   "bboxMode":0,
   "bbox_bottom":68,
   "bbox_left":0,
@@ -21,9 +21,9 @@
   "layers":[
     {"$GMImageLayer":"","%Name":"13ccadcd-1d8c-45a5-a230-d31c450b7351","blendMode":0,"displayName":"default","isLocked":false,"name":"13ccadcd-1d8c-45a5-a230-d31c450b7351","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"spr_andarilho_damage",
+  "name":"spr_mercante_damage",
   "nineSlice":null,
-  "origin":0,
+  "origin":1,
   "parent":{
     "name":"damage",
     "path":"folders/Sprites/enemies/damage.yy",
@@ -33,7 +33,7 @@
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"v1",
-    "%Name":"spr_andarilho_damage",
+    "%Name":"spr_mercante_damage",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -57,7 +57,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"spr_andarilho_damage",
+    "name":"spr_mercante_damage",
     "playback":1,
     "playbackSpeed":30.0,
     "playbackSpeedType":0,
@@ -69,13 +69,13 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8feece97-cbc8-4171-99c6-eae5785f882b","path":"sprites/spr_andarilho_damage/spr_andarilho_damage.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8feece97-cbc8-4171-99c6-eae5785f882b","path":"sprites/spr_mercante_damage/spr_mercante_damage.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"b9678d09-b066-42e9-935f-cb1e4a33d9dc","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":0,
+    "xorigin":31,
     "yorigin":0,
   },
   "swatchColours":null,

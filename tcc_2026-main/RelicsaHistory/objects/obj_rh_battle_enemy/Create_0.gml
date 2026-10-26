@@ -1,5 +1,7 @@
-image_xscale = 2;
-image_yscale = 2;
+var _fit = min(ENEMY_MAX_W / sprite_get_width(sprite_index),
+               ENEMY_MAX_H / sprite_get_height(sprite_index));
+image_xscale = _fit;
+image_yscale = _fit;
 tempo       = 0;
 centro_y    = y;
 // Cadência e velocidade da bala vêm da definição do inimigo (get_rh_enemy_data)

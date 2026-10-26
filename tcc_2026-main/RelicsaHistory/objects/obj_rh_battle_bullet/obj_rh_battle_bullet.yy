@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_rh_battle_bullet",
-    "path":"sprites/spr_rh_battle_bullet/spr_rh_battle_bullet.yy",
+    "name":"spr_ball_attack",
+    "path":"sprites/spr_ball_attack/spr_ball_attack.yy",
   },
   "spriteMaskId":null,
   "visible":true,

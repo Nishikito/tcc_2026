@@ -1,3 +1,5 @@
+if (intro_timer > 0) intro_timer--;
+
 if (talai_hit_timer > 0) talai_hit_timer--;
 cursor_timer += UI_CURSOR_BOB_SPEED;   // balanço do cursor (só o tempo; o Draw desenha)
 

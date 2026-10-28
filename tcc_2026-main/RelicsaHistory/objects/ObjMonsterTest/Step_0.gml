@@ -45,19 +45,6 @@ switch(state) {
         }
         break;
         
-   case "caught":
-    caught_timer--;
-    if (caught_timer <= 0) {
-        global.pre_battle_room     = room;
-        global.pre_battle_hp       = global.hp;
-        global.pre_battle_x        = ObjPlayer.x;
-        global.pre_battle_y        = ObjPlayer.y;
-        global.current_enemy_id    = enemy_id; // mesmo ID checado no Create/Collision — ver explicação da Alteração 2
-        var _edata = get_rh_enemy_data(enemy_id);
-        global.battle_enemy_hp     = _edata.max_hp;
-        global.battle_enemy_max_hp = _edata.max_hp;
-        with (ObjPlayer) instance_destroy();
-        room_goto(rm_rh_battle);
-    }
+  case "caught":
     break;
 }

@@ -25,5 +25,9 @@ if (state == "chasing") {
         global.pre_battle_room = room;//talvez precise trocar
     }
     global.current_enemy_id = enemy_id;
-    //global.dialog_active = true;
+    if (!instance_exists(obj_battle_transition)) {
+    var _t = instance_create_depth(0, 0, -50000, obj_battle_transition);
+    _t.enemy          = id;
+    _t.enemy_id_value = enemy_id;
+}
 }

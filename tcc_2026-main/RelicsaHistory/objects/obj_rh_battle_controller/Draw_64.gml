@@ -592,3 +592,13 @@ if (state == BATTLE_STATE.ATTACK_ANIM && anim_hit && anim_impact_done
 draw_set_halign(fa_left);
 draw_set_color(c_white);
 draw_set_alpha(1);
+
+
+//transição
+if (intro_timer > 0) {
+    draw_set_alpha(intro_timer / intro_max);
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, _gw, _gh, false);
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+}

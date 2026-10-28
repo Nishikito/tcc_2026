@@ -109,6 +109,7 @@
     {"id":{"name":"fnt_dialogo","path":"fonts/fnt_dialogo/fnt_dialogo.yy",},},
     {"id":{"name":"fnt_main","path":"fonts/fnt_main/fnt_main.yy",},},
     {"id":{"name":"fnt_question","path":"fonts/fnt_question/fnt_question.yy",},},
+    {"id":{"name":"obj_battle_transition","path":"objects/obj_battle_transition/obj_battle_transition.yy",},},
     {"id":{"name":"obj_buttons","path":"objects/obj_buttons/obj_buttons.yy",},},
     {"id":{"name":"obj_carol_teachers_room","path":"objects/obj_carol_teachers_room/obj_carol_teachers_room.yy",},},
     {"id":{"name":"Obj_Credits","path":"objects/Obj_Credits/Obj_Credits.yy",},},

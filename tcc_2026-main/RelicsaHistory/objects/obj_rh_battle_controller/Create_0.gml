@@ -1,6 +1,14 @@
 // GUI fixa em 320x240 — mesma resolução do projeto principal
 display_set_gui_size(320, 240);
-gpu_set_tex_filter(false);
+global.fade_active = false;
+intro_max   = 25;
+intro_timer = intro_max;
+// Veio da transição (os sprites já estão na formação)? Então NÃO faz fade a partir do preto:
+// esse fade cobriria o Talai e o inimigo e eles "sumiriam e reapareceriam".
+if (variable_global_exists("battle_from_transition") && global.battle_from_transition) {
+    intro_timer = 0;
+    global.battle_from_transition = false;
+}
 
 // ── MÁQUINA DE ESTADOS ────────────────────────────────────────────
 enum BATTLE_STATE {

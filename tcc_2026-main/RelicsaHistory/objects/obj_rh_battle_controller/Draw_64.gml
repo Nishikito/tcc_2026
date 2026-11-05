@@ -16,8 +16,7 @@ var _talai_y = 95;
 var _talai_spr = spr_talaiB_battle;
 var _talai_img = 0;
 
-// Oscilação suave baseada no tempo
-var _osc = dsin(current_time * 0.1) * 2;
+var _osc = dsin((current_time - battle_start_time) * 0.1) * 2;
 
 // Estado visual baseado no estado da batalha
 var _talai_angle = 0;
@@ -124,6 +123,11 @@ var _tick_y = UI_AVG_BAR_Y + _tp_h - round(_tp_h * KNOWLEDGE_PASS_THRESHOLD / 10
 draw_set_color(c_white);
 draw_rectangle(UI_AVG_BAR_X, _tick_y, UI_AVG_BAR_X + _tp_w - 1, _tick_y, false);
 
+// Entrada do HUD: sobe de baixo com ease-out (70 = altura do HUD)
+var _ui_dy = power(ui_intro_timer / ui_intro_max, 3) * 70;
+matrix_set(matrix_world, matrix_build(0, round(_ui_dy), 0, 0, 0, 0, 1, 1, 1));
+
+
 // ══════════════════════════════════════════════════════════════════
 // HUD INFERIOR — estilo Deltarune
 // Linha de info do personagem + caixa de diálogo + botões de ação
@@ -197,6 +201,9 @@ for (var i = 0; i < array_length(menu_names); i++) {
     if (_cmd_sel) _cmd_img += 4;
 
     draw_sprite(UI_SLOT_COMMAND_SPRITE, _cmd_img, _cmd_x, _cmd_y);
+	    // Coração no comando selecionado (mesmo ponto onde a transição o deixa).
+    // O 100 é o mesmo espaçamento do _cmd_x = 28 + i * 100.
+    if (_cmd_sel) draw_sprite(spr_rh_battle_player, 0, UI_MENU_HEART_X + i * 100, UI_MENU_HEART_Y);
 
     if (_cmd_sel) draw_set_color(UI_COLOR_SELECTED);
     else          draw_set_color(c_white);
@@ -480,6 +487,7 @@ switch (state) {
         draw_text_ext(_cx1, _cy1, "* Você foi derrotado... [Z] para continuar.", 12, _cw);
         break;
 }
+matrix_set(matrix_world, matrix_build_identity());   // fim da animação de entrada do HUD
 
 // ══════════════════════════════════════════════════════════════════
 // PROJÉTIL DO TALAI (VISUAL) — orbe que sai do livro e viaja até o inimigo

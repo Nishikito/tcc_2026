@@ -1,4 +1,5 @@
 timer++;
+if (phase <= 1) capture_world();   // NOVA: mantém a captura sempre atualizada
 
 // Fases 0 e 1: player e inimigo parados e NA FRENTE do escurecimento
 if (phase <= 1) {
@@ -15,7 +16,10 @@ if (phase <= 1) {
 switch (phase) {
 
     case 0: // "!" sobre o player
-        if (timer == 1) audio_play_sound(sfxEnemyEncounter, 0, false);
+        if (timer == 1) {
+            audio_stop_sound(SndCastleFunk);   // a música do mundo corta no encontro
+            audio_play_sound(sfxEnemyEncounter, 0, false);
+        }
         if (timer >= t_alert) { phase = 1; timer = 0; }
         break;
 
@@ -45,6 +49,9 @@ switch (phase) {
             var _edata = get_rh_enemy_data(enemy_id_value);
             global.battle_enemy_hp     = _edata.max_hp;
             global.battle_enemy_max_hp = _edata.max_hp;
+
+            // Avisa o controller: os sprites JÁ estão em formação, não faça fade a partir do preto
+            global.battle_from_transition = true;
 
             with (ObjPlayer) instance_destroy();
             room_goto(rm_rh_battle);

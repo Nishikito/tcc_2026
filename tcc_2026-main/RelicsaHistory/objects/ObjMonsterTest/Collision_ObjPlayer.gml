@@ -26,8 +26,11 @@ if (state == "chasing") {
     }
     global.current_enemy_id = enemy_id;
     if (!instance_exists(obj_battle_transition)) {
-    var _t = instance_create_depth(0, 0, -50000, obj_battle_transition);
-    _t.enemy          = id;
-    _t.enemy_id_value = enemy_id;
+    // enemy e enemy_id_value PRECISAM ir no struct: o Create da transição lê esses valores
+    // e ele roda DENTRO do instance_create_depth, antes da linha seguinte.
+    instance_create_depth(0, 0, -50000, obj_battle_transition, {
+        enemy: id,
+        enemy_id_value: enemy_id
+    });
 }
 }

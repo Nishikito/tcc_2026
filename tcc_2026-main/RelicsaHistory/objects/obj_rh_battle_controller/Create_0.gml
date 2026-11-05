@@ -3,12 +3,19 @@ display_set_gui_size(320, 240);
 global.fade_active = false;
 intro_max   = 25;
 intro_timer = intro_max;
-// Veio da transição (os sprites já estão na formação)? Então NÃO faz fade a partir do preto:
-// esse fade cobriria o Talai e o inimigo e eles "sumiriam e reapareceriam".
-if (variable_global_exists("battle_from_transition") && global.battle_from_transition) {
-    intro_timer = 0;
+
+var _from_transition = (variable_global_exists("battle_from_transition") && global.battle_from_transition);
+if (_from_transition) {
+    intro_timer = 0;                          // sem fade: a formação já está na tela
     global.battle_from_transition = false;
 }
+
+// HUD sobe de baixo (só quando veio da transição)
+ui_intro_max   = 14;
+ui_intro_timer = _from_transition ? ui_intro_max : 0;
+
+// Oscilação do Talai começa em 0 (sem "pulo" na chegada)
+battle_start_time = current_time;
 
 // ── MÁQUINA DE ESTADOS ────────────────────────────────────────────
 enum BATTLE_STATE {

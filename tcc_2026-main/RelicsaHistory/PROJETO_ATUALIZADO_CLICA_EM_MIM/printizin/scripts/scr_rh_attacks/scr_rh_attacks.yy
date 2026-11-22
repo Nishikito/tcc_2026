@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_rh_attacks",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_rh_attacks",
+  "parent":{
+    "name":"history",
+    "path":"folders/Scripts/battleTest/history.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

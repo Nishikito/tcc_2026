@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_enemy_data",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_enemy_data",
+  "parent":{
+    "name":"battleTest",
+    "path":"folders/Scripts/battleTest.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

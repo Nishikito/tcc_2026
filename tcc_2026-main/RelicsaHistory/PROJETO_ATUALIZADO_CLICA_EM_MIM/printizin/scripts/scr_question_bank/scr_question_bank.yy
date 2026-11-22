@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_question_bank",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_question_bank",
+  "parent":{
+    "name":"history",
+    "path":"folders/Scripts/battleTest/history.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

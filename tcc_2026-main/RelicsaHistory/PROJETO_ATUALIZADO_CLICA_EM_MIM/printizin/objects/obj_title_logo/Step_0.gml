@@ -1,0 +1,63 @@
+if (logo_alpha < 1) {
+    logo_alpha += fade_speed;
+    logo_scale = lerp(logo_scale, target_scale, scale_speed);
+    
+
+    shake_x = random_range(-shake_amount, shake_amount);
+    shake_y = random_range(-shake_amount, shake_amount);
+} else {
+
+    logo_ready = true;
+    show_enter_text = true;
+    
+
+    shake_x = random_range(-1, 1);
+    shake_y = random_range(-1, 1);
+}
+
+
+if (show_enter_text) {
+    enter_text_alpha = 0.5 + sin(current_time * 0.005) * 0.5;
+}
+
+
+if (logo_ready && keyboard_check_pressed(vk_enter)) {
+    audio_play_sound(sfxSelect, 0, false);
+    room_goto(rm_title); 
+}
+
+
+
+// ── CHEAT CODE: cima cima baixo baixo esquerda direita esquerda direita ──
+if (!variable_instance_exists(id, "cheat_sequence")) {
+    cheat_sequence = [vk_up, vk_up, vk_down, vk_down, vk_left, vk_right, vk_left, vk_right];
+    cheat_index    = 0;
+}
+
+var _keys = [vk_up, vk_down, vk_left, vk_right];
+var _activated = false;
+
+for (var _i = 0; _i < array_length(_keys); _i++) {
+    if (keyboard_check_pressed(_keys[_i])) {
+        if (_keys[_i] == cheat_sequence[cheat_index]) {
+            cheat_index++;
+            if (cheat_index >= array_length(cheat_sequence)) {
+                _activated = true;
+                cheat_index = 0;
+            }
+        } else {
+            cheat_index = 0;
+            if (_keys[_i] == cheat_sequence[0]) {
+                cheat_index = 1;
+            }
+        }
+        break; // ← só processa uma tecla por frame — evita conflito no loop
+    }
+}
+
+// Executa fora do loop para não travar o objeto no meio da iteração
+if (_activated) {
+    audio_play_sound(sfxTitle, 0, false);
+    room_goto(rm_teste);
+    exit; // ← interrompe qualquer código restante neste Step
+}

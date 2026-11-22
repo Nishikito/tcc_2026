@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_damage_calculator",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_damage_calculator",
+  "parent":{
+    "name":"history",
+    "path":"folders/Scripts/battleTest/history.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

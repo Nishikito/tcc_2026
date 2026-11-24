@@ -424,7 +424,7 @@
   "name":"rm_aldeia_indigena",
   "parent":{
     "name":"capitulo1",
-    "path":"folders/Rooms/historyworld/capitulo1.yy",
+    "path":"folders/Rooms/functions/historyworld/capitulo1.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -1,0 +1,1 @@
+if (is_following) party_follower_step();

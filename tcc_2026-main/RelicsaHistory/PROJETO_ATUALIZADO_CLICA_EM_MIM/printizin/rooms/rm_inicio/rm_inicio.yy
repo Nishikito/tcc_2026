@@ -258,7 +258,7 @@
   "name":"rm_inicio",
   "parent":{
     "name":"capitulo1",
-    "path":"folders/Rooms/historyworld/capitulo1.yy",
+    "path":"folders/Rooms/functions/historyworld/capitulo1.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

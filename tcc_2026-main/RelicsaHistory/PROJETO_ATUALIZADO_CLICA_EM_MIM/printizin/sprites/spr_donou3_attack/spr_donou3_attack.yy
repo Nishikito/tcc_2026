@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"espelho",
+    "path":"folders/Sprites/enemies/attacks/espelho.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

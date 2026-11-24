@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"juiz_das_armas",
+    "path":"folders/Sprites/enemies/attacks/juiz_das_armas.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

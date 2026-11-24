@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"amante_de_dom_pedro",
+    "path":"folders/Sprites/enemies/attacks/amante_de_dom_pedro.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

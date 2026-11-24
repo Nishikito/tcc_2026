@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"quinto_do_inferno",
+    "path":"folders/Sprites/enemies/attacks/quinto_do_inferno.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

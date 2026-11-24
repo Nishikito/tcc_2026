@@ -18,7 +18,7 @@
 // Flags de progresso da história (ex.: "carol_disappeared"). Escreva o NOME da variável
 // global, entre aspas. Só nomes listados aqui são gravados e restaurados.
 function save_extra_globals() {
-    return [];
+    return ["carol_disappeared"];
 }
 
 
@@ -37,17 +37,13 @@ function save_slot_exists(_slot) {
 // Ajuste os textos livremente. Salas que não estão aqui mostram o nome do asset.
 function save_get_location_name(_room) {
     switch (_room) {
-        case RoomClass1:             return "Sala de Aula";
-        case RoomCantina:            return "Cantina";
-        case RoomBathroom:           return "Banheiro";
-        case RoomBathroom1:          return "Banheiro";
-        case RoomTeachers:           return "Sala dos Professores";
-        case RoomTeachersAbandoned:  return "Sala dos Professores (abandonada)";
-        case Room5:                  return "Sala 5";
-        case Room5Abandoned:         return "Sala 5 (abandonada)";
-        case RoomPc:                 return "Sala de Informática";
-        case Room_Colonia1:          return "Colônia";
-        case RoomVoidPass:           return "Passagem do Vazio";
+        case RoomClass1_1:           return "Sala de Aula";
+        case RoomRefeitorio:         return "Refeitório";
+        case RoomBathroom_1:         return "Banheiro";
+        case RoomBathroom1_1:        return "Banheiro";
+        case RoomTeachers_1:         return "Sala dos Professores";
+        case RoomSalasCorredor:      return "Corredor das Salas";
+        case RoomPatio:              return "Pátio";
         case rm_teste:               return "Sala de Testes";
     }
     return room_get_name(_room);
@@ -276,6 +272,9 @@ function save_reset_progress() {
     global.history_knowledge     = 0;
     global.defeated_enemies      = [];
     global.play_time             = 0;
+    global.scenes_done           = {};     // as cenas (cutscene_trigger "once") voltam a poder tocar
+    global.carol_disappeared     = false;   // a Carol volta a existir no jogo novo
+    global.carol_defeated        = false;
 
     // Sobras de uma batalha anterior não podem vazar para o jogo novo
     global.pre_battle_hp = 0;

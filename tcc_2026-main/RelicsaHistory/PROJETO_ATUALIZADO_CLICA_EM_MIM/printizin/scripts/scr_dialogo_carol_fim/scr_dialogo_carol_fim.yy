@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_dialogo_carol_fim",
   "parent":{
-    "name":"dialogue",
-    "path":"folders/Scripts/dialogue.yy",
+    "name":"dialogue-npcs",
+    "path":"folders/Scripts/dialogue/dialogue-npcs.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

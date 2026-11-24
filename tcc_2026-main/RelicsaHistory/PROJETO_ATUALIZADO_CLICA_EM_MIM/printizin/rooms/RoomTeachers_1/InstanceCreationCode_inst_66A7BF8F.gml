@@ -1,3 +1,3 @@
-scene_id = "professor_livro";
+scene_id = "teachers_livro";
 once = true;
 interact = false;

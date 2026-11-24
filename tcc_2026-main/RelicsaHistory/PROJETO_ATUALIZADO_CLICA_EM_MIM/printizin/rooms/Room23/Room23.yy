@@ -16,7 +16,7 @@
   "name":"Room23",
   "parent":{
     "name":"capitulo1",
-    "path":"folders/Rooms/functions/historyworld/capitulo1.yy",
+    "path":"folders/Rooms/historyworld/capitulo1.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -190,7 +190,7 @@ function end_math_battle(success) {
         if(variable_instance_exists(id, "room_on_defeat") && room_exists(room_on_defeat)) {
             room_goto(room_on_defeat);
         } else {
-            room_goto(RoomTeachersAbandoned);
+            room_goto(RoomTeachers_1);
         }
         instance_destroy();
     }

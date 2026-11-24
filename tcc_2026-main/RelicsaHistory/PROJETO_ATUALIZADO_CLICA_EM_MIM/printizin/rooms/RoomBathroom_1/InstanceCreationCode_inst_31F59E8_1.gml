@@ -1,1 +1,1 @@
-text_id = "npc1";
+text_id = "sans1";

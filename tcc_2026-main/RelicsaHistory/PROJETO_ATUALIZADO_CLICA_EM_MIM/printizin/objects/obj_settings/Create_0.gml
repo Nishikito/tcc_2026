@@ -8,6 +8,11 @@ global.carol_disappeared = false;
 global.fade_active = false;
 global.intro_played = false;
 global.math_battle_active = false;
+// ── CUTSCENES ─────────────────────────────────────────────────────
+// Este Create roda de novo a cada troca de sala, então só cria se ainda não existir.
+if (!variable_global_exists("scenes_done"))     global.scenes_done     = {};     // cenas "once" já tocadas
+if (!variable_global_exists("cutscene_active")) global.cutscene_active = false;  // true enquanto o obj_cutscene roda
+if (!variable_global_exists("pending_scene"))   global.pending_scene   = "";     // cena que toca ao entrar na próxima sala
 global.player_lives = 3;
 global.max_lives = 3;
 global.previous_room = -1; 

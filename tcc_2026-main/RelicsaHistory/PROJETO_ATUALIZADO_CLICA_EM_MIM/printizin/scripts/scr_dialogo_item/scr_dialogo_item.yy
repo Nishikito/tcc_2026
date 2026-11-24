@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_dialogo_item",
   "parent":{
-    "name":"dialogue",
-    "path":"folders/Scripts/dialogue.yy",
+    "name":"dialogue-items",
+    "path":"folders/Scripts/dialogue/dialogue-items.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

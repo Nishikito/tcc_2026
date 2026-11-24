@@ -206,4 +206,4 @@ function apply_heal_to_player(amount) {
 #macro UI_COLOR_HP_LABEL       make_color_rgb(255, 220, 60)  // amarelo do rótulo "HP"
 #macro UI_MENU_HEART_X  15      // centro X do coração no 1º comando (ícone começa em x=28)
 #macro TRANSITION_DEBUG true    // true = mostra info na tela durante a transição (desligue depois do teste)
-#macro UI_MENU_HEART_Y  226.5   // centro Y do coração (ícones em y=220, altura 13)
+#macro UI_MENU_HEART_Y  226.5

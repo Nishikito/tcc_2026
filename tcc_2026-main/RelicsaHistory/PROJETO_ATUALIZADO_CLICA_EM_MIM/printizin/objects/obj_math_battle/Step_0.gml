@@ -143,7 +143,7 @@ switch(battle_state) {
                 global.fade_active = true;
                 global.math_battle_active = false;
                 global.dialog_active = false;
-                room_goto(RoomTeachersAbandoned);
+                room_goto(RoomTeachers_1);
             } else {
                 end_math_battle(false);
             }

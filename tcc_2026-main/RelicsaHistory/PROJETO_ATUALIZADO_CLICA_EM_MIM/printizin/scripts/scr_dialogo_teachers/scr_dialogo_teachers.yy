@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_dialogo_teachers",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_dialogo_teachers",
+  "parent":{
+    "name":"dialogue-npcs",
+    "path":"folders/Scripts/dialogue/dialogue-npcs.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

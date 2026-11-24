@@ -1,5 +1,5 @@
 
-if (room == RoomTeachersAbandoned && global.carol_defeated && !carol_transition_done) {
+if (room == RoomTeachers_1 && global.carol_defeated && !carol_transition_done) {
     carol_transition_done = true;
 
     global.player_knocked_down = true;

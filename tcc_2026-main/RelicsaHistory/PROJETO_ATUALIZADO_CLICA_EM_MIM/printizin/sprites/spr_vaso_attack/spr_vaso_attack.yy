@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"itagibe",
+    "path":"folders/Sprites/enemies/attacks/itagibe.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

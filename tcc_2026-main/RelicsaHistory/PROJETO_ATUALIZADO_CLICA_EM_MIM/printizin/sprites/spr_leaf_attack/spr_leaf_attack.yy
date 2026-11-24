@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"guarana",
+    "path":"folders/Sprites/enemies/attacks/guarana.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

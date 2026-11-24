@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"attacks",
-    "path":"folders/Sprites/enemies/attacks.yy",
+    "name":"caravela",
+    "path":"folders/Sprites/enemies/attacks/caravela.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

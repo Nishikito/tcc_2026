@@ -34,8 +34,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_ball_attack",
-    "path":"sprites/spr_ball_attack/spr_ball_attack.yy",
+    "name":"spr_guarana_attack",
+    "path":"sprites/spr_guarana_attack/spr_guarana_attack.yy",
   },
   "spriteMaskId":null,
   "visible":true,

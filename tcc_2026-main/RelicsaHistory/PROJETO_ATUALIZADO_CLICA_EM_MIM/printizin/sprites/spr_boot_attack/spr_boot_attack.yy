@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"bandeirante",
-    "path":"folders/Sprites/enemies/attacks/bandeirante.yy",
+    "name":"apressador_das_sombras",
+    "path":"folders/Sprites/enemies/attacks/apressador_das_sombras.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

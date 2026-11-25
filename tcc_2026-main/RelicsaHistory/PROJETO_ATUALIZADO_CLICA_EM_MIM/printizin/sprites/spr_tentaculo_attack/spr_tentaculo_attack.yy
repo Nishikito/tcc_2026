@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"caravela",
-    "path":"folders/Sprites/enemies/attacks/caravela.yy",
+    "name":"monstro_das_mocoes",
+    "path":"folders/Sprites/enemies/attacks/monstro_das_mocoes.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

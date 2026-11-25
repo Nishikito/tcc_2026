@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"macacate_de_prata",
-    "path":"folders/Sprites/enemies/attacks/macacate_de_prata.yy",
+    "name":"mascate_de_prata",
+    "path":"folders/Sprites/enemies/attacks/mascate_de_prata.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

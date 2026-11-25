@@ -1,0 +1,2 @@
+if (clip_to_box) rh_draw_clipped(sprite_index, image_index, x, y, image_xscale, image_yscale, image_blend, image_alpha); else draw_self();
+if (t < warn_t) rh_draw_warning(x, by1, x + sprite_get_width(sprite_index), by2, t);

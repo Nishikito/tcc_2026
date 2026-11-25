@@ -1,0 +1,11 @@
+event_inherited();
+active = false;
+dmg_mult = 1.25;
+clip_to_box = true;
+warn_t = 26;
+n_shots = 5;
+fire_t = 7;
+spd = 5.4;
+shots = 0;
+t = 0;
+aim = 180;

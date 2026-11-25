@@ -77,21 +77,24 @@ function calculate_enemy_damage() {
 // Cada inimigo é um OBJETO (obj_rh_en_*) com a própria ficha (nome, HP, dano) e os próprios ataques.
 // Esta função só diz QUAL objeto usar para cada enemy_id (o mesmo do enemy_id do ObjMonsterTest da sala).
 // Para criar um inimigo novo: (1) crie o obj_rh_en_xxx como filho de obj_rh_battle_enemy
-// (copie um existente), (2) adicione uma linha "case" aqui. IDs não listados usam a Caravela
+// (copie um existente), (2) adicione uma linha "case" aqui. IDs não listados usam o Monstro das Monções
 // (o obj_rh_battle_enemy puro é só o marcador da room / inimigo de tiro mirado antigo).
 // (O get_enemy_data do scr_enemy_data é do sistema ANTIGO de matemática.)
 function get_rh_enemy_object(enemy_id) {
     switch (enemy_id) {
-        case "Caravela":
-        case "MathMonster":     return obj_rh_en_caravela;
-        case "Andarilho":
-        case "Mercante":        return obj_rh_en_andarilho;
-        case "Estatueta":       return obj_rh_en_estatueta;
+        case "MonstroDasMocoes":
+        case "MathMonster":     return obj_rh_en_monstro_das_mocoes;
+        case "MascateDePrata":  return obj_rh_en_mascate_de_prata;
+        case "Itagibe":         return obj_rh_en_itagibe;
         case "Guarana":         return obj_rh_en_guarana;
         case "Espelho":         return obj_rh_en_espelho;
-        case "BalancaJustica":  return obj_rh_en_balanca;
+        case "IntenenteDeFerro": return obj_rh_en_intenente_de_ferro;
         case "Colonizador":     return obj_rh_en_colonizador;
-        default:                return obj_rh_en_caravela;    // IDs desconhecidos
+        case "Carumaru":        return obj_rh_en_carumaru;
+        case "ApressadorDasSombras": return obj_rh_en_apressador_das_sombras;
+        case "JuizDasArmas":    return obj_rh_en_juiz_das_armas;
+        case "TronoVazio":      return obj_rh_en_trono_vazio;
+        default:                return obj_rh_en_monstro_das_mocoes;    // IDs desconhecidos
     }
 }
 
@@ -159,7 +162,7 @@ function apply_heal_to_player(amount) {
 #macro ANIM_SLOT_TALAI_ATTACK_SPRITE   spr_talaiB_attack   // Talai atacando (substitui SprPlayerDown no golpe)
 #macro ANIM_SLOT_PROJECTILE_SPRITE     spr_talaiB_projectle   // orbe lançado pelo livro (aponta para a DIREITA)
 #macro ANIM_SLOT_ATTACK_FX_SPRITE      noone   // efeito de corte/impacto sobre o inimigo
-#macro ANIM_SLOT_ENEMY_HIT_SPRITE      spr_caravela//provisorio   // inimigo tomando dano (substitui spr_rh_battle_enemy)
+#macro ANIM_SLOT_ENEMY_HIT_SPRITE      spr_monstro_das_mocoes//provisorio   // inimigo tomando dano (substitui spr_rh_battle_enemy)
 
 #macro ANIM_TALAI_ATTACK_SPRITE_SPEED  0.5
 

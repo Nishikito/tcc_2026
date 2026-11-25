@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_caravela",
-    "path":"sprites/spr_caravela/spr_caravela.yy",
+    "name":"spr_monstro_das_mocoes",
+    "path":"sprites/spr_monstro_das_mocoes/spr_monstro_das_mocoes.yy",
   },
   "spriteMaskId":null,
   "visible":true,

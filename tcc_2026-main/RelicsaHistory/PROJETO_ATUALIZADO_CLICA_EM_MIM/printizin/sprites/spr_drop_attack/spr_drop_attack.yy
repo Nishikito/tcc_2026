@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"amante_de_dom_pedro",
-    "path":"folders/Sprites/enemies/attacks/amante_de_dom_pedro.yy",
+    "name":"carumaru",
+    "path":"folders/Sprites/enemies/attacks/carumaru.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

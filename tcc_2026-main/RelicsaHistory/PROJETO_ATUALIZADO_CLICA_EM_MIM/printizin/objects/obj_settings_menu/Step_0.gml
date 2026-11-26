@@ -54,11 +54,9 @@ if (current_tab == 0) {
 
     if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(global.key_left)) {
         if (audio_sel == 0) {
-            // BGM — aplica direto nos assets de música
+            // BGM — overworld + ambiente + todas as trilhas de batalha + título
             global.vol_bgm = max(0.0, global.vol_bgm - 0.1);
-            audio_sound_gain(SndCastleFunk, global.vol_bgm, 0);
-            audio_sound_gain(sfxTitle,      global.vol_bgm, 0);
-            audio_sound_gain(sfxBattle1,    global.vol_bgm, 0);
+            apply_music_volume(global.vol_bgm);
         } else {
             // SFX — aplica em todos os efeitos sonoros
             global.vol_sfx = max(0.0, global.vol_sfx - 0.1);
@@ -77,9 +75,7 @@ if (current_tab == 0) {
     if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(global.key_right)) {
         if (audio_sel == 0) {
             global.vol_bgm = min(1.0, global.vol_bgm + 0.1);
-            audio_sound_gain(SndCastleFunk, global.vol_bgm, 0);
-            audio_sound_gain(sfxTitle,      global.vol_bgm, 0);
-            audio_sound_gain(sfxBattle1,    global.vol_bgm, 0);
+            apply_music_volume(global.vol_bgm);
         } else {
             global.vol_sfx = min(1.0, global.vol_sfx + 0.1);
             audio_sound_gain(sfxSelect,      global.vol_sfx, 0);

@@ -8,10 +8,12 @@ global.carol_disappeared = false;
 global.fade_active = false;
 global.intro_played = false;
 global.math_battle_active = false;
-// Música do overworld (SndCastleFunk): só inicializa uma vez, porque este Create
-// roda de novo a cada troca de sala (obj_settings é persistente).
+// Música de sala: só inicializa uma vez, porque este Create roda de novo a cada
+// troca de sala (obj_settings é persistente).
 if (!variable_global_exists("overworld_music_on"))       global.overworld_music_on       = false;
 if (!variable_global_exists("overworld_music_finished")) global.overworld_music_finished = false;
+if (!variable_global_exists("ambient_music_on"))         global.ambient_music_on         = false;
+if (!variable_global_exists("current_music_track"))      global.current_music_track      = noone;
 // ── CUTSCENES ─────────────────────────────────────────────────────
 // Este Create roda de novo a cada troca de sala, então só cria se ainda não existir.
 if (!variable_global_exists("scenes_done"))     global.scenes_done     = {};     // cenas "once" já tocadas

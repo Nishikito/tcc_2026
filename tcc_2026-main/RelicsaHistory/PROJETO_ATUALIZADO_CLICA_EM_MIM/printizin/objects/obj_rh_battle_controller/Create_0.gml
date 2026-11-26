@@ -139,14 +139,20 @@ enemy_max_hp      = 50;
 enemy_stats_ready = false;
 
 // ── MÚSICA DE BATALHA ─────────────────────────────────────────────
-// Começa junto com a batalha (a música do mundo já foi cortada pela transição) e toca em loop.
-// Faz fade-out na vitória/derrota (Step) e PÁRA ao sair da sala (CleanUp).
-// Volume: segue global.vol_bgm, igual às outras músicas (o menu de opções ajusta o asset).
-battle_music      = noone;
-battle_music_fade = false;
-audio_stop_sound(sfxBattle1);
-if (variable_global_exists("vol_bgm")) audio_sound_gain(sfxBattle1, global.vol_bgm, 0);
-battle_music = audio_play_sound(sfxBattle1, 10, true);
+// Cada inimigo tem a sua trilha (get_battle_music_track): sfxGuarana para o
+// Guaraná, sfxItagibe para o Itagibe, etc. A música do mundo já foi cortada
+// pela transição. Faz fade-out na vitória/derrota (Step) e PÁRA ao sair (CleanUp).
+// Volume: segue global.vol_bgm, igual às outras músicas (menu de opções).
+battle_music       = noone;
+battle_music_track = noone;
+battle_music_fade  = false;
+stop_all_battle_music();
+
+var _enemy_id = variable_global_exists("current_enemy_id") ? global.current_enemy_id : "";
+battle_music_track = get_battle_music_track(_enemy_id);
+var _volume = variable_global_exists("vol_bgm") ? global.vol_bgm : 1.0;
+audio_sound_gain(battle_music_track, _volume, 0);
+battle_music = audio_play_sound(battle_music_track, 10, true);
 
 // ── MENU DE ITENS ─────────────────────────────────────────────────
 // Usa global.inventory_consumables direto: o mesmo array do inventário

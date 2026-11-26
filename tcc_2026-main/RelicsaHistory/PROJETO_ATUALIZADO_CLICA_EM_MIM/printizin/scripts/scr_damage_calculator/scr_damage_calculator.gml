@@ -225,3 +225,125 @@ function apply_heal_to_player(amount) {
 #macro UI_MENU_HEART_X  15      // centro X do coração no 1º comando (ícone começa em x=28)
 #macro TRANSITION_DEBUG true    // true = mostra info na tela durante a transição (desligue depois do teste)
 #macro UI_MENU_HEART_Y  226.5
+
+
+// ══════════════════════════════════════════════════════════════════
+// TRILHAS SONORAS (batalha + ambiente)
+// ──────────────────────────────────────────────────────────────────
+// Regras únicas para não espalhar audio_play_sound pela batalha/salas.
+// Convenção: o som de um inimigo é "sfx" + enemy_id. Quando o nome do
+// asset diverge do enemy_id (grafia da pasta de sounds), o switch abaixo
+// faz a tradução. Se o asset ainda não existir, cai em sfxBattle1.
+// ══════════════════════════════════════════════════════════════════
+
+/// Retorna o asset da trilha do inimigo. Referências DIRETAS para os inimigos
+/// que já têm música — assim não depende de asset_get_index resolver o nome.
+function get_battle_music_track(_enemy_id) {
+    var _id = string(_enemy_id);
+
+    switch (_id) {
+        case "Guarana":              return sfxGuarana;
+        case "Espelho":              return sfxEspelho;
+        case "IntenenteDeFerro":     return sfxIntenentedeFerro;
+        case "Itagibe":              return sfxItagibe;
+        case "MascateDePrata":       return sfxMascatedePrata;
+        case "ApressadorDasSombras": return sfxApressadordasSombras;
+        case "TronoVazio":           return sfxTronoVazio;
+        case "MonstroDasMocoes":
+        case "MathMonster":          return sfxMonstrodasMoncoes;
+        case "JuizDasArmas":
+        case "FinalBoss":            return sfxFinalBoss;
+    }
+
+    // Convenção para inimigos futuros: sfx + ID. Se ainda não houver asset,
+    // usa a música padrão só como fallback.
+    var _asset = asset_get_index("sfx" + _id);
+    return (_asset >= 0) ? _asset : sfxBattle1;
+}
+
+/// A trilha também pode ser lida do próprio objeto do inimigo dentro da room de batalha.
+/// É a confirmação final: mesmo se o ID global mudar, o inimigo certo manda na música.
+function get_enemy_battle_music(_inst) {
+    if (_inst == noone || !instance_exists(_inst)) return noone;
+    if (variable_instance_exists(_inst, "battle_music")) return _inst.battle_music;
+    return noone;
+}
+
+/// Todas as trilhas que podem estar tocando — usado para parar/ajustar volume sem deixar resto.
+function get_battle_music_tracks() {
+    var _ids = [
+        "Guarana", "Espelho", "IntenenteDeFerro", "Itagibe",
+        "MascateDePrata", "ApressadorDasSombras", "JuizDasArmas",
+        "TronoVazio", "Carumaru", "Colonizador",
+        "MonstroDasMocoes", "MathMonster", "Carol",
+        "AlgebraGhost", "CalculusDevil", "FinalBoss", "QuintoDoInferno"
+    ];
+    var _tracks = [sfxBattle1];
+
+    for (var _i = 0; _i < array_length(_ids); _i++) {
+        var _track = get_battle_music_track(_ids[_i]);
+        var _has   = false;
+        for (var _j = 0; _j < array_length(_tracks); _j++) {
+            if (_tracks[_j] == _track) { _has = true; break; }
+        }
+        if (!_has) array_push(_tracks, _track);
+    }
+    return _tracks;
+}
+
+function stop_all_battle_music() {
+    var _tracks = get_battle_music_tracks();
+    for (var _i = 0; _i < array_length(_tracks); _i++) {
+        audio_stop_sound(_tracks[_i]);
+    }
+}
+
+function apply_battle_music_volume(_volume) {
+    var _tracks = get_battle_music_tracks();
+    for (var _i = 0; _i < array_length(_tracks); _i++) {
+        audio_sound_gain(_tracks[_i], _volume, 0);
+    }
+}
+
+/// Trilhas de ambiente/overworld (música que sobrevive à troca de sala).
+function get_ambient_tracks() {
+    return [SndCastleFunk, sfxAmbientMine1, sfxVilaIndigena];
+}
+
+function stop_all_ambient_music() {
+    var _tracks = get_ambient_tracks();
+    for (var _i = 0; _i < array_length(_tracks); _i++) {
+        audio_stop_sound(_tracks[_i]);
+    }
+}
+
+function apply_ambient_music_volume(_volume) {
+    var _tracks = get_ambient_tracks();
+    for (var _i = 0; _i < array_length(_tracks); _i++) {
+        audio_sound_gain(_tracks[_i], _volume, 0);
+    }
+}
+
+/// Um único ponto para o menu de opções: BGM = overworld + ambiente + batalha + título.
+function apply_music_volume(_volume) {
+    apply_battle_music_volume(_volume);
+    apply_ambient_music_volume(_volume);
+    audio_sound_gain(sfxTitle, _volume, 0);
+}
+
+/// Música de ambiente por sala. Fora destas salas, retorna noone.
+function get_room_ambient_music(_room) {
+    switch (_room) {
+        case rm_inicio:
+        case rm_corredor_pra_praia:
+        case rm_conecta_caminho_praia:
+        case rm_caminho_para_oca:
+            return sfxAmbientMine1;
+
+        case rm_aldeia_indigena:
+            return sfxVilaIndigena;
+
+        default:
+            return noone;
+    }
+}

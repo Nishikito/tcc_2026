@@ -16,6 +16,18 @@ if (!enemy_stats_ready) {
         global.battle_enemy_hp     = enemy_hp;
         global.battle_enemy_max_hp = enemy_max_hp;
         enemy_stats_ready = true;
+
+        // Confirma a música pelo PRÓPRIO inimigo da batalha. O Create do controller
+        // roda antes dos Creates da room, então isto corrige qualquer trilha
+        // padrão que tenha começado antes do inimigo existir.
+        var _track_from_enemy = get_enemy_battle_music(_e);
+        if (_track_from_enemy != noone && _track_from_enemy != battle_music_track) {
+            audio_stop_sound(battle_music_track);
+            battle_music_track = _track_from_enemy;
+            if (variable_global_exists("vol_bgm")) audio_sound_gain(battle_music_track, global.vol_bgm, 0);
+            battle_music = audio_play_sound(battle_music_track, 10, true);
+            battle_music_fade = false;
+        }
     }
 }
 

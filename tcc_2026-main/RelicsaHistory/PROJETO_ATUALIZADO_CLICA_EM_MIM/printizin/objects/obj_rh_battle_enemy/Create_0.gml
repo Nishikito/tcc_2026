@@ -8,6 +8,13 @@
 // Se não houver objeto próprio (ex.: "MathMonster"), este mesmo objeto é o inimigo antigo (tiro mirado).
 // ══════════════════════════════════════════════════════════════════
 var _obj = get_rh_enemy_object(global.current_enemy_id);
+
+// Trilha desta batalha. Os filhos obj_rh_en_* herdam este valor, então o
+// controller consegue confirmar a música pelo próprio inimigo no primeiro Step.
+battle_music = get_battle_music_track(
+    variable_global_exists("current_enemy_id") ? global.current_enemy_id : ""
+);
+
 if (object_index == obj_rh_battle_enemy && _obj != obj_rh_battle_enemy) {
     instance_create_layer(x, y, layer, _obj);
     instance_destroy();

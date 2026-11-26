@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sfxVilaIndigena",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":30.76898,
+  "exportDir":"",
+  "name":"sfxVilaIndigena",
+  "parent":{
+    "name":"ambient",
+    "path":"folders/Sounds/music/ambient.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sfxVilaIndigena.mp3",
+  "volume":0.75,
+}

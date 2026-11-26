@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sfxIntenentedeFerro",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":124.00898,
+  "exportDir":"",
+  "name":"sfxIntenentedeFerro",
+  "parent":{
+    "name":"enemies",
+    "path":"folders/Sounds/music/enemies.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sfxIntenentedeFerro.mp3",
+  "volume":1.0,
+}

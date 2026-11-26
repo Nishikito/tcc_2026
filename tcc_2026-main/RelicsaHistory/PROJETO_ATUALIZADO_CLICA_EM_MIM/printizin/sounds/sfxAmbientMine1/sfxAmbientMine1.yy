@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sfxAmbientMine1",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":177.50311,
+  "exportDir":"",
+  "name":"sfxAmbientMine1",
+  "parent":{
+    "name":"ambient",
+    "path":"folders/Sounds/music/ambient.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sfxAmbientMine1.mp3",
+  "volume":0.8,
+}

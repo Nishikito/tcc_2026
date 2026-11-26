@@ -92,13 +92,18 @@ if (global.carol_defeated && !global.fade_active && !instance_exists(obj_fade_in
     carol_transition_done = false;
 }
 
-// ── MÚSICA DO OVERWORLD (SndCastleFunk) ────────────────────────────
-// Toca nas salas da pasta overworld depois que a abertura de RoomClass1_1
-// termina (fade + fala "historia_acordar") e para ao chegar em RoomTeachers_1,
-// antes da cutscene do livro. A música é global (o som sobrevive à troca de sala),
-// então só liga/desliga na mudança de estado — nunca a cada frame.
+// ── MÚSICA POR SALA (ambiente / overworld) ─────────────────────────
+// rm_inicio → rm_corredor_pra_praia → rm_conecta_caminho_praia →
+// rm_caminho_para_oca: sfxAmbientMine1 (trecho da mina).
+// rm_aldeia_indigena: sfxVilaIndigena (área dos indígenas).
+// As salas do overworld continuam com SndCastleFunk, depois da abertura de
+// RoomClass1_1, e param ao chegar em RoomTeachers_1 (cutscene do livro).
+// A música é global (sobrevive à troca de sala): só troca quando a trilha
+// desejada muda ou quando a transição de batalha a cortou.
 if (!variable_global_exists("overworld_music_on"))       global.overworld_music_on       = false;
 if (!variable_global_exists("overworld_music_finished")) global.overworld_music_finished = false;
+if (!variable_global_exists("ambient_music_on"))         global.ambient_music_on         = false;
+if (!variable_global_exists("current_music_track"))      global.current_music_track      = noone;
 if (!variable_global_exists("intro_played"))             global.intro_played             = false;
 
 // A cena da sala dos professores encerra a música do overworld para sempre
@@ -110,19 +115,37 @@ if (room == RoomTeachers_1 && global.cutscene_active) {
 var _intro_done = global.intro_played && !instance_exists(obj_fade_intro);
 if (room == RoomClass1_1) _intro_done = _intro_done && !global.dialog_active;
 
-var _music_wanted = room_is_overworld(room)
-                 && room != RoomTeachers_1
-                 && !global.overworld_music_finished
-                 && _intro_done
-                 && room != rm_title && room != rm_title_intro && room != RoomCredits;
+var _overworld_wanted = room_is_overworld(room)
+                     && room != RoomTeachers_1
+                     && !global.overworld_music_finished
+                     && _intro_done
+                     && room != rm_title && room != rm_title_intro && room != RoomCredits;
 
-if (_music_wanted && (!global.overworld_music_on || !audio_is_playing(SndCastleFunk))) {
-    if (audio_is_playing(SndCastleFunk)) audio_stop_sound(SndCastleFunk); // evita dois loops
-    global.overworld_music_on = true;
-    audio_play_sound(SndCastleFunk, 10, true);
-} else if (!_music_wanted && (global.overworld_music_on || audio_is_playing(SndCastleFunk))) {
-    global.overworld_music_on = false;
-    audio_stop_sound(SndCastleFunk);
+var _ambient_track = get_room_ambient_music(room);
+var _wanted_track  = (_ambient_track != noone) ? _ambient_track
+                   : (_overworld_wanted ? SndCastleFunk : noone);
+
+// Só a PRIMEIRA instância controla a música global: obj_settings é persistente
+// e também está colocado em algumas rooms (title/teste/batalha).
+if (id == instance_find(obj_settings, 0)) {
+    if (_wanted_track != noone) {
+        if (global.current_music_track != _wanted_track || !audio_is_playing(_wanted_track)) {
+            stop_all_ambient_music();   // evita dois loops / resto da sala anterior
+            if (variable_global_exists("vol_bgm")) audio_sound_gain(_wanted_track, global.vol_bgm, 0);
+            audio_play_sound(_wanted_track, 10, true);
+            global.current_music_track = _wanted_track;
+        }
+        global.overworld_music_on = (_wanted_track == SndCastleFunk);
+        global.ambient_music_on   = (_wanted_track != SndCastleFunk);
+    } else {
+        if (global.current_music_track != noone || audio_is_playing(SndCastleFunk)
+            || audio_is_playing(sfxAmbientMine1) || audio_is_playing(sfxVilaIndigena)) {
+            stop_all_ambient_music();
+            global.current_music_track = noone;
+        }
+        global.overworld_music_on = false;
+        global.ambient_music_on   = false;
+    }
 }
 
 // ── TEMPO DE JOGO ─────────────────────────────────────────────────

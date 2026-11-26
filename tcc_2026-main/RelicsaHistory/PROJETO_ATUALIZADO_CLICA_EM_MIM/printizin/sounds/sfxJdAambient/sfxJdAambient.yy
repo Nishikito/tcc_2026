@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sfxJdAambient",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":104.56898,
+  "exportDir":"",
+  "name":"sfxJdAambient",
+  "parent":{
+    "name":"ambient",
+    "path":"folders/Sounds/music/ambient.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sfxJdAambient.mp3",
+  "volume":1.0,
+}

@@ -17,8 +17,12 @@ switch (phase) {
 
     case 0: // "!" sobre o player
         if (timer == 1) {
-            audio_stop_sound(SndCastleFunk);   // a música do mundo corta no encontro
-            global.overworld_music_on = false; // obj_settings religa ao voltar ao overworld
+            // Corta QUALQUER música de sala (overworld ou ambiente) no encontro.
+            // obj_settings escolhe de novo a trilha ao voltar da batalha.
+            stop_all_ambient_music();
+            global.overworld_music_on = false;
+            global.ambient_music_on   = false;
+            global.current_music_track = noone;
             audio_play_sound(sfxEnemyEncounter, 0, false);
         }
         if (timer >= t_alert) { phase = 1; timer = 0; }

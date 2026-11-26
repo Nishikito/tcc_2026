@@ -315,7 +315,9 @@ function save_reset_progress() {
     global.warp_suppressed      = false;
     global.overworld_music_on       = false;
     global.overworld_music_finished = false;   // novo jogo: a música do overworld volta
-    audio_stop_sound(SndCastleFunk);
+    global.ambient_music_on         = false;
+    global.current_music_track      = noone;
+    stop_all_ambient_music();
 }
 
 // NOVO JOGO no slot escolhido
@@ -393,9 +395,11 @@ function save_load_game(_slot) {
     global.intro_played  = true;    // não repete a introdução
     global.warp_suppressed = true;  // se o save cair em cima de um warp, não dispara de cara
     // A música é global: para antes da troca de sala e deixa o obj_settings religá-la
-    // se o slot salvo estiver no overworld (com a abertura já terminada).
+    // conforme a sala salva (mina, vila indígena ou overworld).
     global.overworld_music_on = false;
-    audio_stop_sound(SndCastleFunk);
+    global.ambient_music_on   = false;
+    global.current_music_track = noone;
+    stop_all_ambient_music();
     global.new_game      = false;
     global.save_slot     = _slot;
 

@@ -6,11 +6,13 @@ if (instance_exists(ObjPlayer)) {
 }
 
 // ── Primeira vez que o Talai VÊ o save point ────────────────────────
-// Fala única: o Talai pergunta da "coisa amarela flutuando" e o companion
-// explica o que é e para que serve. Raio maior que o de interação (28) para
-// disparar ao avistar, e nunca por cima de diálogo/cutscene/batalha/menu.
+// Fala ÚNICA e EXCLUSIVA do savepoint de rm_inicio. Outros save points
+// (inclusive o da sala de teste) nunca disparam esta explicação.
+// Raio maior que o de interação (28) para disparar ao avistar, e nunca por
+// cima de diálogo/cutscene/batalha/menu.
 if (!variable_global_exists("savepoint_intro_done")) global.savepoint_intro_done = false;
-if (!global.savepoint_intro_done
+if (room == rm_inicio
+    && !global.savepoint_intro_done
     && instance_exists(ObjPlayer)
     && point_distance(x, y, ObjPlayer.x, ObjPlayer.y) < 120
     && !global.dialog_active && !global.paused

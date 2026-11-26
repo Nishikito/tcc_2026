@@ -14,13 +14,13 @@
   "exportDir":"",
   "name":"SndCastleFunk",
   "parent":{
-    "name":"music",
-    "path":"folders/Sounds/music.yy",
+    "name":"ambient",
+    "path":"folders/Sounds/music/ambient.yy",
   },
   "preload":false,
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"SndCastleFunk.mp3",
-  "volume":1.0,
+  "volume":0.75,
 }

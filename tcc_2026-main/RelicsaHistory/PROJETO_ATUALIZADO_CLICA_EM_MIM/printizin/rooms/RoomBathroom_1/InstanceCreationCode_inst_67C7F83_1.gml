@@ -1,4 +1,4 @@
-target_x = 373
-target_y = 18
-target_room = RoomSalasCorredor
+target_x = 174
+target_y = 51
+target_room = RoomRefeitorio
 facing = 0

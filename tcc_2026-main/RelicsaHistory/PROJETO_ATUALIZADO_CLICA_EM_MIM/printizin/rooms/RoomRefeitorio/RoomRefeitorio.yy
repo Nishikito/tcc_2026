@@ -25,6 +25,8 @@
     {"name":"inst_581C59AB","path":"rooms/RoomRefeitorio/RoomRefeitorio.yy",},
     {"name":"inst_77587ADB","path":"rooms/RoomRefeitorio/RoomRefeitorio.yy",},
     {"name":"inst_296323AB","path":"rooms/RoomRefeitorio/RoomRefeitorio.yy",},
+    {"name":"inst_2581B5E6","path":"rooms/RoomRefeitorio/RoomRefeitorio.yy",},
+    {"name":"inst_E3D4734","path":"rooms/RoomRefeitorio/RoomRefeitorio.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -51,6 +53,8 @@
         {"$GMRInstance":"v4","%Name":"inst_64928B71","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_64928B71","objectId":{"name":"obj_warp1","path":"objects/obj_warp1/obj_warp1.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":3.5,"x":38.0,"y":106.0,},
         {"$GMRInstance":"v4","%Name":"inst_62B77A7C","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_62B77A7C","objectId":{"name":"obj_warp1","path":"objects/obj_warp1/obj_warp1.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.6,"scaleY":1.0,"x":150.0,"y":20.0,},
         {"$GMRInstance":"v4","%Name":"inst_9116816","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_9116816","objectId":{"name":"obj_warpClick","path":"objects/obj_warpClick/obj_warpClick.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.7,"scaleY":1.0,"x":1023.0,"y":106.0,},
+        {"$GMRInstance":"v4","%Name":"inst_2581B5E6","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2581B5E6","objectId":{"name":"obj_warp","path":"objects/obj_warp/obj_warp.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.6,"scaleY":1.0,"x":86.0,"y":20.0,},
+        {"$GMRInstance":"v4","%Name":"inst_E3D4734","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_E3D4734","objectId":{"name":"obj_warp","path":"objects/obj_warp/obj_warp.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":3.65,"scaleY":1.0,"x":445.0,"y":488.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRAssetLayer":"","%Name":"Assets_2","assets":[
         {"$GMRSpriteGraphic":"v1","%Name":"graphic_77CF191B","animationSpeed":1.0,"colour":4294967295,"frozen":false,"headPosition":0.0,"ignore":false,"inheritedItemId":null,"inheritItemSettings":false,"name":"graphic_77CF191B","resourceType":"GMRSpriteGraphic","resourceVersion":"2.0","rotation":-19.815882,"scaleX":1.0,"scaleY":1.0,"spriteId":{"name":"SprPapers","path":"sprites/SprPapers/SprPapers.yy",},"x":597.797,"y":72.5,},

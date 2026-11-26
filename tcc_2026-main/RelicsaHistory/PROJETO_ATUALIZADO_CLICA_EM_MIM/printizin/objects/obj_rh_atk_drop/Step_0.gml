@@ -11,5 +11,6 @@ if (y + sprite_height >= by2) {
     var _r = rh_spawn_attack(obj_rh_atk_splash, _sx, _sy);
     _l.vx = -1.7;
     _r.vx =  1.7;
+    rh_debug_destroy("fim da vida");
     instance_destroy();
 }

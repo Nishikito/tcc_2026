@@ -1,8 +1,8 @@
 event_inherited();
 active = false;          // o dano vem da zona (obj_rh_atk_zone), não do sprite inteiro
-warn_t = 32;             // frames de AVISO antes de subir
+warn_t = 34;             // frames de AVISO antes de subir
 rise_t = 8;              // frames subindo
-hold_t = 22;             // frames parado em cima
+hold_t = 12;             // frames parado em cima
 fall_t = 10;             // frames descendo
 // A raiz vai do chão ATÉ O TOPO da caixa (o sprite é esticado na vertical): não sobra espaço livre por cima.
 tent_h      = by2 - by1;                                   // altura na tela

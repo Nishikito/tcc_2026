@@ -30,5 +30,6 @@ else if (t < warn_t + drop_t + hold_t + rise_t) {
     y = lerp(_landed, _hidden, _e2);
 }
 else {
+    rh_debug_destroy("fim da vida");
     instance_destroy();
 }

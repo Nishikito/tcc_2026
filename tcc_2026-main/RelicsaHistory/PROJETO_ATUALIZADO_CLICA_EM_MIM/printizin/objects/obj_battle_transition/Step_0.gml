@@ -18,6 +18,7 @@ switch (phase) {
     case 0: // "!" sobre o player
         if (timer == 1) {
             audio_stop_sound(SndCastleFunk);   // a música do mundo corta no encontro
+            global.overworld_music_on = false; // obj_settings religa ao voltar ao overworld
             audio_play_sound(sfxEnemyEncounter, 0, false);
         }
         if (timer >= t_alert) { phase = 1; timer = 0; }
@@ -42,8 +43,9 @@ switch (phase) {
             global.pre_battle_room = room;
             global.pre_battle_hp   = global.hp;
             if (instance_exists(ObjPlayer)) {
-                global.pre_battle_x = ObjPlayer.x;
-                global.pre_battle_y = ObjPlayer.y;
+                global.pre_battle_x    = ObjPlayer.x;
+                global.pre_battle_y    = ObjPlayer.y;
+                global.pre_battle_face = ObjPlayer.face;
             }
             global.current_enemy_id    = enemy_id_value;
             // HP e nome vêm do PRÓPRIO objeto do inimigo: o controller lê quando a batalha começa

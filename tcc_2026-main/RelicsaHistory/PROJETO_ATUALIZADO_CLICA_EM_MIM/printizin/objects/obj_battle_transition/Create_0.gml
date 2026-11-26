@@ -28,15 +28,20 @@ if (!variable_instance_exists(id, "enemy_id_value")) enemy_id_value = "";
 battle_enemy_x   = 267;
 battle_enemy_y   = 104;
 // Cada inimigo é um objeto (obj_rh_en_*) com sprite próprio: o destino é calculado pelo sprite DELE.
-battle_enemy_spr = object_get_sprite(get_rh_enemy_object(enemy_id_value));
-battle_enemy_fit = 1;
+// O multiplicador vem da mesma função usada pelo obj_rh_battle_enemy: sem isso a
+// transição terminava com o inimigo no tamanho original e ele "encolhia" ao entrar na batalha.
+var _enemy_obj = get_rh_enemy_object(enemy_id_value);
+battle_enemy_spr  = object_get_sprite(_enemy_obj);
+battle_enemy_size = get_rh_enemy_size(_enemy_obj);
+battle_enemy_fit  = battle_enemy_size;
 enemy_tx = battle_enemy_x;
 enemy_ty = battle_enemy_y;
 if (battle_enemy_spr != -1) {
     battle_enemy_fit = min(ENEMY_MAX_W / sprite_get_width(battle_enemy_spr),
-                           ENEMY_MAX_H / sprite_get_height(battle_enemy_spr));
-    enemy_tx = battle_enemy_x + (sprite_get_width(battle_enemy_spr)  / 2 - sprite_get_xoffset(battle_enemy_spr)) * battle_enemy_fit;
-    enemy_ty = battle_enemy_y + (sprite_get_height(battle_enemy_spr) / 2 - sprite_get_yoffset(battle_enemy_spr)) * battle_enemy_fit;
+                           ENEMY_MAX_H / sprite_get_height(battle_enemy_spr)) * battle_enemy_size;
+    // battle_enemy_x/y é o CENTRO do inimigo (o obj_rh_battle_enemy reposiciona pela origem do sprite)
+    enemy_tx = battle_enemy_x;
+    enemy_ty = battle_enemy_y;
 }
 
 phase = 0;

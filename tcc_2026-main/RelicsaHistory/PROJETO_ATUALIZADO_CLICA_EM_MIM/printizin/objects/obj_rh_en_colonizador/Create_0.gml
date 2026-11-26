@@ -2,9 +2,9 @@ event_inherited();
 
 // ── FICHA ─────────────────────────────────────────────────────────
 enemy_name   = "Colonizador";
-enemy_max_hp = 500;
+enemy_max_hp = 460;
 dmg_min      = 4;
-dmg_max      = 7;
+dmg_max      = 6;
 
 // ── APARÊNCIA ─────────────────────────────────────────────────────
 // Posição e escala vêm do obj_rh_battle_enemy (sprite encaixado na área do inimigo).

@@ -7,5 +7,6 @@ if (!inited) {
     y = zone_y - 2 * image_yscale;
 }
 t++;
-active = (t > zone_delay && t <= zone_delay + zone_life);
-if (t > zone_delay + zone_life) instance_destroy();
+// Só machuca dentro da janela de vida E se ainda não acertou o coração (antes reativava todo frame = vários acertos seguidos)
+active = (!was_hit && t > zone_delay && t <= zone_delay + zone_life);
+if (t > zone_delay + zone_life) { rh_debug_destroy("fim da vida"); instance_destroy(); }

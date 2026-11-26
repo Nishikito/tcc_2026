@@ -350,18 +350,52 @@ switch (state) {
         }
         if (!_already) array_push(global.defeated_enemies, global.current_enemy_id);
 
-        // Volta para a sala — ObjPlayer será recriado por ela
-        room_goto(global.pre_battle_room);
+        // A cena "once" que originou a luta também fica concluída, para não
+        // disparar de novo ao voltar / carregar o jogo.
+        if (variable_global_exists("battle_scene_id") && global.battle_scene_id != "") {
+            if (!variable_global_exists("scenes_done")) global.scenes_done = {};
+            variable_struct_set(global.scenes_done, global.battle_scene_id, true);
+            global.battle_scene_id = "";
+        }
+
+        // Volta para onde a batalha começou. O ObjPlayer precisa ser recriado
+        // pelo obj_settings (muitas salas não têm um no editor).
+        global.battle_return_room = global.pre_battle_room;
+        global.battle_return_x    = global.pre_battle_x;
+        global.battle_return_y    = global.pre_battle_y;
+        global.battle_return_face = global.pre_battle_face;
+        global.battle_return_pending = true;
+        room_goto(global.battle_return_room);
     }
     break;
 
 case BATTLE_STATE.DEFEAT:
     if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"))) {
         global.battle_result  = "defeat";
-        global.pre_battle_hp  = global.max_hp; // restaura HP cheio na derrota
-        // posição é mantida — player reaparece onde estava
+        global.dialog_active  = false;
 
-        room_goto(global.pre_battle_room);
+        // Volta ao ÚLTIMO SAVEPOINT usado (não ao local da batalha), com HP cheio.
+        global.battle_return_room = global.last_savepoint_room;
+        global.battle_return_x    = global.last_savepoint_x;
+        global.battle_return_y    = global.last_savepoint_y;
+        global.battle_return_face = global.last_savepoint_face;
+        global.battle_return_pending = true;
+
+        // O Create do ObjPlayer não pode devolver o player ao ponto da batalha.
+        global.pre_battle_hp = 0;
+        global.pre_battle_x  = 0;
+        global.pre_battle_y  = 0;
+        global.hp = global.max_hp;   // savepoint cura (SAVE_HEAL_ON_SAVE)
+
+        // Se a batalha veio de uma cutscene "once", deixa ela tocar de novo.
+        if (variable_global_exists("battle_scene_id") && global.battle_scene_id != "") {
+            if (variable_struct_exists(global.scenes_done, global.battle_scene_id)) {
+                variable_struct_remove(global.scenes_done, global.battle_scene_id);
+            }
+            global.battle_scene_id = "";
+        }
+
+        room_goto(global.battle_return_room);
     }
     break;
 }

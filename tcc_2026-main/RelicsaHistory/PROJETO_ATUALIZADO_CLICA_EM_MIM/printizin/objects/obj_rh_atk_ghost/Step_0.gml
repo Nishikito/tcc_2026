@@ -12,4 +12,4 @@ else {
     y += lengthdir_y(spd, _d) + dsin(t * 5) * 0.4;   // leve balanço
 }
 if (t >= life - 20) image_alpha = max(0, (life - t) / 20);
-if (t >= life) instance_destroy();
+if (t >= life) { rh_debug_destroy("fim da vida"); instance_destroy(); }

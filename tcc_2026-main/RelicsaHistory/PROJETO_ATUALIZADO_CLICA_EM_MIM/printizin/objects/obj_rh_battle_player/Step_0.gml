@@ -1,6 +1,9 @@
 if (!instance_exists(obj_rh_battle_controller)) exit;
 var _ctrl = obj_rh_battle_controller;
 
+// Os iframes contam mesmo se a caixa fechar no meio deles.
+if (iframe_timer > 0) iframe_timer--;
+
 // Sem caixa na sala: coração escondido
 if (!instance_exists(obj_rh_battle_box)) { visible = false; exit; }
 var _box = obj_rh_battle_box;
@@ -17,6 +20,7 @@ image_alpha = clamp((_box.anim - 0.5) * 2, 0, 1);
 if (_box.anim <= 0) {
     x = _cx;
     y = _cy;
+    kb_x = 0; kb_y = 0; kb_time = 0; kb_flash = 0;
 }
 
 // Só se move e leva dano no turno do inimigo, com a caixa TOTALMENTE aberta
@@ -41,29 +45,54 @@ if (_ctrl.state == BATTLE_STATE.ENEMY_TURN && _box.is_open) {
     var _hw = sprite_get_width(sprite_index)  * abs(image_xscale) / 2;
     var _hh = sprite_get_height(sprite_index) * abs(image_yscale) / 2;
 
-    x = clamp(x + _xspd, _ix1 + _hw, _ix2 - _hw);
-    y = clamp(y + _yspd, _iy1 + _hh, _iy2 - _hh);
+    // EMPURRÃO: somado à entrada do jogador, com atrito; sempre clampado na caixa.
+    var _mvx = _xspd + kb_x;
+    var _mvy = _yspd + kb_y;
+    x = clamp(x + _mvx, _ix1 + _hw, _ix2 - _hw);
+    y = clamp(y + _mvy, _iy1 + _hh, _iy2 - _hh);
+    kb_x *= 0.82;
+    kb_y *= 0.82;
+    if (kb_time > 0) kb_time--;
+    if (kb_time <= 0) { kb_x = 0; kb_y = 0; }
+    if (kb_flash > 0) kb_flash--;
 
     // Dano dos ataques — UMA colisão = UM dano.
-    // instance_place_list devolve TODOS os ataques tocando o coração; só o primeiro ATIVO conta
-    // (um por frame). O ataque acertado é desativado NA HORA (active = false): mesmo que continue
-    // visível (martelo, bota...) não pode causar dano de novo. Se destroy_on_hit, ele também some.
-    // dmg_mult deixa golpes grandes machucarem mais (1 = dano normal da bala).
-    var _hits = ds_list_create();
-    var _n    = instance_place_list(x, y, obj_rh_battle_bullet, _hits, false);
-    for (var _i = 0; _i < _n; _i++) {
-        var _b = _hits[| _i];
-        if (!_b.active) continue;
+    // instance_place_list devolve TODOS os ataques tocando o coração; só o primeiro ATIVO conta.
+    // Durante os iframes o coração atravessa os ataques: eles não machucam nem são consumidos.
+    if (iframe_timer <= 0) {
+        var _hits = ds_list_create();
+        var _n    = instance_place_list(x, y, obj_rh_battle_bullet, _hits, false);
+        for (var _i = 0; _i < _n; _i++) {
+            var _b = _hits[| _i];
+            if (!_b.active) continue;
 
-        var _dmg = max(1, round(calculate_enemy_damage() * _b.dmg_mult));   // sorteado UMA vez por ataque
-        apply_damage_to_player(_dmg);
-        _ctrl.talai_hit_timer = ANIM_TALAI_HIT_DURATION;   // Talai mostra o sprite de dano
+            var _dmg = max(1, round(calculate_enemy_damage() * _b.dmg_mult));
+            apply_damage_to_player(_dmg);
+            iframe_timer = iframe_max;   // 1 segundo sem novos acertos
+            _ctrl.talai_hit_timer = ANIM_TALAI_HIT_DURATION;
+            rh_debug("ACERTO por " + object_get_name(_b.object_index)
+                     + " | dano " + string(_dmg) + " | iframes " + string(iframe_max));
 
-        with (_b) {
-            active = false;
-            if (destroy_on_hit) instance_destroy();
+            // Empurrão para trás: a direção da investida afasta o coração do juiz.
+            if (_b.kb_power > 0) {
+                kb_x     = lengthdir_x(_b.kb_power, _b.kb_dir);
+                kb_y     = lengthdir_y(_b.kb_power, _b.kb_dir);
+                kb_time  = 12;
+                kb_flash = 10;
+            }
+
+            with (_b) {
+                active  = false;
+                was_hit = true;   // zonas e raios respeitam isto (single-hit)
+                if (destroy_on_hit) {
+                    rh_debug_destroy("acerto no coração");
+                    instance_destroy();
+                }
+            }
+            break;   // só um acerto por frame
         }
-        break;   // só um acerto por frame
+        ds_list_destroy(_hits);
     }
-    ds_list_destroy(_hits);
+
+    // O antigo laser foi substituído por 5 balas de canhão: elas usam a colisão normal acima.
 }

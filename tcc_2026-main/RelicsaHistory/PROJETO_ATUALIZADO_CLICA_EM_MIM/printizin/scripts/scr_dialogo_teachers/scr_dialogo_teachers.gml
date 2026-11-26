@@ -3,11 +3,11 @@ function scr_dialogo_teachers(_text_id) {
     switch (_text_id) {
 
         case "teachers_livro1":
-            scr_text("Um livro?", "");
+            scr_text("Um livro?", "talai-pensando");
             break;
 
         case "teachers_livro2":
-            scr_text("O que tá acontecendo!?", "");
+            scr_text("O que tá acontecendo!?", "talai-surpreso");
             break;
     }
 }

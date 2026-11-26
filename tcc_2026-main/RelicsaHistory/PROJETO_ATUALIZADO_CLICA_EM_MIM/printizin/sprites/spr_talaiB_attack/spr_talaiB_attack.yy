@@ -27,8 +27,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"talaiB",
-    "path":"folders/Sprites/player/talaiB.yy",
+    "name":"battle",
+    "path":"folders/Sprites/player/talaiB/battle.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

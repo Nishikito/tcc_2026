@@ -171,10 +171,11 @@ function cutscene_goto_room(_room, _x, _y, _next_scene) {
 }
 
 // O player cai pra fora da tela (a câmera NÃO acompanha) e a ação termina quando ele sai de vista
-function cutscene_player_fall_out(_grav) {
+function cutscene_player_fall_out(_grav, _snd = noone) {
     var _cam = view_camera[0];
     if (!action_started) {
         action_started = true;
+        if (_snd != noone) audio_play_sound(_snd, 0, false);   // ex.: sfxFall na queda da RoomTeachers
         timer = 0;                                   // velocidade de queda
         cutscene_set_dir(ObjPlayer, DOWN);
     }
@@ -355,4 +356,61 @@ function cutscene_spawn_charles(_x, _y) {
 }
 function cutscene_wait_fade() {
     return !instance_exists(obj_fade);
+}
+
+// ── Encontro com o guaraná (rm_inicio) ──────────────────────────────
+// Reposiciona sem animar (alinha o guaraná à altura do Talai antes da rolagem horizontal).
+function cutscene_place_at(_inst, _x, _y) {
+    if (instance_exists(_inst)) {
+        _inst.x = _x;
+        _inst.y = _y;
+        _inst.image_angle = 0;
+    }
+    return true;
+}
+
+// Rola de onde estava escondido até (_tx,_ty), girando o sprite; para em pé.
+function cutscene_roll_to(_inst, _tx, _ty, _spd) {
+    if (!instance_exists(_inst)) return true;
+    if (!action_started) {
+        action_started = true;
+        target_x = _tx;
+        target_y = _ty;
+        var _dist = point_distance(_inst.x, _inst.y, _tx, _ty);
+        // uma volta completa no tempo que leva para chegar
+        _inst.roll_spd = (_dist > 0) ? 360 / max(1, ceil(_dist / max(0.1, _spd))) : 0;
+        if (_dist <= 0) {
+            _inst.image_angle = 0;
+            action_started = false;
+            return true;
+        }
+    }
+    var _resto = point_distance(_inst.x, _inst.y, target_x, target_y);
+    var _dir   = point_direction(_inst.x, _inst.y, target_x, target_y);
+    var _passo = min(_spd, _resto);
+    _inst.x += lengthdir_x(_passo, _dir);
+    _inst.y += lengthdir_y(_passo, _dir);
+    _inst.image_angle += _inst.roll_spd;
+    if (_resto - _passo <= 0.5) {
+        _inst.x = target_x;
+        _inst.y = target_y;
+        _inst.image_angle = 0;
+        action_started = false;
+        return true;
+    }
+    return false;
+}
+
+// Dispara a transição de batalha de RH com o inimigo que está no mapa.
+// _scene_id é opcional: se a batalha vier de uma cena "once", a derrota libera a cena.
+function cutscene_battle_encounter(_enemy, _enemy_id, _scene_id = "") {
+    global.battle_scene_id = _scene_id;
+    if (!instance_exists(obj_battle_transition)) {
+        // Struct obrigatório: o Create da transição lê enemy/enemy_id_value antes da linha seguinte.
+        instance_create_depth(0, 0, -50000, obj_battle_transition, {
+            enemy: _enemy,
+            enemy_id_value: _enemy_id
+        });
+    }
+    return true;
 }

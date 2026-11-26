@@ -19,6 +19,7 @@ else {
             _s.vy = lengthdir_y(shard_spd, _a);
             _s.bounces_left = 0;
         }
+        rh_debug_destroy("fim da vida");
         instance_destroy();
     }
 }

@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"printizin2",
-    "path":"printizin2.yyp",
+    "name":"printizin2meajuda_corrigido",
+    "path":"printizin2meajuda_corrigido.yyp",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

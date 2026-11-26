@@ -7,7 +7,7 @@ else if (t < warn_t + rise_t + hold_t)    { vis_h = tent_h; }
 else if (t < warn_t + rise_t + hold_t + fall_t) {
     vis_h = tent_h * (1 - (t - warn_t - rise_t - hold_t) / fall_t);
 }
-else { instance_destroy(); exit; }
+else { rh_debug_destroy("fim da vida"); instance_destroy(); exit; }
 
 if (!zone_made && t >= warn_t) {
     zone_made = true;

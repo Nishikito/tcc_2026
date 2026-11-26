@@ -34,8 +34,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_donou2_attack",
-    "path":"sprites/spr_donou2_attack/spr_donou2_attack.yy",
+    "name":"spr_ghost_attack",
+    "path":"sprites/spr_ghost_attack/spr_ghost_attack.yy",
   },
   "spriteMaskId":null,
   "visible":true,

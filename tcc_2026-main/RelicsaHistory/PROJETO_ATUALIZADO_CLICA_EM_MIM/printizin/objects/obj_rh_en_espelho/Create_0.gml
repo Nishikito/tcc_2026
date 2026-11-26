@@ -2,8 +2,8 @@ event_inherited();
 
 // ── FICHA ─────────────────────────────────────────────────────────
 enemy_name   = "Espelho";
-enemy_max_hp = 380;
-dmg_min      = 3;
+enemy_max_hp = 320;
+dmg_min      = 4;
 dmg_max      = 5;
 
 // ── APARÊNCIA ─────────────────────────────────────────────────────

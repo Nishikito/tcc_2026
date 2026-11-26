@@ -112,6 +112,7 @@ close_menu = function() {
 // ── As ações de verdade (chamam o scr_save_system) ────────────────
 do_save = function(_slot) {
     if (save_game(_slot, player_snap)) {
+        audio_play_sound(sfxSave, 0, false);   // salvar novo OU sobrescrever arquivo existente
         refresh_slots();
         if (SAVE_HEAL_ON_SAVE) say("Jogo salvo! Seu HP foi restaurado.", true);
         else say("Jogo salvo!", true);

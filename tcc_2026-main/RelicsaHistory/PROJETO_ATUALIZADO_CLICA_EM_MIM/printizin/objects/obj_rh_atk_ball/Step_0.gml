@@ -11,4 +11,4 @@ if (bounces_left > 0) {
 }
 
 life--;
-if (life <= 0) instance_destroy();
+if (life <= 0) { rh_debug_destroy("fim da vida"); instance_destroy(); }

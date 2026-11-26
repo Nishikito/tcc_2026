@@ -18,7 +18,21 @@
 // Flags de progresso da história (ex.: "carol_disappeared"). Escreva o NOME da variável
 // global, entre aspas. Só nomes listados aqui são gravados e restaurados.
 function save_extra_globals() {
-    return ["carol_disappeared"];
+    // rodape_intro_done: sem isto a apresentação do companion repetia ao carregar.
+    // savepoint_intro_done: mesma coisa para a fala da estrela amarela.
+    return ["carol_disappeared", "rodape_intro_done", "savepoint_intro_done",
+            "overworld_music_finished"];
+}
+
+
+// Inimigo derrotado? Usado para não repetir o encontro (ex.: guaraná do rm_inicio)
+// mesmo em saves antigos que ainda não tinham o campo scenes_done.
+function save_enemy_defeated(_id) {
+    if (!variable_global_exists("defeated_enemies")) global.defeated_enemies = [];
+    for (var i = 0; i < array_length(global.defeated_enemies); i++) {
+        if (global.defeated_enemies[i] == _id) return true;
+    }
+    return false;
 }
 
 
@@ -114,6 +128,7 @@ function save_items_from_data(_data) {
 // _snap = { x, y, face } do Talai, tirado ANTES de pausar o jogo (veja a nota em save_game).
 function save_collect_data(_snap) {
     if (!variable_global_exists("defeated_enemies")) global.defeated_enemies = [];
+    if (!variable_global_exists("scenes_done"))     global.scenes_done     = {};
 
     var _px   = _snap.x;
     var _py   = _snap.y;
@@ -143,6 +158,7 @@ function save_collect_data(_snap) {
         history_knowledge: global.history_knowledge,
         relics_count:      global.relics_count,
         defeated_enemies:  global.defeated_enemies,
+        scenes_done:       global.scenes_done,   // cenas "once" já tocadas (guaraná, etc.)
         extra:             {}
     };
 
@@ -251,7 +267,14 @@ function save_game(_slot, _snap) {
     if (SAVE_HEAL_ON_SAVE) global.hp = global.max_hp;
 
     var _ok = save_write_data(_slot, save_collect_data(_snap));
-    if (_ok) global.save_slot = _slot;
+    if (_ok) {
+        global.save_slot = _slot;
+        // Último savepoint usado: para onde o Talai volta se perder uma batalha.
+        global.last_savepoint_room = room;
+        global.last_savepoint_x    = _snap.x;
+        global.last_savepoint_y    = _snap.y;
+        global.last_savepoint_face = _snap.face;
+    }
     return _ok;
 }
 
@@ -280,6 +303,19 @@ function save_reset_progress() {
     global.pre_battle_hp = 0;
     global.pre_battle_x  = 0;
     global.pre_battle_y  = 0;
+    global.pre_battle_face = UP;
+    global.battle_return_pending = false;
+    global.battle_scene_id = "";
+    global.last_savepoint_room = variable_global_exists("start_room") ? global.start_room : RoomClass1_1;
+    global.last_savepoint_x    = variable_global_exists("start_x") ? global.start_x : 120;
+    global.last_savepoint_y    = variable_global_exists("start_y") ? global.start_y : 136;
+    global.last_savepoint_face = UP;
+    global.savepoint_intro_done = false;   // a fala do save point volta a valer no jogo novo
+    global.rodape_intro_done    = false;   // a apresentação do Rodapé também
+    global.warp_suppressed      = false;
+    global.overworld_music_on       = false;
+    global.overworld_music_finished = false;   // novo jogo: a música do overworld volta
+    audio_stop_sound(SndCastleFunk);
 }
 
 // NOVO JOGO no slot escolhido
@@ -332,7 +368,13 @@ function save_load_game(_slot) {
     global.knowledge_total   = _d.knowledge_total;
     global.history_knowledge = _d.history_knowledge;
     global.relics_count      = _d.relics_count;
-    global.defeated_enemies  = _d.defeated_enemies;
+    global.defeated_enemies  = variable_struct_exists(_d, "defeated_enemies") ? _d.defeated_enemies : [];
+    // Saves feitos antes deste campo recomeçam com as cenas "once" liberadas.
+    if (variable_struct_exists(_d, "scenes_done") && is_struct(_d.scenes_done)) {
+        global.scenes_done = _d.scenes_done;
+    } else {
+        global.scenes_done = {};
+    }
     global.play_time         = _d.play_time;
 
     var _extras = save_extra_globals();
@@ -349,8 +391,19 @@ function save_load_game(_slot) {
     global.dialog_active = false;
     global.paused        = false;
     global.intro_played  = true;    // não repete a introdução
+    global.warp_suppressed = true;  // se o save cair em cima de um warp, não dispara de cara
+    // A música é global: para antes da troca de sala e deixa o obj_settings religá-la
+    // se o slot salvo estiver no overworld (com a abertura já terminada).
+    global.overworld_music_on = false;
+    audio_stop_sound(SndCastleFunk);
     global.new_game      = false;
     global.save_slot     = _slot;
+
+    // Carregar também conta como "último savepoint usado".
+    global.last_savepoint_room = _room;
+    global.last_savepoint_x    = _d.x;
+    global.last_savepoint_y    = _d.y;
+    global.last_savepoint_face = _d.face;
 
     audio_stop_sound(sfxTitle);
     if (instance_exists(ObjPlayer)) {

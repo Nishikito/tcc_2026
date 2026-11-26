@@ -46,7 +46,7 @@ function scr_cena_teachers(_id) {
                 [cutscene_wait, 90],                              // parado no escuro
 
                 // 4) cai
-                [cutscene_player_fall_out, 0.3],
+                [cutscene_player_fall_out, 0.3, sfxFall],
                 [cutscene_wait, 40],
                 [cutscene_dark_to_black, 30],
                 [cutscene_wait, 30],

@@ -98,8 +98,23 @@ function get_rh_enemy_object(enemy_id) {
     }
 }
 
+// Multiplicador de tamanho do inimigo na batalha. Fica junto de
+// get_rh_enemy_object() para a transição e o obj_rh_battle_enemy usarem o MESMO
+// valor (antes a transição mostrava o inimigo no tamanho antigo).
+function get_rh_enemy_size(enemy_object) {
+    switch (enemy_object) {
+        case obj_rh_en_itagibe:             return 0.4;    // 60% menor
+        case obj_rh_en_guarana:             return 0.75;   // 25% menor
+        case obj_rh_en_monstro_das_mocoes:  return 1.05;   // 5% maior
+        default:                            return 1;      // tamanho padrão
+    }
+}
+
 function apply_damage_to_player(damage) {
+    var _before = global.hp;
     global.hp = max(0, global.hp - damage);
+    // Um acerto = um som (os iframes do coração já evitam repetição em cadeia).
+    if (global.hp < _before) audio_play_sound(sfxDamagePlayer, 0, false);
 }
 
 function apply_damage_to_enemy(current_hp, damage) {

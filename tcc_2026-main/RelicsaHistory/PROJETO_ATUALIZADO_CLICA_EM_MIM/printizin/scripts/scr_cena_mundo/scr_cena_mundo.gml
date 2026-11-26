@@ -62,6 +62,42 @@ function scr_cena_mundo(_id) {
                 [cutscene_start_following, ObjJanitor],        // entra na party
                 [cutscene_player_unlock]
             ];
+
+        // rm_inicio: o guaraná escondido entre as árvores rola até o Talai,
+        // ele se surpreende, o guaraná se aproxima e a batalha começa.
+        case "mundo_guarana_encontro":
+            // Derrota já registrada no save: nunca repetir o encontro.
+            if (save_enemy_defeated("Guarana")) return [];
+            var _g = instance_find(obj_rh_en_guarana, 0);
+            if (_g == noone || !instance_exists(ObjPlayer)) return [];
+
+            // Para onde ele rola: ao lado do Talai, na MESMA altura dos pés dele.
+            // Antes de aparecer, o guaraná é alinhado a essa altura; assim a rolagem
+            // acontece em linha reta na horizontal (sem diagonal).
+            var _stop_x = ObjPlayer.x - 88;
+            var _stop_y = ObjPlayer.y;
+            if (_stop_x < 40) _stop_x = ObjPlayer.x + 88;
+            var _face = (ObjPlayer.x > _stop_x) ? LEFT : RIGHT;
+
+            // Depois da fala ele chega mais perto, já na frente do Talai.
+            var _near_x = ObjPlayer.x - 30;
+            var _near_y = ObjPlayer.y;
+            if (_near_x < 40) _near_x = ObjPlayer.x + 30;
+
+            return [
+                [cutscene_player_lock],
+                [cutscene_face_dir, ObjPlayer, _face],
+                [cutscene_place_at, _g, _g.x, _stop_y],        // mesma altura do Talai
+                [cutscene_set_visible, _g, true],
+                [cutscene_roll_to, _g, _stop_x, _stop_y, 3],   // aparece rolando em linha reta e para
+                [cutscene_face_player, _g],                    // fica de frente para o Talai
+                [cutscene_wait, 18],
+                [cutscene_dialogue, "mundo_guarana_surpreso"],
+                [cutscene_move_axis, _g, _near_x, _near_y, 2, "X_FIRST"], // se aproxima
+                [cutscene_face_player, _g],
+                [cutscene_wait, 12],
+                [cutscene_battle_encounter, _g, "Guarana", "mundo_guarana_encontro"]
+            ];
     }
     return [];
 }

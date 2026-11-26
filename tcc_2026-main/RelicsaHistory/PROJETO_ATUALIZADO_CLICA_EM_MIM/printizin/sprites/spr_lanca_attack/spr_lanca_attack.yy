@@ -3,7 +3,7 @@
   "%Name":"spr_lanca_attack",
   "bboxMode":0,
   "bbox_bottom":11,
-  "bbox_left":1,
+  "bbox_left":0,
   "bbox_right":65,
   "bbox_top":0,
   "collisionKind":1,

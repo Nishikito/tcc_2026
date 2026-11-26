@@ -29,6 +29,7 @@ sprite_carol_defeat = SprPlayerDown;
 face = UP;
 
 recovery_timer = 0;
+pos_history = [];   // usado por cutscene_move_axis (rastro para os seguidores); sem isto a cutscene dava erro
 
 // Restaura HP se voltando de batalha
 if (variable_global_exists("pre_battle_hp") && global.pre_battle_hp > 0) {
@@ -53,3 +54,6 @@ while (place_meeting(x, y, ObjWall) && raio < 128) {
     if (!place_meeting(x, y - raio, ObjWall)) { y -= raio; break; }
     raio += 4;
 }
+
+// Forma do Talai conforme a sala (talaiB no mundo da história)
+talai_apply_form();

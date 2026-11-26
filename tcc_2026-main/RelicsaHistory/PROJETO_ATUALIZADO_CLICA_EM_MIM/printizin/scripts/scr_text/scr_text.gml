@@ -6,6 +6,7 @@ function scr_set_defaults_for_text(){
 	
 	txtb_spr[page_number] = spr_textbox;
 	speaker_sprite[page_number]= noone;
+	speaker_large_sprite[page_number] = noone;   // sprite GRANDE de visual novel (Talai / Rasiel); noone = sem
 	speaker_side[page_number] = 1;
 	snd[page_number] = sfxNada;
 	snd_delay_array[page_number]= 4;
@@ -75,6 +76,39 @@ function scr_text(_text){
 				snd_delay_array[page_number] = 4;
 				break;
 		}
+	}
+	
+	// ── Visual novel: "talai", "talai-<emoção>", "talaib-<emoção>", "rasiel", "rasiel-<emoção>" ──
+	if (argument_count > 1) {
+		var _who = string_lower(string(argument[1]));
+		// talaiB explícito: usa os sprites do explorador, independente da sala.
+		if (_who == "talaib" || string_pos("talaib-", _who) == 1) {
+			speaker_large_sprite[page_number] = talaiB_vn_sprite(_who == "talaib" ? "falando" : string_delete(_who, 1, 7));
+			speaker_side[page_number]   = 1;      // Talai à esquerda
+			txtb_spr[page_number]       = spr_textbox;
+			snd[page_number]            = sfxDanielVc;   // voz do Talai
+			snd_delay_array[page_number] = 4;
+		}
+		else if (_who == "talai" || string_pos("talai-", _who) == 1) {
+			speaker_large_sprite[page_number] = talai_vn_sprite(_who == "talai" ? "falando" : string_delete(_who, 1, 6));
+			speaker_side[page_number]   = 1;      // Talai à esquerda
+			txtb_spr[page_number]       = spr_textbox;
+			snd[page_number]            = sfxDanielVc;   // voz do Talai
+			snd_delay_array[page_number] = 4;
+		}
+		else if (_who == "rasiel" || string_pos("rasiel-", _who) == 1 || _who == "companion" || _who == "charles") {
+			var _emo = (string_pos("-", _who) > 0) ? string_delete(_who, 1, string_pos("-", _who)) : "falando";
+			speaker_large_sprite[page_number] = rasiel_vn_sprite(_emo);
+			speaker_side[page_number]   = -1;     // companion à direita
+			txtb_spr[page_number]       = spr_textbox;
+		}
+	}
+
+	// Falas SEM retrato (scr_text("...") sem o 2º argumento): voz de texto.
+	// As falas com retrato de Daniel/Talai já escolheram sfxDanielVc acima.
+	if (argument_count <= 1) {
+		snd[page_number]             = vc_text;
+		snd_delay_array[page_number] = 4;
 	}
 	
 	page_number++;

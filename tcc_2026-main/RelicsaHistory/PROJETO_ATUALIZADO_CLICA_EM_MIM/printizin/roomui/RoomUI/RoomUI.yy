@@ -5,8 +5,8 @@
   "locked":false,
   "name":"RoomUI",
   "parent":{
-    "name":"printizin2",
-    "path":"printizin2.yyp",
+    "name":"printizin2meajuda_corrigido",
+    "path":"printizin2meajuda_corrigido.yyp",
   },
   "resourceType":"GMRoomUI",
   "resourceVersion":"2.0",

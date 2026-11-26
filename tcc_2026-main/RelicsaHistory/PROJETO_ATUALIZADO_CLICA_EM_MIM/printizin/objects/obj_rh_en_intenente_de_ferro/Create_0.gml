@@ -2,8 +2,8 @@ event_inherited();
 
 // ── FICHA ─────────────────────────────────────────────────────────
 enemy_name   = "Intenente de Ferro";
-enemy_max_hp = 450;
-dmg_min      = 3;
+enemy_max_hp = 400;
+dmg_min      = 5;
 dmg_max      = 6;
 
 // ── APARÊNCIA ─────────────────────────────────────────────────────

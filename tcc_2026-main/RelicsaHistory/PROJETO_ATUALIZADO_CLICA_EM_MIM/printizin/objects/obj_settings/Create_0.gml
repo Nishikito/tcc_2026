@@ -8,6 +8,10 @@ global.carol_disappeared = false;
 global.fade_active = false;
 global.intro_played = false;
 global.math_battle_active = false;
+// Música do overworld (SndCastleFunk): só inicializa uma vez, porque este Create
+// roda de novo a cada troca de sala (obj_settings é persistente).
+if (!variable_global_exists("overworld_music_on"))       global.overworld_music_on       = false;
+if (!variable_global_exists("overworld_music_finished")) global.overworld_music_finished = false;
 // ── CUTSCENES ─────────────────────────────────────────────────────
 // Este Create roda de novo a cada troca de sala, então só cria se ainda não existir.
 if (!variable_global_exists("scenes_done"))     global.scenes_done     = {};     // cenas "once" já tocadas
@@ -110,3 +114,38 @@ if (!variable_global_exists("pre_battle_room")) global.pre_battle_room = rm_test
 if (!variable_global_exists("pre_battle_hp"))   global.pre_battle_hp   = 0;        // salva HP antes de destruir o player
 if (!variable_global_exists("pre_battle_x"))    global.pre_battle_x    = 0;        // salva posição X para restaurar
 if (!variable_global_exists("pre_battle_y"))    global.pre_battle_y    = 0;        // salva posição Y para restaurar
+if (!variable_global_exists("pre_battle_face"))  global.pre_battle_face  = UP;      // direção antes da batalha
+
+// ── RETORNO SEGURO DA BATALHA ───────────────────────────────────────
+// A transição destrói o ObjPlayer antes de ir pra rm_rh_battle. Salas como
+// rm_inicio não têm ObjPlayer colocado no editor, então quem volta precisa
+// recriá-lo (feito no Step deste objeto). Estas globais só nascem uma vez.
+if (!variable_global_exists("battle_return_pending")) global.battle_return_pending = false;
+if (!variable_global_exists("battle_return_room"))    global.battle_return_room    = -1;
+if (!variable_global_exists("battle_return_x"))       global.battle_return_x       = 0;
+if (!variable_global_exists("battle_return_y"))       global.battle_return_y       = 0;
+if (!variable_global_exists("battle_return_face"))    global.battle_return_face    = UP;
+if (!variable_global_exists("battle_scene_id"))       global.battle_scene_id       = "";
+
+// ── ÚLTIMO SAVEPOINT USADO (para onde voltar ao perder) ─────────────
+if (!variable_global_exists("last_savepoint_room")) {
+    global.last_savepoint_room = variable_global_exists("start_room") ? global.start_room : RoomClass1_1;
+}
+if (!variable_global_exists("last_savepoint_x")) {
+    global.last_savepoint_x = variable_global_exists("start_x") ? global.start_x : 120;
+}
+if (!variable_global_exists("last_savepoint_y")) {
+    global.last_savepoint_y = variable_global_exists("start_y") ? global.start_y : 136;
+}
+if (!variable_global_exists("last_savepoint_face")) global.last_savepoint_face = UP;
+
+// Fala de apresentação do save point (disparada uma única vez por save).
+if (!variable_global_exists("savepoint_intro_done")) global.savepoint_intro_done = false;
+
+// Apresentação do Rodapé: nasce aqui (não só no Room Start) para o CONTINUAR
+// nunca chegar sem a flag definida. O valor real vem do save (save_extra_globals).
+if (!variable_global_exists("rodape_intro_done")) global.rodape_intro_done = false;
+
+// Anti-loop de warps: depois de uma transição, os warps ficam travados até o
+// player sair da máscara de todos eles (há destinos que caem em cima de um warp).
+if (!variable_global_exists("warp_suppressed")) global.warp_suppressed = false;

@@ -3,7 +3,7 @@ if (t < fade_t) { image_alpha = t / fade_t; exit; }
 if (t > life - 20) {
     image_alpha = (life - t) / 20;
     active = false;
-    if (t >= life) instance_destroy();
+    if (t >= life) { rh_debug_destroy("fim da vida"); instance_destroy(); }
     exit;
 }
 active = true;

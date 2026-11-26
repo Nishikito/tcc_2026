@@ -155,4 +155,39 @@ new_y = round(new_y);
 
 camera_set_view_pos(cam, new_x, new_y);
 
+// ── RoomSalasCorredor: fala ao atravessar a passagem em (424, 195) ────
+// Fica no Step do player (persistente) em vez de um trigger novo na room:
+// o IDE reescreve o .yy e remove instâncias criadas fora dele.
+// A área é uma FAIXA VERTICAL larga: antes, o raio de 28 px dava para burlar
+// passando acima ou abaixo do ponto.
+if (!variable_global_exists("historia_corredor_done")) {
+    global.historia_corredor_done = false;
+}
+if (room == RoomSalasCorredor && !global.historia_corredor_done &&
+    !global.dialog_active && !global.fade_active &&
+    !global.cutscene_active && !global.math_battle_active &&
+    point_in_rectangle(x, y, 390, 95, 470, 365)) {
+    global.historia_corredor_done = true;
+    create_textbox("historia_corredor");
+    global.dialog_active = true;
+}
+
+// ── Companion Rasiel: segue o player no fim do frame ────────────────
+// O player já andou, então o rastro do scr_party pode avançar agora.
+if (variable_global_exists("companion_inst") && instance_exists(global.companion_inst)) {
+    with (global.companion_inst) {
+        if (is_following) party_follower_step();
+        // Também enquanto está parado (diálogo/cutscene): a depth acompanha os pés.
+        depth = -bbox_bottom;
+    }
+}
+
+// ── Profundidade por baixo dos pés ──────────────────────────────────
+// Player e companion usam a mesma regra do scr_party (-bbox_bottom):
+// quem está mais abaixo na tela desenha por cima. Antes o player ficava
+// na depth fixa 0 e o companion sempre em -bbox_bottom, então ele aparecia
+// por cima do Talai mesmo quando estava "atrás" dele.
+// Durante a transição de batalha, quem controla a depth é o obj_battle_transition.
+if (!instance_exists(obj_battle_transition)) depth = -bbox_bottom;
+
 

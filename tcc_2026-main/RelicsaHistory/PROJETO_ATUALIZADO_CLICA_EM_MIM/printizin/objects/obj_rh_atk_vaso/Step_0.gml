@@ -5,4 +5,4 @@ if (t >= 18 && dropped < n_drops && (t - 18) mod interval == 0) {
     _b.vx = choose(-0.35, 0, 0.35);
     _b.vy = 1.7;
 }
-if (dropped >= n_drops && t > 18 + n_drops * interval + 30) instance_destroy();
+if (dropped >= n_drops && t > 18 + n_drops * interval + 30) { rh_debug_destroy("fim da vida"); instance_destroy(); }

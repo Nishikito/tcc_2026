@@ -24,13 +24,38 @@ dmg_max      = DMG_ENEMY_BASE_MAX;
 // ── POSIÇÃO / ESCALA ──────────────────────────────────────────────
 // O sprite é encaixado na área do inimigo (ENEMY_MAX_W x ENEMY_MAX_H), centrado onde a room o colocou.
 // A transição de batalha calcula o mesmo encaixe pelo sprite do objeto (obj_battle_transition).
+// enemy_anchor_x/y guardam o ponto da room: os filhos podem mudar o tamanho depois
+// do event_inherited() sem deslocar o inimigo.
+enemy_anchor_x  = x;
+enemy_anchor_y  = y;
+enemy_size_mult = 1;
 var _fit = min(ENEMY_MAX_W / sprite_get_width(sprite_index),
                ENEMY_MAX_H / sprite_get_height(sprite_index));
 image_xscale = _fit;
 image_yscale = _fit;
+// O ponto onde a room colocou o marcador é o CENTRO do inimigo. Reposiciona pela origem do sprite:
+// sprites com origem no canto (0,0), como Carumaru, Apressador, Juiz e Trono, ficavam fora da tela / em cima do HUD.
+x -= (sprite_get_width(sprite_index)  / 2 - sprite_get_xoffset(sprite_index)) * _fit;
+y -= (sprite_get_height(sprite_index) / 2 - sprite_get_yoffset(sprite_index)) * _fit;
 image_speed  = 0;   // a troca de quadros do idle é feita à mão no Step (idle_frame_time)
 tempo        = 0;
 centro_y     = y;
+
+// Chamado pelos filhos após event_inherited(): 1 = tamanho original,
+// 0.4 = 60% menor, 0.75 = 25% menor, 1.05 = 5% maior.
+// Recalcula o encaixe e reposiciona mantendo o centro da room como âncora.
+set_enemy_size = function(_mult) {
+    enemy_size_mult = _mult;
+    var _escala = min(ENEMY_MAX_W / sprite_get_width(sprite_index),
+                      ENEMY_MAX_H / sprite_get_height(sprite_index)) * _mult;
+    image_xscale = _escala;
+    image_yscale = _escala;
+    x = enemy_anchor_x - (sprite_get_width(sprite_index)  / 2 - sprite_get_xoffset(sprite_index)) * _escala;
+    y = enemy_anchor_y - (sprite_get_height(sprite_index) / 2 - sprite_get_yoffset(sprite_index)) * _escala;
+    centro_y = y;
+};
+// Aplica o multiplicador do objeto (a transição lê a mesma função).
+set_enemy_size(get_rh_enemy_size(object_index));
 
 // ── TIRO MIRADO ANTIGO ────────────────────────────────────────────
 // Só vale para o inimigo sem padrões (patterns = []). Os obj_rh_en_* fazem alarm[0] = -1.
@@ -64,6 +89,10 @@ pattern_last    = -1;   // índice do último padrão usado (para não repetir s
 pattern_timer   = 0;
 pattern_running = false;
 pattern_current = undefined;
+pattern_names   = [];       // opcional: nomes dos padrões, só para o RH_DEBUG
+turn_empty_frames     = 0;  // diagnóstico: frames do turno sem nenhum ataque ativo
+turn_empty_streak     = 0;
+turn_max_empty_streak = 0;
 
 // ── Ajudantes para os padrões ──────────────────────────────────────
 // Convertem um ponto do sprite (em pixels do ARQUIVO, contados do canto superior esquerdo,

@@ -27,6 +27,11 @@ if setup == false
 			if speaker_sprite[p] = noone{
 	        text_x_offset[p] = 60;
 			}
+
+			// Sprite GRANDE de visual novel: Talai fica à esquerda (texto começa em 80); o companion à direita (texto em 8)
+			if (speaker_large_sprite[p] != noone) {
+				text_x_offset[p] = (speaker_side[p] == -1) ? 8 : 80;
+			}
 			
 			
 			
@@ -139,6 +144,13 @@ if accept_key
                             global.previous_room = room;
                             room_goto(rm_math_battle);
                             break;
+                        // Fim da apresentação do Rodapé: ele entra na party e começa a seguir.
+                        case "rodape_join_party":
+                            if (variable_global_exists("companion_inst") &&
+                                instance_exists(global.companion_inst)) {
+                                party_begin_follow(global.companion_inst);
+                            }
+                            break;
                     }
                     global.after_dialog_action = "";
                     instance_destroy();
@@ -177,6 +189,22 @@ if speaker_sprite[page] != noone{
 	draw_sprite_ext(txtb_spr[page], txtb_img, textbox_x + portrait_x_offset[page], textbox_y, sprite_width/txtb_spr_w, sprite_height/txtb_spr_h, 0, c_white, 1);
 	draw_sprite_ext(sprite_index, image_index, _speaker_x, textbox_y, speaker_side[page], 1, 0, c_white, 1);
 
+}
+
+// sprite grande de visual novel (atrás da caixa, ancorado no pé da tela)
+if (speaker_large_sprite[page] != noone) {
+	var _lspr = speaker_large_sprite[page];
+	var _vcam = view_camera[0];
+	var _lw   = sprite_get_width(_lspr);
+	var _lh   = sprite_get_height(_lspr);
+	var _esc  = speaker_side[page];   // -1 = retrato à direita (Rasiel), virado para a esquerda
+	var _lx   = (_esc == -1) ? camera_get_view_x(_vcam) + camera_get_view_width(_vcam) - _lw + 6
+	                        : camera_get_view_x(_vcam) + 2;
+	// Com origem no canto, espelhar faz o sprite crescer para a esquerda:
+	// desloca para manter o retrato na mesma faixa da tela.
+	if (_esc == -1) _lx += _lw;
+	draw_sprite_ext(_lspr, 0, _lx, camera_get_view_y(_vcam) + camera_get_view_height(_vcam) - _lh,
+	                _esc, 1, 0, c_white, 1);
 }
 
 //back of the textbox

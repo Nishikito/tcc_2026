@@ -2,9 +2,9 @@ event_inherited();
 
 // ── FICHA ─────────────────────────────────────────────────────────
 enemy_name   = "Mascate de Prata";
-enemy_max_hp = 360;
-dmg_min      = 4;
-dmg_max      = 6;
+enemy_max_hp = 340;
+dmg_min      = 3;
+dmg_max      = 5;
 
 // ── APARÊNCIA ─────────────────────────────────────────────────────
 sprite_index = spr_mascate_de_prata;

@@ -319,7 +319,11 @@ switch (state) {
         // Morte imediata: HP chegou a 0 durante o turno → não espera o timer.
         // (o coração só se mexe no ENEMY_TURN, então sair do estado já o congela)
         if (global.hp <= 0) {
-            with (obj_rh_battle_bullet) instance_destroy();
+            // Instrumentação Fase 0: toda limpeza em massa informa o motivo (via RH_DEBUG).
+            with (obj_rh_battle_bullet) {
+                rh_debug_destroy("limpeza: HP do coração zerou");
+                instance_destroy();
+            }
             item_used_name = "";
             is_defending   = false;
             state = BATTLE_STATE.DEFEAT;
@@ -327,7 +331,11 @@ switch (state) {
         }
 
         if (enemy_turn_timer <= 0) {
-            with (obj_rh_battle_bullet) instance_destroy();
+            // Instrumentação Fase 0: fim de turno também é uma destruição com motivo.
+            with (obj_rh_battle_bullet) {
+                rh_debug_destroy("limpeza: fim do turno (300 frames)");
+                instance_destroy();
+            }
             item_used_name = ""; // limpa a mensagem do item usado neste turno
             is_defending   = false; // a defesa vale só para ESTE turno
             if (global.hp <= 0) {

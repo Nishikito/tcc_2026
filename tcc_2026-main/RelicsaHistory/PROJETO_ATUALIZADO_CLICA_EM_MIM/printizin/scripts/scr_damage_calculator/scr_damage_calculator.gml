@@ -94,6 +94,7 @@ function get_rh_enemy_object(enemy_id) {
         case "ApressadorDasSombras": return obj_rh_en_apressador_das_sombras;
         case "JuizDasArmas":    return obj_rh_en_juiz_das_armas;
         case "TronoVazio":      return obj_rh_en_trono_vazio;
+        case "QuintoDoInferno": return obj_rh_en_quinto_do_inferno;
         default:                return obj_rh_en_monstro_das_mocoes;    // IDs desconhecidos
     }
 }

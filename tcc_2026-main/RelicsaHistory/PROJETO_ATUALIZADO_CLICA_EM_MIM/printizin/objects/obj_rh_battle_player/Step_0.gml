@@ -57,7 +57,8 @@ if (_ctrl.state == BATTLE_STATE.ENEMY_TURN && _box.is_open) {
     if (kb_flash > 0) kb_flash--;
 
     // Dano dos ataques — UMA colisão = UM dano.
-    // instance_place_list devolve TODOS os ataques tocando o coração; só o primeiro ATIVO conta.
+    // A rotina de dano foi extraída para rh_hurt_heart() em scr_rh_attacks: a mesma
+    // regra vale para a máscara padrão e para a geometria própria (cortes, raios, martelos).
     // Durante os iframes o coração atravessa os ataques: eles não machucam nem são consumidos.
     if (iframe_timer <= 0) {
         var _hits = ds_list_create();
@@ -65,31 +66,7 @@ if (_ctrl.state == BATTLE_STATE.ENEMY_TURN && _box.is_open) {
         for (var _i = 0; _i < _n; _i++) {
             var _b = _hits[| _i];
             if (!_b.active) continue;
-
-            var _dmg = max(1, round(calculate_enemy_damage() * _b.dmg_mult));
-            apply_damage_to_player(_dmg);
-            iframe_timer = iframe_max;   // 1 segundo sem novos acertos
-            _ctrl.talai_hit_timer = ANIM_TALAI_HIT_DURATION;
-            rh_debug("ACERTO por " + object_get_name(_b.object_index)
-                     + " | dano " + string(_dmg) + " | iframes " + string(iframe_max));
-
-            // Empurrão para trás: a direção da investida afasta o coração do juiz.
-            if (_b.kb_power > 0) {
-                kb_x     = lengthdir_x(_b.kb_power, _b.kb_dir);
-                kb_y     = lengthdir_y(_b.kb_power, _b.kb_dir);
-                kb_time  = 12;
-                kb_flash = 10;
-            }
-
-            with (_b) {
-                active  = false;
-                was_hit = true;   // zonas e raios respeitam isto (single-hit)
-                if (destroy_on_hit) {
-                    rh_debug_destroy("acerto no coração");
-                    instance_destroy();
-                }
-            }
-            break;   // só um acerto por frame
+            if (rh_hurt_heart(_b)) break;   // só um acerto por frame
         }
         ds_list_destroy(_hits);
     }

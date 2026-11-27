@@ -8,6 +8,7 @@ depth = -1; // na frente da caixa
 // Velocidade extra somada ao movimento; decai com atrito e some em ~12 frames.
 kb_x      = 0;
 kb_y      = 0;
+kb_dir    = 0;   // direção do empurrão (graus); o Draw também lê este valor
 kb_time   = 0;
 kb_flash  = 0;   // frames de flash/tremida curta depois do empurrão
 

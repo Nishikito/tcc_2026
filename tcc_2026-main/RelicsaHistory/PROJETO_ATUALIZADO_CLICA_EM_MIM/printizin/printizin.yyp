@@ -103,7 +103,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2026.1.0.27",
+    "IDEVersion":"2026.1.1.34",
   },
   "name":"printizin",
   "resources":[
@@ -195,7 +195,6 @@
     {"id":{"name":"rm_teste","path":"rooms/rm_teste/rm_teste.yy",},},
     {"id":{"name":"rm_title_intro","path":"rooms/rm_title_intro/rm_title_intro.yy",},},
     {"id":{"name":"rm_title","path":"rooms/rm_title/rm_title.yy",},},
-    {"id":{"name":"Room23","path":"rooms/Room23/Room23.yy",},},
     {"id":{"name":"Room5","path":"rooms/Room5/Room5.yy",},},
     {"id":{"name":"Room5Abandoned","path":"rooms/Room5Abandoned/Room5Abandoned.yy",},},
     {"id":{"name":"RoomBathroom","path":"rooms/RoomBathroom/RoomBathroom.yy",},},
@@ -455,7 +454,6 @@
     {"roomId":{"name":"rm_conecta_caminho_praia","path":"rooms/rm_conecta_caminho_praia/rm_conecta_caminho_praia.yy",},},
     {"roomId":{"name":"rm_caminho_para_oca","path":"rooms/rm_caminho_para_oca/rm_caminho_para_oca.yy",},},
     {"roomId":{"name":"rm_aldeia_indigena","path":"rooms/rm_aldeia_indigena/rm_aldeia_indigena.yy",},},
-    {"roomId":{"name":"Room23","path":"rooms/Room23/Room23.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

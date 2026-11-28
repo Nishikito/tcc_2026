@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"mascate_de_prata",
-    "path":"folders/Sprites/enemies/attacks/mascate_de_prata.yy",
+    "name":"trono_vazio",
+    "path":"folders/Sprites/enemies/attacks/trono_vazio.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

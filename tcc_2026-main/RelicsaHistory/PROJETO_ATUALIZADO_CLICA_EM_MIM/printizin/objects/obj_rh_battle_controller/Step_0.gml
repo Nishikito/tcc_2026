@@ -316,6 +316,61 @@ switch (state) {
             enemy_turn_timer--;
         }
 
+        // ── TRONO VAZIO ────────────────────────────────────────────
+        // Só ele usa o controller isolado. Os outros inimigos seguem com os
+        // patterns antigos em obj_rh_battle_enemy, sem nenhuma alteração.
+        if (instance_exists(obj_rh_en_trono_vazio)) {
+            // Teclas de teste (temporárias): F1..F4 forçam o ataque, F5..F7 o nível.
+            // Removê-las depois não afeta a sequência normal.
+            if (keyboard_check_pressed(vk_f1)) { trono_test_attack = 1; trono_test_level = 1; }
+            if (keyboard_check_pressed(vk_f2)) { trono_test_attack = 2; trono_test_level = 1; }
+            if (keyboard_check_pressed(vk_f3)) { trono_test_attack = 3; trono_test_level = 1; }
+            if (keyboard_check_pressed(vk_f4)) { trono_test_attack = 4; trono_test_level = 1; }
+            if (keyboard_check_pressed(vk_f5)) trono_test_level = 1;
+            if (keyboard_check_pressed(vk_f6)) trono_test_level = 2;
+            if (keyboard_check_pressed(vk_f7)) trono_test_level = 3;
+
+            if (!trono_attack_spawned) {
+                trono_attack_spawned = true;
+
+                var _attack = 0;
+                var _level  = 1;
+                if (trono_test_attack > 0) {
+                    // Modo teste consome a escolha para não repetir no turno seguinte.
+                    _attack = trono_test_attack;
+                    _level  = trono_test_level;
+                    trono_test_attack = 0;
+                } else {
+                    var _next = scr_trono_next_attack(trono_last_attack, trono_last_level);
+                    _attack = _next.attack;
+                    _level  = _next.level;
+                }
+                trono_last_attack = _attack;
+                trono_last_level  = _level;
+
+                var _ac = instance_create_depth(0, 0, 0, obj_trono_attack_controller);
+                _ac.attack_id = _attack;
+                _ac.level     = _level;
+            }
+
+            // ── TICK DOS ATAQUES ────────────────────────────────────
+            // Chamado daqui (e não do Step dos objetos novos) porque o evento
+            // Step deles não roda de forma confiável neste projeto.
+            if (instance_exists(obj_trono_attack_controller)) {
+                trono_tick_controller(instance_find(obj_trono_attack_controller, 0));
+            }
+            with (obj_trono_coroa)     trono_tick_coroa(id);
+            with (obj_trono_fragmento) trono_tick_fragmento(id);
+            with (obj_trono_espada)    trono_tick_espada(id);
+            with (obj_trono_corte)     trono_tick_corte(id);
+
+            // O controller se destrói quando o último projétil some: fechamos o
+            // turno na hora em vez de esperar os 300 frames antigos.
+            if (!instance_exists(obj_trono_attack_controller)) {
+                enemy_turn_timer = 0;
+            }
+        }
+
         // Morte imediata: HP chegou a 0 durante o turno → não espera o timer.
         // (o coração só se mexe no ENEMY_TURN, então sair do estado já o congela)
         if (global.hp <= 0) {
@@ -326,6 +381,7 @@ switch (state) {
             }
             item_used_name = "";
             is_defending   = false;
+            trono_attack_spawned = false;
             state = BATTLE_STATE.DEFEAT;
             break;
         }
@@ -336,6 +392,11 @@ switch (state) {
                 rh_debug_destroy("limpeza: fim do turno (300 frames)");
                 instance_destroy();
             }
+            // O controller não é filho de bullet, então precisa ser limpo à parte.
+            if (instance_exists(obj_trono_attack_controller)) {
+                instance_destroy(obj_trono_attack_controller);
+            }
+            trono_attack_spawned = false;
             item_used_name = ""; // limpa a mensagem do item usado neste turno
             is_defending   = false; // a defesa vale só para ESTE turno
             if (global.hp <= 0) {

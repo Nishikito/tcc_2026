@@ -15,7 +15,7 @@ was_hit        = false;
 
 aviso_total      = 22;
 tempo_parada     = 18;
-vel_cachorro     = 3.2;
+vel_cachorro     = 2.24;   // 30% mais lento (era 3.2)
 escala_cachorro  = 0.75;
 max_passagens    = 3;
 max_paradas      = 3;
@@ -51,12 +51,19 @@ solta_fogos = function() {
     var _boca_x = (dir > 0) ? (64 - 7) : 7;   // 7 px desde a ponta do focinho
     var _mx = x + _boca_x * image_xscale;
     var _my = y + 14 * image_yscale;
+    // O cachorro nasce FORA da caixa: sem este clamp o foguinho batia na parede
+    // de entrada, virava para fora e esgotava os 3 rebotes sem entrar na arena.
+    var _fw = sprite_get_width(spr_fire_attack)  * 0.5;
+    var _fh = sprite_get_height(spr_fire_attack) * 0.5;
+    _mx = clamp(_mx, bx1, bx2 - _fw);
+    _my = clamp(_my, by1, by2 - _fh);
     for (var i = 0; i < fogos_por_parada; i++) {
         if (instance_number(obj_rh_atk_fogo_quinto) >= max_fogos) break;
         var _angulo = irandom_range(200, 340);   // para CIMA / diagonal
         var _f = rh_spawn_attack(obj_rh_atk_fogo_quinto, _mx, _my);
-        _f.vx = lengthdir_x(2, _angulo);
-        _f.vy = lengthdir_y(2, _angulo);
+        // 30% mais lento (era 2 px/frame); a direção continua aleatória para cima.
+        _f.vx = lengthdir_x(1.4, _angulo);
+        _f.vy = lengthdir_y(1.4, _angulo);
         _f.image_angle = _angulo - 90;
     }
 };

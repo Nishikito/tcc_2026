@@ -13,7 +13,7 @@ destroy_on_hit = true;    // some ao acertar o coração
 was_hit        = false;
 
 vx      = 0;
-vy      = -2;
+vy      = -1.4;   // 30% mais lento (era -2); o cachorro sobrescreve ao atirar
 t       = 0;
 rebotes = 0;
 puff    = 0;

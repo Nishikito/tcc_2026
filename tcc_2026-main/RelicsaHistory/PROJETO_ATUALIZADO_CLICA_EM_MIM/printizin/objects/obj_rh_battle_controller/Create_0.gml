@@ -120,6 +120,15 @@ anim_end_frame    = 0;      // frame em que a animação acaba (0 = ainda não d
 enemy_turn_timer    = 0;
 enemy_turn_max_time = 300;
 
+// ── TRONO VAZIO: ATAQUES PRÓPRIOS ─────────────────────────────────
+// Tudo é variável de INSTÂNCIA (nenhum global novo). last_attack = 0 com
+// last_level = 1 faz o primeiro ataque sair como 1 / nível 1.
+trono_last_attack    = 0;
+trono_last_level     = 1;
+trono_attack_spawned = false;
+trono_test_attack    = 0;   // 0 = sequência normal; 1..4 força um ataque
+trono_test_level     = 0;   // 0 = usa o nível da sequência
+
 // ── TALAI ATINGIDO ────────────────────────────────────────────────
 // Frames restantes mostrando o sprite de dano. Quem LIGA: obj_rh_battle_player (ao levar bala).
 // Quem DESCONTA: o Step deste objeto. Quem DESENHA: o Draw_64.

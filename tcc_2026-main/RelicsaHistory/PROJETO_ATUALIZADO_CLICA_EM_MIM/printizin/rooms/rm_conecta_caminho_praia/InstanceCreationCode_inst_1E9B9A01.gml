@@ -1,0 +1,1 @@
+text_id = "colonizador_primeiro_encontro";

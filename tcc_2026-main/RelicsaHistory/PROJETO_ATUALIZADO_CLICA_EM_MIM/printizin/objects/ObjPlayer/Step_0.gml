@@ -110,18 +110,7 @@ if (keyboard_check_pressed(vk_f11)) {
     window_set_fullscreen(!window_get_fullscreen());
 }
 
-// ── DIAGNÓSTICO (remover depois) ──────────────────────
-if (keyboard_check_pressed(vk_f1)) {
-    show_message(
-        "dialog_active: "     + string(global.dialog_active)     + "\n" +
-        "fade_active: "       + string(global.fade_active)       + "\n" +
-        "math_battle_active: "+ string(global.math_battle_active)+ "\n" +
-        "paused: "            + string(global.paused)            + "\n" +
-        "wall aqui: "         + string(place_meeting(x, y, ObjWall)) + "\n" +
-        "posição: "           + string(x) + ", " + string(y)
-    );
-}
-// ──────────────────────────────────────────────────────
+
 
 
 // ── CÂMERA COM INTERPOLAÇÃO ────────────────────────────

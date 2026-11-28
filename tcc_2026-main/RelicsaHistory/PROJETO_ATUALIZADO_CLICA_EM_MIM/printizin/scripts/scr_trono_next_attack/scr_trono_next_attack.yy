@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_trono_next_attack",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_trono_next_attack",
+  "parent":{
+    "name":"battleTest",
+    "path":"folders/Scripts/battleTest.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

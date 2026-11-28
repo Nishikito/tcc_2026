@@ -6,21 +6,11 @@ if (estado == 0) {
     rh_draw_warning_line(_x1, _chao, _x2, _chao, 3, t);
     rh_draw_warning_rect(_x1, by2 - altura - 2, _x2, by2, t);
 } else if (estado != 3 || t < t_fim + 4) {
+    // Um único desenho do sprite. O antigo overlay da cabeça (squash/stretch por
+    // draw_sprite_part_ext) sobrepunha o quadro e deixava o cachorro "quebrado".
+    // O tremor e o tom quente da parada continuam dando o feedback visual.
     rh_draw_clipped(sprite_index, image_index, x, y,
                     image_xscale, image_yscale, image_blend, image_alpha);
-
-    if (estado == 2) {
-        // Leve squash/stretch na cabeça, desenhada por código sobre o corpo.
-        var _cabeca_u = 18;
-        var _src_x = (dir > 0) ? (sprite_get_width(sprite_index) - _cabeca_u) : 0;
-        var _dx = x + _src_x * image_xscale;
-        var _p  = t_parada / max(1, tempo_parada);
-        var _st = 1 + 0.10 * dsin(_p * 360);
-        draw_sprite_part_ext(sprite_index, image_index,
-                             _src_x, 0, _cabeca_u, sprite_get_height(sprite_index),
-                             _dx, y, image_xscale * _st, image_yscale / _st,
-                             image_blend, image_alpha);
-    }
 }
 
 if (RH_ATK_DEBUG_ZONES && (estado == 1 || estado == 2)) {

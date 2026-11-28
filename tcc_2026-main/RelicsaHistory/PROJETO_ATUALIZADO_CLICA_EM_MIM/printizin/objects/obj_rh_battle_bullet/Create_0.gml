@@ -12,6 +12,12 @@ kb_power       = 0;      // >0 = ao acertar, empurra o coração para trás (inv
 kb_dir         = 0;      // direção do empurrão (graus)
 beam_w         = 0;      // >0 = dano por geometria de segmento, não por máscara de sprite
 
+// ── Ataques do Trono Vazio (opcionais) ─────────────────────────────
+// 0 = usa dano/iframes padrão dos outros inimigos. Só os projéteis do Trono
+// preenchem estes campos; assim nenhum outro ataque muda de comportamento.
+trono_fixed_damage = 0;
+trono_iframes      = 0;
+
 // Limites internos da Battle Box, guardados uma vez (a caixa não se move)
 var _r = rh_box_inner();
 bx1 = _r.x1;

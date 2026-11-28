@@ -21,9 +21,9 @@ if (estado == 0) {
         var _fx = x + (_bw - _fw) / 2;
         var _fy = by2 - 8;   // sobe para DENTRO da caixa (desenho recortado)
         var _f  = rh_spawn_attack(obj_rh_atk_fumaca_quinto, _fx, _fy);
+        // vel_fumaca e vida_fumaca vêm do Create da fumaça: a vida é calculada
+        // até o topo da caixa (by1), então não fixamos mais 40 frames aqui.
         _f.escala_fumaca = 0.6;
-        _f.vel_fumaca    = -1.1;
-        _f.vida_fumaca   = 40;
     }
     exit;
 }

@@ -50,15 +50,34 @@ function scr_game_text(_text_id){
 			scr_text("O-Onde eu tô?!?!", "talaib-preocupado");
 			scr_text("Você tá no Brasil", "rasiel-explicando");
 			scr_text("Como assim???", "talaib-preocupado");
-			scr_text("Você está no Brasil, mas especificamente na época do descobrimento", "rasiel-explicando");
+			scr_text("Você está no Brasil, especificamente na época do descobrimento.", "rasiel-explicando");
 			scr_text("O QUE??? COMO ISSO É POSSÍVEL?????", "talaib-surpreso");
 			scr_text("(Vish, o muleke vai endoidar)", "rasiel-desacreditado");
 			scr_text("Olha, eu não sei como te explicar isso, mas vou te ajudar a voltar pra casa. E aliás, meu nome é Rodapé!", "rasiel-sorrindo");
 			scr_text("(Rodapé, sério mesmo?)", "talaib-pensando");
 			scr_text("Tá... o meu nome é Talai", "talaib-falando");
-			scr_text("Prazer em te conhecer! Irei te seguir pra te ajudar nessa aventura", "rasiel-sorrindo");
+			scr_text("Prazer em te conhecer! Irei te seguir pra te ajudar nessa aventura.", "rasiel-sorrindo");
 			scr_text("Rodapé entrou para a party");   // sem retrato
 			return;
+		
+		case "colonizador_primeiro_contato":
+			scr_text("Mas que é isto? Quem sois vós? Não me pareceis com homem algum desta tripulação.");
+			scr_text("A-ah, é....", "talaiB-preocupado");
+			scr_text("Talai, tá tudo bem?", "rasiel-preocupado");
+			scr_text("Eu não faço ideia do que falar pra ele!", "talaiB-preocupado");
+			scr_text("Que dissestes? Não logrei ouvir-vos.");
+			scr_text("A-ah, é....", "talaiB-preocupado");
+			scr_text("Desculpa senhor... E-eu entrei no barco sem q-querer, eu queria te ajudar com as viagens de caravela!", "talaiB-preocupado");
+			scr_text("Não compreendo palavra do que dizeis. Que mal vos aflige, homem? Sois acaso algum tolo?");
+			scr_text("Ele não fala o mesmo português que você.", "rasiel-falando");
+			scr_text("C-como que eu falo com ele??", "talaiB-preocupado");
+			scr_text("Já sei!", "rasiel-falando");
+			scr_text("Você recebeu a Relíquia da Linguísica");
+			scr_text("Pronto!", "rasiel-sorrindo");
+			scr_text("I-isso funciona??", "talaiB-preocupado");
+			scr_text("Ah, agora sim te compreendo!");
+			scr_text("Agora, responda minha pergunta.");
+			scr_text("Quem é você?");
 	}
 
 	//Pega o prefixo do text_id(tudo antes do primeiro _)

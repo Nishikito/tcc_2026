@@ -36,8 +36,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_iceberg_attack",
-    "path":"sprites/spr_iceberg_attack/spr_iceberg_attack.yy",
+    "name":"spr_coroa_attack",
+    "path":"sprites/spr_coroa_attack/spr_coroa_attack.yy",
   },
   "spriteMaskId":null,
   "visible":true,

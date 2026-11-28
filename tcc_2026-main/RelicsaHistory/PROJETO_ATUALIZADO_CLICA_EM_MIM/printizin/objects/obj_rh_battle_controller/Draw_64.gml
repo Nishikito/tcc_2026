@@ -5,8 +5,6 @@ draw_set_font(global.font_main);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-
-
 // ── TALAI — desenhado diretamente na GUI, lado esquerdo ──────────
 // Usa SprPlayerDown que já existe no projeto como placeholder
 // Quando o artista entregar o sprite de batalha, troque aqui

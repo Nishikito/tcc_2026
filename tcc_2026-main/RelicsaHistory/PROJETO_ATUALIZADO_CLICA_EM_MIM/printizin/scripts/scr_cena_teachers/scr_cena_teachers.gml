@@ -13,7 +13,7 @@ function scr_cena_teachers(_id) {
             var _perto_y  = 114;   // 2ª parada: encostado na frente da mesa
             // Pra onde ele cai quando termina (a mesma queda do "professor_livro_queda").
             // Troque aqui se a sequência for outra.
-            var _destino   = Room23;
+            var _destino   = rm_inicio;
             var _destino_x = 982;
             var _destino_y = 316;
 

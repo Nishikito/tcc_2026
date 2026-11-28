@@ -29,7 +29,11 @@ if (rebotes >= 3) {
     exit;
 }
 
-if (!was_hit && rh_rot_rect_hits_heart(_cx, _cy, largura, altura, image_angle)) {
+// rh_rot_rect_hits_heart já encolhe a caixa com RH_HEART_SHRINK; compensamos
+// aqui para a hitbox cobrir o sprite desenhado inteiro (encostar machuca).
+var _hb_w = largura / RH_HEART_SHRINK;
+var _hb_h = altura  / RH_HEART_SHRINK;
+if (!was_hit && rh_rot_rect_hits_heart(_cx, _cy, _hb_w, _hb_h, image_angle)) {
     rh_hurt_heart(id);
 }
 

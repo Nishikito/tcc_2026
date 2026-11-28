@@ -176,8 +176,18 @@ function rh_draw_warning_rect(_x1, _y1, _x2, _y2, _t) {
 function rh_draw_warning_line(_x1, _y1, _x2, _y2, _w, _t) {
     var _width = 2;
     var _tempo = 0;
-    if (argument_count >= 6) { _width = _w; _tempo = _t; }
-    else                     { _tempo = _w; }
+    // Chamada antiga (5 args): o 5º argumento é o tempo.
+    // Chamada com 6 args: o 5º é a largura e o 6º é o tempo.
+    // NÃO usar argument_count junto com parâmetros nomeados: o GM pode contar
+    // os 6 parâmetros mesmo quando só 5 foram passados e deixar _t undefined.
+    if (is_undefined(_t)) {
+        _tempo = _w;
+    } else {
+        _width = _w;
+        _tempo = _t;
+    }
+    // Nunca deixar undefined chegar no div/mod (era o "DoRem :2" do erro).
+    if (is_undefined(_tempo)) _tempo = 0;
     var _a = 0.34;
     if (((_tempo div 4) mod 2) == 0) _a = 0.68;
     draw_set_alpha(_a);
@@ -255,15 +265,28 @@ function rh_hurt_heart(_b) {
     var _p = obj_rh_battle_player;
     if (_p.iframe_timer > 0 || _b.was_hit) return false;
 
-    var _dmg = max(1, round(calculate_enemy_damage() * _b.dmg_mult));
+    // Dano normal = sorteio da ficha do inimigo. O Trono usa dano FIXO para
+    // cada golpe ter sempre o valor combinado; o campo é 0 nos outros ataques.
+    var _dmg = calculate_enemy_damage() * _b.dmg_mult;
+    if (variable_instance_exists(_b, "trono_fixed_damage") && _b.trono_fixed_damage > 0) {
+        _dmg = _b.trono_fixed_damage * _b.dmg_mult;
+    }
+    _dmg = max(1, round(_dmg));
     apply_damage_to_player(_dmg);
-    _p.iframe_timer = _p.iframe_max;   // antes: 60 frames; FICA aqui, uma fonte só
+
+    // Cada ataque do Trono define também seus iframes (1s / 0.4s / 0.14s).
+    var _iframes = _p.iframe_max;
+    if (variable_instance_exists(_b, "trono_iframes") && _b.trono_iframes > 0) {
+        _iframes = _b.trono_iframes;
+    }
+    _p.iframe_timer = _iframes;   // uma fonte só (antes era fixo em 60)
+
     obj_rh_battle_controller.talai_hit_timer = ANIM_TALAI_HIT_DURATION;
 
     var _kb_power = _b.kb_power;
     var _kb_dir   = _b.kb_dir;
     rh_debug("ACERTO por " + object_get_name(_b.object_index)
-             + " | dano " + string(_dmg) + " | iframes " + string(_p.iframe_max));
+             + " | dano " + string(_dmg) + " | iframes " + string(_iframes));
 
     with (_b) {
         active  = false;

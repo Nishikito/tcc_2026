@@ -146,8 +146,10 @@ def validar_nomes(nomes_recursos: set[str]) -> None:
         usados.update(re.findall(r"\b(?:obj|spr|scr)_[A-Za-z0-9_]+\b", codigo))
         usados.update(re.findall(r"\brh_[a-z][A-Za-z0-9_]*\b", codigo))
 
-    # spr_hit/spr_defeated são variáveis de instância que guardam sprites, não nomes de asset.
-    variaveis_ok = {"spr_hit", "spr_defeated"}
+    # spr_hit/spr_defeated são variáveis de instância que guardam sprites, não nomes de asset;
+    # rh_clip_surf* são globais da surface de recorte, também não são assets.
+    variaveis_ok = {"spr_hit", "spr_defeated",
+                    "rh_clip_surf", "rh_clip_surf_w", "rh_clip_surf_h"}
     faltando = sorted(u for u in usados
                       if u not in nomes_recursos and u not in funcoes and u not in variaveis_ok)
     if faltando:
@@ -469,13 +471,20 @@ def validar_forma_talai() -> None:
         raise RuntimeError("room_is_story_world desapareceu")
     inicio = vn.index("function room_is_story_world")
     lista = vn[inicio:vn.index("}", inicio)]
-    salas = ("rm_inicio", "Room23", "rm_aldeia_indigena", "rm_caminho_para_oca",
+    salas = ("rm_inicio", "rm_aldeia_indigena", "rm_caminho_para_oca",
              "rm_conecta_caminho_praia", "rm_corredor_pra_praia")
     for sala in salas:
         if f"case {sala}:" not in lista:
             raise RuntimeError(f"{sala} não conta como mundo da história")
         if not (RAIZ / "rooms" / sala / f"{sala}.yy").exists():
             raise RuntimeError(f"a sala {sala} não existe no projeto")
+    # Nenhum case pode citar sala que saiu do projeto (era o caso da antiga Room23).
+    for sala in re.findall(r"case\s+(\w+)\s*:", lista):
+        if not (RAIZ / "rooms" / sala / f"{sala}.yy").exists():
+            raise RuntimeError(f"case {sala} aponta para uma sala inexistente")
+    for arquivo in RAIZ.rglob("*.gml"):
+        if "Room23" in arquivo.read_text(encoding="utf-8"):
+            raise RuntimeError(f"{arquivo.relative_to(RAIZ)} ainda cita a sala removida Room23")
     # Salas da escola não podem trocar o Talai para talaiB — o corredor era o bug.
     for sala in ("RoomPatio", "RoomSalasCorredor", "RoomRefeitorio", "RoomLivro",
                  "RoomBathroom1_1", "RoomBathroom_1", "RoomClass1_1", "RoomTeachers_1"):

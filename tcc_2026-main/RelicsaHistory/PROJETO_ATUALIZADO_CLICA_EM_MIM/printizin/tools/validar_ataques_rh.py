@@ -186,6 +186,56 @@ def main() -> int:
         if necessario not in helpers:
             erros.append(f"helper/macro ausente em scr_rh_attacks: {necessario}")
 
+    # Chamada antiga passa só 5 args (o 5º é o tempo). Com parâmetros nomeados,
+    # argument_count pode contar 6 e deixar _t undefined -> "DoRem: undefined value".
+    inicio_linha = helpers.index("function rh_draw_warning_line")
+    corpo_linha = sem_comentarios(helpers[inicio_linha:helpers.index("draw_line_width", inicio_linha)])
+    if "is_undefined(_t)" not in corpo_linha:
+        erros.append("rh_draw_warning_line deve detectar a chamada de 5 args com is_undefined(_t)")
+    if "argument_count" in corpo_linha:
+        erros.append("rh_draw_warning_line não pode usar argument_count com parâmetros nomeados")
+    if "is_undefined(_tempo)" not in corpo_linha:
+        erros.append("rh_draw_warning_line precisa proteger _tempo antes do div/mod")
+
+    # Quinto do inferno: fumaça até o topo, cachorro/fogo 30% mais lentos e
+    # desenho do cachorro sem o overlay duplicado da cabeça.
+    def codigo_obj(rel: str) -> str:
+        return sem_comentarios((RAIZ / "objects" / rel).read_text(encoding="utf-8", errors="replace"))
+
+    fumaca = codigo_obj("obj_rh_atk_fumaca_quinto/Create_0.gml")
+    if not re.search(r"vida_fumaca\s*=\s*max\(40,\s*ceil\(\(y - by1\) / abs\(vel_fumaca\)\)\)", fumaca):
+        erros.append("a fumaça precisa calcular vida_fumaca até o topo (by1)")
+    if "vida_fumaca" in codigo_obj("obj_rh_atk_bau_quinto/Step_0.gml"):
+        erros.append("o baú não pode fixar vida_fumaca; quem calcula é a fumaça")
+    cachorro = codigo_obj("obj_rh_atk_cachorro_quinto/Create_0.gml")
+    if not re.search(r"vel_cachorro\s*=\s*2\.24", cachorro):
+        erros.append("vel_cachorro deve ser 2.24 (30% mais lento)")
+    if not re.search(r"lengthdir_x\(1\.4, _angulo\)", cachorro) or not re.search(r"lengthdir_y\(1\.4, _angulo\)", cachorro):
+        erros.append("os foguinhos devem sair a 1.4 px/frame (30% mais lentos)")
+    if "draw_sprite_part_ext" in codigo_obj("obj_rh_atk_cachorro_quinto/Draw_0.gml"):
+        erros.append("o draw do cachorro não pode sobrepor a cabeça com draw_sprite_part_ext")
+    quinto = codigo_obj("obj_rh_en_quinto_do_inferno/Create_0.gml")
+    if len(re.findall(r"var\s+VEL\s*=\s*2\.24", quinto)) < 2:
+        erros.append("os dois padrões com cachorro devem usar VEL = 2.24")
+    if not re.search(r"vy\s*=\s*-1\.4", codigo_obj("obj_rh_atk_fogo_quinto/Create_0.gml")):
+        erros.append("o foguinho deve nascer com vy = -1.4")
+
+    # Hitboxes: fumaça/fogo machucam ao encostar; fogocomeça dentro da caixa.
+    passo_fumaca = codigo_obj("obj_rh_atk_fumaca_quinto/Step_0.gml")
+    if "t <= vida_fumaca - 8" in passo_fumaca:
+        erros.append("a fumaça não pode ficar inofensiva nos últimos frames antes do topo")
+    if not re.search(r"rh_rect_hits_heart\(x,\s*y,\s*x \+ _w,\s*y \+ _h\)", passo_fumaca):
+        erros.append("a hitbox da fumaça deve cobrir o sprite desenhado inteiro")
+    if "draw_rectangle(x, y, x + _w, y + _h, true)" not in codigo_obj("obj_rh_atk_fumaca_quinto/Draw_0.gml"):
+        erros.append("o debug da fumaça deve mostrar a hitbox cheia")
+    passo_fogo = codigo_obj("obj_rh_atk_fogo_quinto/Step_0.gml")
+    if not re.search(r"_hb_w\s*=\s*largura\s*/\s*RH_HEART_SHRINK", passo_fogo):
+        erros.append("a hitbox do fogo deve compensar o RH_HEART_SHRINK")
+    if not re.search(r"rh_rot_rect_hits_heart\(_cx,\s*_cy,\s*_hb_w,\s*_hb_h", passo_fogo):
+        erros.append("o fogo precisa usar a hitbox compensada contra o coração")
+    if "_mx = clamp(_mx, bx1, bx2 - _fw)" not in cachorro:
+        erros.append("os foguinhos precisam nascer dentro da caixa (clamp em bx1/bx2)")
+
     # 4c) Ataques novos não podem reativar o Outside Room do pai por acidente.
     for objeto in [
         "obj_rh_atk_trono_espada", "obj_rh_atk_trono_slash",

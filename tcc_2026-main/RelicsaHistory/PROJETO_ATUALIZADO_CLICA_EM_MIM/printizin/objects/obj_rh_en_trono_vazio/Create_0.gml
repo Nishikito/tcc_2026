@@ -386,5 +386,8 @@ pat_icebergs = function(_t) {
     }
 };
 
-patterns      = [pat_barreira, pat_anel, pat_cortes, pat_chuva_diagonal, pat_chifres_cartas, pat_icebergs];
-pattern_names = ["barreira", "anel", "cortes", "chuva_diagonal", "chifres_e_cartas", "icebergs"];
+// Os quatro ataques novos são comandados pelo obj_trono_attack_controller.
+// Esvaziar "patterns" desliga os 6 padrões antigos sem apagar as funções acima,
+// então é simples voltar atrás se precisar comparar.
+patterns      = [];
+pattern_names = [];

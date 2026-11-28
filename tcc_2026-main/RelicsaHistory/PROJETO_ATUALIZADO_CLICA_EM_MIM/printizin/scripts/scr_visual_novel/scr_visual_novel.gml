@@ -18,6 +18,8 @@
 // ══════════════════════════════════════════════════════════════════
 
 /// Salas do MUNDO DA HISTÓRIA: rm_inicio e as que vêm depois dela na história.
+/// A sala antiga onde o Talai acorda não existe mais no projeto:
+/// foi substituída por rm_inicio, que já está nesta lista.
 /// A cutscene da sala dos professores termina em rm_inicio — é lá que o Talai
 /// troca para o talaiB. As salas da escola (pátio, corredor, refeitório,
 /// biblioteca e banheiros) NÃO entram aqui: nelas ele continua com SprPlayer.
@@ -25,7 +27,6 @@
 function room_is_story_world(_room = room) {
     switch (_room) {
         case rm_inicio:
-        case Room23:
         case rm_aldeia_indigena:
         case rm_caminho_para_oca:
         case rm_conecta_caminho_praia:

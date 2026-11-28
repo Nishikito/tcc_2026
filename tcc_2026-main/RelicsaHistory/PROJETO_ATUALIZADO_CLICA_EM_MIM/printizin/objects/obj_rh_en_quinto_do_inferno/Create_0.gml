@@ -106,7 +106,7 @@ pat_cachorro = function(_t) {
     var SPAWN_T    = 6;
     var AVISO      = 22;
     var ESCALA     = 0.75;   // 64x47 -> 48x35, ~43 px livres acima
-    var VEL        = 3.2;
+    var VEL        = 2.24;   // 30% mais lento (era 3.2)
     var PASSAGENS  = 3;
     var PARADAS    = 3;
     var FOGOS      = 2;
@@ -131,7 +131,7 @@ pat_cobranca = function(_t) {
     var CACH_T     = 120;
     var AVISO      = 22;
     var ESCALA     = 0.75;
-    var VEL        = 3.2;
+    var VEL        = 2.24;   // 30% mais lento (era 3.2)
 
     if (_t == 1) {
         for (var i = 0; i < 4; i++) bau_tele_ate[i] = 0;

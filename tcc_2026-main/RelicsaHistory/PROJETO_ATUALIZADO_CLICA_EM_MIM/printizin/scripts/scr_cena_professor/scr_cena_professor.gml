@@ -32,7 +32,7 @@ function scr_cena_professor(_id) {
             cena_olhar(_cena, DOWN, 25);
 			array_push(_cena, [cutscene_player_fall_out, 0.2]);
 			array_push(_cena, [cutscene_wait, 60]);   // (o vídeo da animação entra aqui depois)
-			array_push(_cena, [cutscene_fade_to_room_slow, Room23, 982, 316, "mundo_acordar"]);
+			array_push(_cena, [cutscene_fade_to_room_slow, rm_inicio, 982, 316, "mundo_acordar"]);
 			return _cena;
     }
     return [];
